@@ -1,7 +1,7 @@
 # Work in progress
 
 This is a github repository for the Detector 2 at the EIC (D2EIC).
-This conceptual design of the detector is intended for the Interaction Point 8 O'clock.
+This conceptual design of the detector is intended for the IP8.
 
 The software infrastructure is based on the existing epic software, which shares a common
 ancestry. 
