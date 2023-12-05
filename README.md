@@ -1,4 +1,16 @@
-[![CI status](https://github.com/eic/epic/actions/workflows/linux-eic-shell.yml/badge.svg)](https://github.com/eic/epic/actions/workflows/linux-eic-shell.yml)
+#Work in progress
+
+This is a github repository for the Detector 2 at the EIC (D2EIC).
+This conceptual design of the detector is intended for the Interaction Point 8 O'clock.
+
+The software infrastructure is based on the existing epic software, which shares a common
+ancestry. 
+
+This page is being developed. 
+The contact persons now are Bill Li and Kong Tu
+
+Dec 5 2023.
+
 
 Overview
 --------
