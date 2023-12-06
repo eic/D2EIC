@@ -7,7 +7,7 @@
            field_map="fieldmaps/MARCO_v.6.4.1.1.3_1.7T_Magnetic_Field_Map_2022_11_14_rad_coords_cm_T.txt"
            url="https://github.com/eic/epic-data/raw/64b7ca6306b138b7f000e696c82bd8f72db1da56/MARCO_v.6.4.1.1.3_1.7T_Magnetic_Field_Map_2022_11_14_rad_coords_cm_T.txt"
            cache="$DETECTOR_PATH:/opt/detector"
-           scale="1.0">
+           scale="1.176">
       <dimensions>
         <R step="2.0*cm" min="0*cm" max="998*cm" />
         <Z step="2.0*cm" min="-800*cm" max="798*cm" />
