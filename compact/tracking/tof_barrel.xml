@@ -77,7 +77,7 @@
     <detector
       id="BarrelTOF_ID"
       name="BarrelTOF"
-      type="epic_TOFBarrel"
+      type="D2EIC_TOFBarrel"
       readout="TOFBarrelHits"
       insideTrackingVolume="true">
       <type_flags type="DetType_TRACKER + DetType_BARREL"/>

@@ -178,7 +178,7 @@
       https://eicweb.phy.anl.gov/EIC/detectors/athena/-/issues/127
   </documentation>
   <plugins>
-    <plugin name="epic_FileLoader">
+    <plugin name="D2EIC_FileLoader">
       <arg value="cache:$DETECTOR_PATH:/opt/detector"/>
       <arg value="file:calibrations/materials-map.cbor"/>
       <arg value="url:https://eicweb.phy.anl.gov/EIC/detectors/athena/uploads/77bd16bef5d811f31256279a3601c9d5/material-maps.cbor"/>

@@ -1,7 +1,7 @@
 <lccdd>
 
   <info name="lfhcal_without_space_for_insert.xml"
-        title="EPIC LFHCAL without insert cutout"
+        title="D2EIC LFHCAL without insert cutout"
         author="@FriederikeBock"
         url="https://github.com/FriederikeBock"
         status="development"

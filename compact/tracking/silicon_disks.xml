@@ -60,7 +60,7 @@
     <detector
       id="TrackerEndcapP_0_ID"
       name="InnerTrackerEndcapP"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="false">
@@ -90,7 +90,7 @@
     <detector
       id="TrackerEndcapN_0_ID"
       name="InnerTrackerEndcapN"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="true">
@@ -204,7 +204,7 @@
     <detector
       id="TrackerEndcapP_1_ID"
       name="MiddleTrackerEndcapP"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="false">
@@ -234,7 +234,7 @@
     <detector
       id="TrackerEndcapN_1_ID"
       name="MiddleTrackerEndcapN"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="true">
@@ -264,7 +264,7 @@
     <detector
       id="TrackerEndcapP_2_ID"
       name="OuterTrackerEndcapP"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="false">
@@ -336,7 +336,7 @@
     <detector
       id="TrackerEndcapN_2_ID"
       name="OuterTrackerEndcapN"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="true">

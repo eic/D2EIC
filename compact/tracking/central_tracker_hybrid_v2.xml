@@ -177,7 +177,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerBarrel_0_ID"
       name="InnerTrackerBarrel"
-      type="epic_TrackerBarrel"
+      type="D2EIC_TrackerBarrel"
       readout="TrackerBarrelHits"
       insideTrackingVolume="true">
       <dimensions
@@ -288,7 +288,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
 
   </define>
   <detectors>
-    <detector type="epic_SupportServiceMaterial"
+    <detector type="D2EIC_SupportServiceMaterial"
       name="SupportCone"
       id="TrackerSupport_0_ID"
     >
@@ -337,7 +337,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapP_0_ID"
       name="InnerTrackerEndcapP"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="false">
@@ -385,7 +385,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapN_0_ID"
       name="InnerTrackerEndcapN"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="true">
@@ -496,7 +496,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerBarrel_1_ID"
       name="MedialTrackerBarrel"
-      type="epic_TrackerBarrel"
+      type="D2EIC_TrackerBarrel"
       readout="MPGDTrackerBarrelHits"
       insideTrackingVolume="true">
       <dimensions
@@ -592,7 +592,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapP_1_ID"
       name="MedialTrackerEndcapP"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="false">
@@ -630,7 +630,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapN_1_ID"
       name="MedialTrackerEndcapN"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="true">
@@ -694,7 +694,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerBarrel_2_ID"
       name="OuterTrackerBarrel"
-      type="epic_TrackerBarrel"
+      type="D2EIC_TrackerBarrel"
       readout="MPGDTrackerBarrelHits"
       insideTrackingVolume="true">
       <dimensions
@@ -826,7 +826,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapP_2_ID"
       name="OuterTrackerEndcapP"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="false">
@@ -904,7 +904,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapN_2_ID"
       name="OuterTrackerEndcapN"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="TrackerEndcapHits"
       vis="TrackerVis"
       reflect="true">
@@ -1039,7 +1039,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapP_3_ID"
       name="GEMEndcapP"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="GEMTrackerEndcapHits"
       vis="TrackerVis"
       reflect="false">
@@ -1153,7 +1153,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapN_3_ID"
       name="GEMEndcapN"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="GEMTrackerEndcapHits"
       vis="TrackerVis"
       reflect="true">
@@ -1301,7 +1301,7 @@ total X0 0.24% per disk layer （4 sectors per disk):
     <detector
       id="TrackerEndcapP_4_ID"
       name="ForwardGEM"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="GEMTrackerEndcapHits"
       vis="TrackerVis"
       reflect="false">

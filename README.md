@@ -16,38 +16,15 @@ Overview
 --------
 
 **Detector geometry viewer:**
-- [Viewer only](https://eic.github.io/epic/geoviewer)
-- Main configurations:
-  - [Arches](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_arches.root&item=default;1&opt=clipx;clipy;transp30;zoom120;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-  - [Brycecanyon](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_brycecanyon.root&item=default;1&opt=clipx;clipy;transp30;zoom120;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-  - [CraterLake](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_craterlake.root&item=default;1&opt=clipx;clipy;transp30;zoom120;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-- Additional viewers:
-  - [Inner detector (without calorimetry)](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_inner_detector.root&item=default;1&opt=clipx;clipy;transp30;zoom120;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-  - [Calorimetry](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_calorimeters.root&item=default;1&opt=clipx;clipy;transp30;zoom120;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-    - [Imaging](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_imaging_only.root&item=default;1&opt=clipx;clipy;transp30;zoom55;ROTY49;ROTZ350;trz0;trr0;ctrl;all)
-  - [PID](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_pid_only.root&item=default;1&opt=clipx;clipy;transp30;zoom75;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-    - [dRICH](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_drich_only.root&item=default;1&opt=clipx;clipy;transp30;zoom75;ROTY290;ROTZ350;trz0;trr0;ctrl;all)
-    - [pfRICH](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_pfrich_only.root&item=default;1&opt=clipx;clipy;transp30;zoom55;ROTY49;ROTZ350;trz0;trr0;ctrl;all)
-    - [DIRC](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_dirc_only.root&item=default;1&opt=clipx;clipy;transp30;zoom120;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-  - [Tracking](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_tracking_only.root&item=default;1&opt=clipx;clipy;transp30;zoom75;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-    - [Vertex](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_vertex_only.root&item=default;1&opt=clipx;clipy;transp30;zoom120;ROTY320;ROTZ340;trz0;trr0;ctrl;all)
-    - [ToF](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_tof_only.root&item=default;1&opt=clipx;clipy;transp30;zoom55;ROTY49;ROTZ350;trz0;trr0;ctrl;all)
-  - [Beamline](https://eic.github.io/epic/geoviewer?nobrowser&file=artifacts/tgeo/epic_ip6.root&item=default;1&opt=clipx;clipy;transp30;zoom40;ROTY290;ROTZ350;trz0;trr0;ctrl;all)
+- [Viewer only](https://eic.github.io/D2EIC/geoviewer)
 
-[<img title="craterlake" src="https://eic.github.io/epic/artifacts/epic_craterlake_views/view1_top.png" width="75%">](https://eic.github.io/epic/artifacts/epic_craterlake_views/view1_top.pdf)
-
-**Detector parameters:**
-- text: [CraterLake](https://eic.github.io/epic/artifacts/constants/epic_craterlake_constants.out)
-- toml: [CraterLake](https://eic.github.io/epic/artifacts/constants/epic_craterlake_constants.toml)
-- csv: [CraterLake](https://eic.github.io/epic/artifacts/DetectorParameterTable/epic_craterlake.csv)
-- html: [CraterLake](https://eic.github.io/epic/artifacts/DetectorParameterTable/epic_craterlake.html)
 
 Getting Started
 ---------------
 
 Get a copy of the latest version from this repository:
 ```bash
-git clone https://github.com/eic/epic.git
+git clone https://github.com/eic/D2EIC.git
 ```
 
 ### Compilation

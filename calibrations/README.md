@@ -1,6 +1,6 @@
-## Calibrations for the EPIC detector
+## Calibrations for the D2EIC detector
 
-Calibrations and constants for this EPIC detector setup. These values are used in the
+Calibrations and constants for this D2EIC detector setup. These values are used in the
 reconstruction. Each relevant subsystem that requires calibration data should have
 its own subdirectory with relevant calibration files, preferably in JSON format.
 

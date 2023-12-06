@@ -271,7 +271,7 @@ static Ref_t create_detector(Detector& lcdd, xml_h handle, SensitiveDetector sen
       const double alpha2 = 0.;
 
       for (unsigned int tower = 0; tower < number; tower++, tower_id += dir_sign) {
-        // see https://github.com/eic/epic/blob/main/doc/sciglass_tower_stacking.svg
+        // see https://github.com/eic/D2EIC/blob/main/doc/sciglass_tower_stacking.svg
         beta += flare_angle_polar_prev + flare_angle_polar;
         const double gamma = M_PI_2 - flare_angle_polar_prev - beta_prev;
 
@@ -414,4 +414,4 @@ static Ref_t create_detector(Detector& lcdd, xml_h handle, SensitiveDetector sen
   return det_element;
 }
 
-DECLARE_DETELEMENT(epic_EcalBarrelSciGlass, create_detector)
+DECLARE_DETELEMENT(D2EIC_EcalBarrelSciGlass, create_detector)

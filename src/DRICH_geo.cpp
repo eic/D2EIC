@@ -249,7 +249,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
   // - the vessel is created such that the center of the cylindrical tank volume
   //   coincides with the origin; this is called the "origin position" of the vessel
   // - when the vessel (and its children volumes) is placed, it is translated in
-  //   the z-direction to be in the proper EPIC-integration location
+  //   the z-direction to be in the proper D2EIC-integration location
   // - these reference positions are for the frontplane and backplane of the vessel,
   //   with respect to the vessel origin position
   auto originFront = Position(0., 0., -tankLength / 2.0 - snoutLength);
@@ -443,7 +443,7 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
     // SENSOR MODULE LOOP ------------------------
     /* ALGORITHM: generate sphere of positions
      * - NOTE: there are two coordinate systems here:
-     *   - "global" the main EPIC coordinate system
+     *   - "global" the main D2EIC coordinate system
      *   - "generator" (vars end in `Gen`) is a local coordinate system for
      *     generating points on a sphere; it is related to the global system by
      *     a rotation; we do this so the "patch" (subset of generated
@@ -752,4 +752,4 @@ static Ref_t createDetector(Detector& desc, xml::Handle_t handle, SensitiveDetec
 }
 
 // clang-format off
-DECLARE_DETELEMENT(epic_DRICH, createDetector)
+DECLARE_DETELEMENT(D2EIC_DRICH, createDetector)

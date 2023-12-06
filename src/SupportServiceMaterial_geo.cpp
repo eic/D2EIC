@@ -135,4 +135,4 @@ static Ref_t create_SupportServiceMaterial(Detector& description, xml_h e, [[may
 }
 
 // clang-format off
-DECLARE_DETELEMENT(epic_SupportServiceMaterial, create_SupportServiceMaterial)
+DECLARE_DETELEMENT(D2EIC_SupportServiceMaterial, create_SupportServiceMaterial)

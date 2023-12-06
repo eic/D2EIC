@@ -184,4 +184,4 @@ std::tuple<Volume, Position> build_module(const Detector& desc, const xml::Compo
   return std::make_tuple(modVol, Position{sx, sy, sz});
 }
 
-DECLARE_DETELEMENT(epic_ScFiCalorimeter, create_detector)
+DECLARE_DETELEMENT(D2EIC_ScFiCalorimeter, create_detector)

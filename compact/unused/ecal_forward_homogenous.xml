@@ -35,7 +35,7 @@
     </comment>
     <detector id="ECalEndcapP_ID"
       name="EcalEndcapP"
-      type="epic_ScFiCalorimeter"
+      type="D2EIC_ScFiCalorimeter"
       vis="EcalEndcapVis"
       readout="EcalEndcapPHits">
       <position x="0" y="0" z="EcalEndcapP_zmin + EcalEndcapP_length/2."/>

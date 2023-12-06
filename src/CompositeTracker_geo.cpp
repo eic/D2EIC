@@ -62,4 +62,4 @@ static Ref_t create_element(Detector& description, xml_h e, Ref_t)
   return sdet;
 }
 
-DECLARE_DETELEMENT(epic_CompositeTracker, create_element)
+DECLARE_DETELEMENT(D2EIC_CompositeTracker, create_element)

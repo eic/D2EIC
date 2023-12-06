@@ -89,4 +89,4 @@ static Ref_t create_detector(Detector& description, xml_h e, [[maybe_unused]] Se
   return sdet;
 }
 
-DECLARE_DETELEMENT(epic_Solenoid, create_detector)
+DECLARE_DETELEMENT(D2EIC_Solenoid, create_detector)

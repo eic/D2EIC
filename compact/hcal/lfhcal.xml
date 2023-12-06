@@ -1,7 +1,7 @@
 <lccdd>
 
   <info name="lfhcal.xml"
-        title="EPIC LFHCAL"
+        title="D2EIC LFHCAL"
         author="@FriederikeBock"
         url="https://github.com/FriederikeBock"
         status="development"
@@ -82,7 +82,7 @@
     <detector
       id="LFHCAL_ID"
       name="LFHCAL"
-      type="epic_LFHCAL"
+      type="D2EIC_LFHCAL"
       readout="LFHCALHits"
       vis="InvisibleWithDaughters"
       calorimeterType="HAD_ENDCAP"

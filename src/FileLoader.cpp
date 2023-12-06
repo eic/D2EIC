@@ -64,4 +64,4 @@ long load_file(Detector& /* desc */, int argc, char** argv)
   return 1;
 }
 
-DECLARE_APPLY(epic_FileLoader, load_file)
+DECLARE_APPLY(D2EIC_FileLoader, load_file)

@@ -20,7 +20,7 @@
  *
  *
  */
-void test_ACTS(const char* compact = "epic.xml")
+void test_ACTS(const char* compact = "D2EIC.xml")
 {
 
   using namespace ROOT::Math;

@@ -60,7 +60,7 @@
     <detector
       id="TrackerBarrel_2_ID"
       name="InnerMPGDBarrel"
-      type="epic_TrackerBarrel"
+      type="D2EIC_TrackerBarrel"
       readout="MPGDBarrelHits"
       insideTrackingVolume="true">
       <type_flags type="DetType_TRACKER + DetType_BARREL"/>

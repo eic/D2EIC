@@ -11,7 +11,7 @@
       <detector
           id="HCalBarrel_ID"
           name="HcalBarrel"
-          type="epic_HcalBarrelGDML"
+          type="D2EIC_HcalBarrelGDML"
           readout="HcalBarrelHits"
           vis="HcalBarrelVis"
           env_vis="HcalBarrelEnvelopeVis"

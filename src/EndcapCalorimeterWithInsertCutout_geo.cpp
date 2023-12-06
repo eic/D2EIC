@@ -127,4 +127,4 @@ static Ref_t createDetector(Detector& desc, xml_h handle, SensitiveDetector sens
 
   return det;
 }
-DECLARE_DETELEMENT(epic_EndcapCalorimeterWithInsertCutout, createDetector)
+DECLARE_DETELEMENT(D2EIC_EndcapCalorimeterWithInsertCutout, createDetector)

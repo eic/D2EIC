@@ -59,7 +59,7 @@
     <detector
       id="VertexBarrel_0_ID"
       name="VertexBarrel"
-      type="epic_VertexBarrel"
+      type="D2EIC_VertexBarrel"
       readout="VertexBarrelHits"
       insideTrackingVolume="true">
       <type_flags type="DetType_TRACKER + DetType_BARREL"/>
