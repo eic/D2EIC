@@ -1,0 +1,10 @@
+<!-- SPDX-License-Identifier: LGPL-3.0-or-later -->
+<!-- Copyright (C) 2022 Wouter Deconinck, Sakib Rahman -->
+<!-- Modified based on IP-8 information Jihee Kim-->
+
+<lccdd>
+
+  <include ref="far_forward/ion_beamline_ip8.xml" />
+  <include ref="far_forward/magnets_ip8.xml"/>
+
+</lccdd>

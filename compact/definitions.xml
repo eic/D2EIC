@@ -1,5 +1,6 @@
 <!-- SPDX-License-Identifier: LGPL-3.0-or-later -->
 <!-- Copyright (C) 2022 Whitney Armstrong, Sylvester Joosten, Wouter Deconinck, Zhenyu Ye -->
+<!-- Modified based on IP-8 information Jihee Kim-->
 
   <define>
     <constant name="Pi" value="3.14159265359"/>
@@ -291,6 +292,20 @@ The unused IDs below are saved for future use.
     <constant name="B2PF_ID"  value="177"/>
     <constant name="Q0EF_ID"  value="180"/>
     <constant name="Q1EF_ID"  value="181"/>
+
+    <documentation>
+      Defined by putting 88- on each beamline magnet component ID of IP-6.
+      #### (88170-88189) Far Forward Beamline Magnets
+    </documentation>
+    <constant name="BXSP01_ID"    value="88170"/>
+    <constant name="BXSP01A_ID"   value="88171"/>
+    <constant name="QFFDS01A_ID"  value="88172"/>
+    <constant name="QFFDS01B_ID"  value="88173"/>
+    <constant name="QFFDS02A_ID"  value="88174"/>
+    <constant name="QFFDS02B_ID"  value="88175"/>
+    <constant name="BXDS01A_ID"   value="88176"/>
+    <constant name="BXDS01B_ID"   value="88177"/>
+    <constant name="QDS01_ID"     value="88178"/>
 
     <documentation>
       #### (190-199) Far Backward Beamline Detectors
