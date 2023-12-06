@@ -1,0 +1,71 @@
+<!-- SPDX-License-Identifier: LGPL-3.0-or-later -->
+<!-- Copyright (C) 2022 Whitney Armstrong, Alex Jentsch -->
+<!-- Modified based on IP-8 information Jihee Kim-->
+
+<lccdd>
+  <fields>
+    <field name="BXSP01_Magnet" type="MultipoleMagnet">
+      <position x="BXSP01_XPosition" y="0" z="BXSP01_CenterPosition"/>
+      <rotation x="0" y="BXSP01_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="BXSP01_InnerRadius" dz="BXSP01_Length*0.5"/>
+      <coefficient coefficient="BXSP01_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+      <coefficient coefficient="BXSP01_GradientMax*FieldScaleFactor" skew="0.0*tesla/m"/>
+    </field>
+    <field name="BXSP01A_Magnet" type="MultipoleMagnet">
+      <position x="BXSP01A_XPosition" y="0" z="BXSP01A_CenterPosition"/>
+      <rotation x="0" y="BXSP01A_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="BXSP01A_InnerRadius" dz="BXSP01A_Length*0.5"/>
+      <coefficient coefficient="BXSP01A_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+          <coefficient coefficient="BXSP01A_GradientMax*FieldScaleFactor" skew="0.0*tesla"/>
+    </field>
+    <field name="QFFDS01A_Magnet" type="MultipoleMagnet">
+      <position x="QFFDS01A_XPosition" y="0" z="QFFDS01A_CenterPosition"/>
+      <rotation x="0" y="QFFDS01A_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="QFFDS01A_InnerRadius" dz="QFFDS01A_Length*0.5"/>
+      <coefficient coefficient="QFFDS01A_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+      <coefficient coefficient="QFFDS01A_GradientMax*FieldScaleFactor" skew="0.0*tesla/m"/>
+    </field>
+    <field name="QFFDS01B_Magnet" type="MultipoleMagnet">
+      <position x="QFFDS01B_XPosition" y="0" z="QFFDS01B_CenterPosition"/>
+      <rotation x="0" y="QFFDS01B_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="QFFDS01B_InnerRadius" dz="QFFDS01B_Length*0.5"/>
+      <coefficient coefficient="QFFDS01B_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+      <coefficient coefficient="QFFDS01B_GradientMax*FieldScaleFactor" skew="0.0*tesla/m"/>
+    </field>
+    <field name="QFFDS02A_Magnet" type="MultipoleMagnet">
+      <position x="QFFDS02A_XPosition" y="0" z="QFFDS02A_CenterPosition"/>
+      <rotation x="0" y="QFFDS02A_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="QFFDS02A_InnerRadius" dz="QFFDS02A_Length*0.5"/>
+      <coefficient coefficient="QFFDS02A_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+      <coefficient coefficient="QFFDS02A_GradientMax*FieldScaleFactor" skew="0.0*tesla/m"/>
+    </field>
+    <field name="QFFDS02B_Magnet" type="MultipoleMagnet">
+      <position x="QFFDS02B_XPosition" y="0" z="QFFDS02B_CenterPosition"/>
+      <rotation x="0" y="QFFDS02B_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="QFFDS02B_InnerRadius" dz="QFFDS02B_Length*0.5"/>
+      <coefficient coefficient="QFFDS02B_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+          <coefficient coefficient="QFFDS02B_GradientMax*FieldScaleFactor" skew="0.0*tesla/m"/>
+    </field>
+    <field name="BXDS01A_Magnet" type="MultipoleMagnet">
+      <position x="BXDS01A_XPosition" y="0" z="BXDS01A_CenterPosition"/>
+      <rotation x="0" y="BXDS01A_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="BXDS01A_InnerRadius" dz="BXDS01A_Length*0.5"/>
+      <coefficient coefficient="BXDS01A_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+          <coefficient coefficient="BXDS01A_GradientMax*FieldScaleFactor" skew="0.0*tesla/m"/>
+    </field>
+    <field name="BXDS01B_Magnet" type="MultipoleMagnet">
+      <position x="BXDS01B_XPosition" y="0" z="BXDS01B_CenterPosition"/>
+      <rotation x="0" y="BXDS01B_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="BXDS01B_InnerRadius" dz="BXDS01B_Length*0.5"/>
+      <coefficient coefficient="BXDS01B_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+      <coefficient coefficient="BXDS01B_GradientMax*FieldScaleFactor" skew="0.0*tesla/cm"/>
+    </field>
+    <field name="QDS01_Magnet" type="MultipoleMagnet">
+      <position x="QDS01_XPosition" y="0" z="QDS01_CenterPosition"/>
+      <rotation x="0" y="QDS01_RotationAngle" z="0"/>
+      <shape type="Tube" rmin="0.0" rmax="QDS01_InnerRadius" dz="QDS01_Length*0.5"/>
+      <coefficient coefficient="QDS01_Bmax*FieldScaleFactor" skew="0.0*tesla"/>
+      <coefficient coefficient="QDS01_GradientMax*FieldScaleFactor" skew="0.0*tesla/cm"/>
+    </field>
+  </fields>
+</lccdd>
