@@ -99,7 +99,7 @@ Construct the sweeper and analyzer dipole magnets for the luminosity subsystem.
     <comment> Calculated fields </comment>
     <field type="D2EIC_FieldMapB" name="LumiSweeperField" field_type="magnetic" coord_type="BxByBz"
            field_map="fieldmaps/LumiDipoleMapping_2023_09_15_XYZ_coords_cm_T.txt"
-           url="https://github.com/eic/D2EIC-data/raw/5a6bc4cd583fb3330bce475cf25b599661b902ee/LumiDipoleMapping_2023_09_15_XYZ_coords_cm_T.txt"
+           url="https://github.com/eic/epic-data/raw/5a6bc4cd583fb3330bce475cf25b599661b902ee/LumiDipoleMapping_2023_09_15_XYZ_coords_cm_T.txt"
            cache="$DETECTOR_PATH:/opt/detector"
            scale="1.0">
       <dimensions>
@@ -113,7 +113,7 @@ Construct the sweeper and analyzer dipole magnets for the luminosity subsystem.
 
     <field type="D2EIC_FieldMapB" name="LumiAnalyzerField" field_type="magnetic" coord_type="BxByBz"
            field_map="fieldmaps/LumiDipoleMapping_2023_09_15_XYZ_coords_cm_T.txt"
-           url="https://github.com/eic/D2EIC-data/raw/5a6bc4cd583fb3330bce475cf25b599661b902ee/LumiDipoleMapping_2023_09_15_XYZ_coords_cm_T.txt"
+           url="https://github.com/eic/epic-data/raw/5a6bc4cd583fb3330bce475cf25b599661b902ee/LumiDipoleMapping_2023_09_15_XYZ_coords_cm_T.txt"
            cache="$DETECTOR_PATH:/opt/detector"
            scale="1.0">
       <dimensions>
