@@ -250,4 +250,4 @@ static dd4hep::Trap MakeTrap(const std::string& pName, double pZ, double pY, dou
   return Trap(pName, fDz, fTthetaCphi, fTthetaSphi, fDy1, fDx1, fDx2, fTalpha1, fDy2, fDx3, fDx4, fTalpha2);
 }
 
-DECLARE_DETELEMENT(epic_DIRC, createDetector)
+DECLARE_DETELEMENT(D2EIC_DIRC, createDetector)

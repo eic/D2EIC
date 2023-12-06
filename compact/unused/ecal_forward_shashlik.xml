@@ -27,7 +27,7 @@
     </comment>
     <detector id="ECalEndcapP_ID"
       name="EcalEndcapP"
-      type="epic_ShashlikCalorimeter"
+      type="D2EIC_ShashlikCalorimeter"
       readout="EcalEndcapPHits">
       <position x="0" y="0" z="EcalEndcapP_zmin"/>
       <placements>

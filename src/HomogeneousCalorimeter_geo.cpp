@@ -305,26 +305,26 @@ static std::tuple<int, std::pair<int, int>> add_12surface_disk(Detector& desc, A
   // Placing The Modules
   //=====================================================================
 
-  auto points = epic::geo::fillRectangles({half_modx, half_mody}, modSize.x(), modSize.y(), 0., (rmax/std::cos(Prot)), phimin, phimax);
+  auto points = D2EIC::geo::fillRectangles({half_modx, half_mody}, modSize.x(), modSize.y(), 0., (rmax/std::cos(Prot)), phimin, phimax);
 
   std::pair<double, double> c1 (0., 0.);
-  auto polyVertex = epic::geo::getPolygonVertices(c1, (rmax/std::cos(Prot)), M_PI/12., 12);
-  std::vector<epic::geo::Point> out_vertices, in_vertices;
+  auto polyVertex = D2EIC::geo::getPolygonVertices(c1, (rmax/std::cos(Prot)), M_PI/12., 12);
+  std::vector<D2EIC::geo::Point> out_vertices, in_vertices;
   for( auto p : polyVertex ){
-    epic::geo::Point a = {p.first, p.second};
+    D2EIC::geo::Point a = {p.first, p.second};
     out_vertices.push_back(a);
   }
 
   for (xml_coll_t position_i(pts_extrudedpolygon, _U(position)); position_i; ++position_i){
     xml_comp_t position_comp = position_i;
-    epic::geo::Point inpt = {position_comp.x(), position_comp.y()};
+    D2EIC::geo::Point inpt = {position_comp.x(), position_comp.y()};
     in_vertices.push_back(inpt);
   }
 
   double minX = 0., maxX = 0., minY = 0., maxY = 0.;
   for (auto &square : points) {
-    epic::geo::Point box[4] = {{square.x() + half_modx, square.y() + half_mody}, {square.x() - half_modx, square.y() + half_mody}, {square.x() - half_modx, square.y() - half_mody}, {square.x() + half_modx, square.y() - half_mody}};
-    if (epic::geo::isBoxTotalInsidePolygon(box, out_vertices)) {
+    D2EIC::geo::Point box[4] = {{square.x() + half_modx, square.y() + half_mody}, {square.x() - half_modx, square.y() + half_mody}, {square.x() - half_modx, square.y() - half_mody}, {square.x() + half_modx, square.y() - half_mody}};
+    if (D2EIC::geo::isBoxTotalInsidePolygon(box, out_vertices)) {
       if( square.x() < minX ) minX = square.x();
       if( square.y() < minY ) minY = square.x();
       if( square.x() > maxX ) maxX = square.x();
@@ -339,9 +339,9 @@ static std::tuple<int, std::pair<int, int>> add_12surface_disk(Detector& desc, A
   auto rowcolumn = std::make_pair(N_row, N_column);
 
   for (auto &square : points) {
-    epic::geo::Point box[4] = {{square.x() + half_modx, square.y() + half_mody}, {square.x() - half_modx, square.y() + half_mody}, {square.x() - half_modx, square.y() - half_mody}, {square.x() + half_modx, square.y() - half_mody}};
-    if (epic::geo::isBoxTotalInsidePolygon(box, out_vertices)) {
-      if(!epic::geo::isBoxTotalInsidePolygon(box, in_vertices)) {
+    D2EIC::geo::Point box[4] = {{square.x() + half_modx, square.y() + half_mody}, {square.x() - half_modx, square.y() + half_mody}, {square.x() - half_modx, square.y() - half_mody}, {square.x() + half_modx, square.y() - half_mody}};
+    if (D2EIC::geo::isBoxTotalInsidePolygon(box, out_vertices)) {
+      if(!D2EIC::geo::isBoxTotalInsidePolygon(box, in_vertices)) {
         column = std::round((square.x() - minX) / modSize.x());
         row = std::round((maxY - square.y()) / modSize.y());
         Transform3D tr_local = RotationZYX(Nrot, 0.0, 0.0) * Translation3D(square.x(), square.y(), 0.0);
@@ -361,4 +361,4 @@ static std::tuple<int, std::pair<int, int>> add_12surface_disk(Detector& desc, A
 }
 
 //@}
-DECLARE_DETELEMENT(epic_HomogeneousCalorimeter, create_detector)
+DECLARE_DETELEMENT(D2EIC_HomogeneousCalorimeter, create_detector)

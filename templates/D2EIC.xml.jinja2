@@ -44,8 +44,8 @@
       The ip6 (or other ip) defines should be included first.
       These files have only a define tags.
     </documentation>
-    <include ref="${DETECTOR_PATH}/compact/fields/beamline_{{ ebeam | default("18", true) }}x{{ pbeam | default("275", true) }}_ip8.xml" />
-    <include ref="${DETECTOR_PATH}/compact/far_forward/definitions_ip8.xml" />
+    <include ref="${DETECTOR_PATH}/compact/fields/beamline_{{ ebeam | default("18", true) }}x{{ pbeam | default("275", true) }}.xml" />
+    <include ref="${DETECTOR_PATH}/compact/far_forward/definitions.xml" />
     <include ref="${DETECTOR_PATH}/compact/far_backward/definitions.xml" />
     <include ref="${DETECTOR_PATH}/compact/definitions.xml" />
     <include ref="${DD4hepINSTALL}/DDDetectors/compact/detector_types.xml"/>
@@ -89,7 +89,7 @@
 
     The world is a simple box, but could be a union of multiple regions.
   </documentation>
-  <world material="Vacuum">
+  <world material="Air">
     <shape type="Box" dx="world_dx" dy="world_dy" dz="world_dz"/>
     <!--regionref   name="world_region"/-->
     <!--limitsetref name="world_limits"/-->

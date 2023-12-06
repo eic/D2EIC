@@ -326,7 +326,7 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
   // end module
 
   // place modules in the sectors (disk)
-  auto points = epic::geo::fillSquares({0., 0.}, mod_width, rmin, rmax);
+  auto points = D2EIC::geo::fillSquares({0., 0.}, mod_width, rmin, rmax);
 
   // mod_name = ...
   auto mod_v = modules[mod_name];
@@ -462,4 +462,4 @@ static Ref_t createDetector(Detector& description, xml::Handle_t e, SensitiveDet
 // }
 
 // clang-format off
-DECLARE_DETELEMENT(epic_MRICH, createDetector)
+DECLARE_DETELEMENT(D2EIC_MRICH, createDetector)

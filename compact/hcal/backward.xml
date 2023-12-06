@@ -34,7 +34,7 @@
     <detector
       id="HCalEndcapN_ID"
       name="HcalEndcapN"
-      type="epic_PolyhedraEndcapCalorimeter2"
+      type="D2EIC_PolyhedraEndcapCalorimeter2"
       readout="HcalEndcapNHits"
       vis="HcalEndcapVis"
       calorimeterType="HAD_ENDCAP" reflect="true">

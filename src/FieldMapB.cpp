@@ -383,4 +383,4 @@ static Ref_t create_field_map_b(Detector& /*lcdd*/, xml::Handle_t handle)
   return field;
 }
 
-DECLARE_XMLELEMENT(epic_FieldMapB, create_field_map_b)
+DECLARE_XMLELEMENT(D2EIC_FieldMapB, create_field_map_b)

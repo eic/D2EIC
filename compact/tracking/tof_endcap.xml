@@ -189,7 +189,7 @@
     <detector
       id="BackwardTOF_ID"
       name="BackwardTOF"
-      type="epic_CompositeTracker"
+      type="D2EIC_CompositeTracker"
       actsType="endcap"
       vis="TrackerSubAssemblyVis">
       <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>
@@ -199,7 +199,7 @@
       id="ForwardTOF_ID"
       name="ForwardTOF"
       actsType="endcap"
-      type="epic_TOFEndcap"
+      type="D2EIC_TOFEndcap"
       readout="TOFEndcapHits"
       vis="TOFVis"
       reflect="false">

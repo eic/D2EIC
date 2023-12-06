@@ -411,4 +411,4 @@ std::vector<FiberGrid> gridPoints(int div_n_phi, double div_dr, double trd_x1, d
   return results;
 }
 
-DECLARE_DETELEMENT(epic_EcalBarrelScFi, create_detector)
+DECLARE_DETELEMENT(D2EIC_EcalBarrelScFi, create_detector)

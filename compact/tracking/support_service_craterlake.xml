@@ -3,8 +3,8 @@
 
 <lccdd>
   <comment>
-    Tracker support and service materials for ePIC-craterlake tracking geometry.
-    See https://indico.bnl.gov/event/19854/#1-updated-epic-tracking-config
+    Tracker support and service materials for D2EIC-craterlake tracking geometry.
+    See https://indico.bnl.gov/event/19854/#1-updated-D2EIC-tracking-config
     Silicon tracker: the same effective thickness parameters from previous versions, routing changed
     MPGD: estimated by M. Posik
   </comment>
@@ -171,7 +171,7 @@
   </define>
 
   <detectors>
-    <detector type="epic_SupportServiceMaterial"
+    <detector type="D2EIC_SupportServiceMaterial"
       name="InnerTrackerSupport"
       id="TrackerSupport_0_ID"
     >

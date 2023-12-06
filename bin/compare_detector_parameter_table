@@ -77,7 +77,7 @@ if __name__ == '__main__':
             )
     parser.add_argument(
             '--template',
-            default='https://raw.githubusercontent.com/eic/epic/main/templates/DetectorParameterTable.csv.jinja2',
+            default='https://raw.githubusercontent.com/eic/D2EIC/main/templates/DetectorParameterTable.csv.jinja2',
             help='Path or url to the template file of the detector paramter table'
             )
     parser.add_argument(

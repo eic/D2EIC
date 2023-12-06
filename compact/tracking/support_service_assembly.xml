@@ -98,7 +98,7 @@
   </define>
 
   <detectors>
-    <detector type="epic_SupportServiceMaterial"
+    <detector type="D2EIC_SupportServiceMaterial"
       name="InnerTrackerSupport"
       id="TrackerSupport_0_ID"
     >

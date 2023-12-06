@@ -101,7 +101,7 @@
     <detector
       id="Solenoid_ID"
       name="SolenoidBarrel"
-      type="epic_Solenoid"
+      type="D2EIC_Solenoid"
       insideTrackingVolume="false">
       <position x="0" y="0" z="Solenoid_offset"/>
       <dimensions rmin="Solenoid_rmin" rmax="Solenoid_rmax" length="Solenoid_length"/>
@@ -176,7 +176,7 @@
     <detector
       id="Solenoid_ID"
       name="SolenoidEndcapP"
-      type="epic_SolenoidEndcap"
+      type="D2EIC_SolenoidEndcap"
       insideTrackingVolume="false"
       reflect="false"
       vis="SolenoidCryostatVis">
@@ -222,7 +222,7 @@
     <detector
       id="Solenoid_ID"
       name="SolenoidEndcapN"
-      type="epic_SolenoidEndcap"
+      type="D2EIC_SolenoidEndcap"
       insideTrackingVolume="false"
       reflect="true"
       vis="SolenoidCryostatVis">

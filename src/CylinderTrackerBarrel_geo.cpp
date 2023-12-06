@@ -188,7 +188,7 @@ static Ref_t CylinderTrackerBarrel_create_detector(Detector& description, xml_h 
 }
 
 // clang-format off
-DECLARE_DETELEMENT(epic_CylinderTrackerBarrel, CylinderTrackerBarrel_create_detector)
-DECLARE_DETELEMENT(epic_MMTrackerBarrel,       CylinderTrackerBarrel_create_detector)
-DECLARE_DETELEMENT(epic_RWellTrackerBarrel,    CylinderTrackerBarrel_create_detector)
-DECLARE_DETELEMENT(epic_CylinderVertexBarrel,  CylinderTrackerBarrel_create_detector)
+DECLARE_DETELEMENT(D2EIC_CylinderTrackerBarrel, CylinderTrackerBarrel_create_detector)
+DECLARE_DETELEMENT(D2EIC_MMTrackerBarrel,       CylinderTrackerBarrel_create_detector)
+DECLARE_DETELEMENT(D2EIC_RWellTrackerBarrel,    CylinderTrackerBarrel_create_detector)
+DECLARE_DETELEMENT(D2EIC_CylinderVertexBarrel,  CylinderTrackerBarrel_create_detector)

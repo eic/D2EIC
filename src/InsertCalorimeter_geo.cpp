@@ -89,7 +89,7 @@ static Ref_t createDetector(Detector& desc, xml_h handle, SensitiveDetector sens
 
   // Assembly that will contain all the layers
   Assembly assembly(detName);
-  // FIXME Workaround for https://github.com/eic/epic/issues/411
+  // FIXME Workaround for https://github.com/eic/D2EIC/issues/411
   assembly.setVisAttributes(desc.visAttributes("InvisibleWithDaughters"));
   PlacedVolume pv;
 
@@ -189,4 +189,4 @@ static Ref_t createDetector(Detector& desc, xml_h handle, SensitiveDetector sens
 
   return det;
 }
-DECLARE_DETELEMENT(epic_InsertCalorimeter, createDetector)
+DECLARE_DETELEMENT(D2EIC_InsertCalorimeter, createDetector)

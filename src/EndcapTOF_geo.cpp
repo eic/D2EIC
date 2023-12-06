@@ -234,4 +234,4 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
 
 //@}
 // clang-format off
-DECLARE_DETELEMENT(epic_TOFEndcap, create_detector)
+DECLARE_DETELEMENT(D2EIC_TOFEndcap, create_detector)

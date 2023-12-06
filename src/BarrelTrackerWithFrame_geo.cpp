@@ -338,8 +338,8 @@ static Ref_t create_BarrelTrackerWithFrame(Detector& description, xml_h e, Sensi
 
 //@}
 // clang-format off
-DECLARE_DETELEMENT(epic_BarrelTrackerWithFrame, create_BarrelTrackerWithFrame)
-DECLARE_DETELEMENT(epic_TrackerBarrel,   create_BarrelTrackerWithFrame)
-DECLARE_DETELEMENT(epic_VertexBarrel,    create_BarrelTrackerWithFrame)
-DECLARE_DETELEMENT(epic_TOFBarrel,       create_BarrelTrackerWithFrame)
-DECLARE_DETELEMENT(epic_InnerMPGDBarrel,       create_BarrelTrackerWithFrame)
+DECLARE_DETELEMENT(D2EIC_BarrelTrackerWithFrame, create_BarrelTrackerWithFrame)
+DECLARE_DETELEMENT(D2EIC_TrackerBarrel,   create_BarrelTrackerWithFrame)
+DECLARE_DETELEMENT(D2EIC_VertexBarrel,    create_BarrelTrackerWithFrame)
+DECLARE_DETELEMENT(D2EIC_TOFBarrel,       create_BarrelTrackerWithFrame)
+DECLARE_DETELEMENT(D2EIC_InnerMPGDBarrel,       create_BarrelTrackerWithFrame)

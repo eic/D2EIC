@@ -70,7 +70,7 @@
     <detector
       id="HCalEndcapPInsert_ID"
       name="HcalEndcapPInsert"
-      type="epic_InsertCalorimeter"
+      type="D2EIC_InsertCalorimeter"
       vis="HcalEndcapInsertVis"
       readout="HcalEndcapPInsertHits"
       calorimeterType="HAD_ENDCAP"

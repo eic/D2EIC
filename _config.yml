@@ -1,8 +1,8 @@
-title: EPIC
-description: DD4hep Geometry Description of the EPIC Experiment
+title: D2EIC
+description: DD4hep Geometry Description of the D2EIC Experiment
 
-url: https://wdconinc.github.io
-baseurl: /epic
+url: 
+baseurl: /D2EIC
 
 theme: minima
 

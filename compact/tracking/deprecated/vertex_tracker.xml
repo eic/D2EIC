@@ -113,7 +113,7 @@ Simple carbon fiber support shell.
     <detector
       id="VertexBarrel_0_ID"
       name="VertexBarrel"
-      type="epic_VertexBarrel"
+      type="D2EIC_VertexBarrel"
       readout="VertexBarrelHits"
       insideTrackingVolume="true">
       <dimensions
@@ -191,7 +191,7 @@ Simple carbon fiber support shell.
     <detector
       id="VertexEndcapP_0_ID"
       name="VertexEndcapP"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="VertexEndcapHits"
       vis="TrackerVis"
       reflect="false">
@@ -234,7 +234,7 @@ Simple carbon fiber support shell.
     <detector
       id="VertexEndcapN_0_ID"
       name="VertexEndcapN"
-      type="epic_TrapEndcapTracker"
+      type="D2EIC_TrapEndcapTracker"
       readout="VertexEndcapHits"
       vis="TrackerVis"
       reflect="true">

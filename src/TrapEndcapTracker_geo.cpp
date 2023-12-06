@@ -308,4 +308,4 @@ static Ref_t create_detector(Detector& description, xml_h e, SensitiveDetector s
   return sdet;
 }
 
-DECLARE_DETELEMENT(epic_TrapEndcapTracker, create_detector)
+DECLARE_DETELEMENT(D2EIC_TrapEndcapTracker, create_detector)

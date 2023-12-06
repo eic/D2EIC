@@ -68,7 +68,7 @@
     <detector
       id="B0TrackerCompanion_ID"
       name="B0TrackerCompanion"
-      type="epic_CompositeTracker"
+      type="D2EIC_CompositeTracker"
       actsType="endcap"
       vis="TrackerSubAssemblyVis">
       <type_flags type="DetType_TRACKER + DetType_ENDCAP"/>

@@ -4,7 +4,7 @@
 #include "GeometryHelpers.h"
 
 // some utility functions that can be shared
-namespace epic::geo {
+namespace D2EIC::geo {
 
   typedef ROOT::Math::XYPoint Point;
 
@@ -232,4 +232,4 @@ namespace epic::geo {
   }
 
 
-} // namespace epic::geo
+} // namespace D2EIC::geo

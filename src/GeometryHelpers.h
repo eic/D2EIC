@@ -6,7 +6,7 @@
 #include <vector>
 
 // some utility functions that can be shared
-namespace epic::geo {
+namespace D2EIC::geo {
 
   using Point = ROOT::Math::XYPoint;
 
@@ -40,4 +40,4 @@ namespace epic::geo {
 
   std::vector<std::pair<double, double>> getPolygonVertices(std::pair<double, double> center, double radius, double angle_0, int numSides);
 
-} // namespace epic::geo
+} // namespace D2EIC::geo

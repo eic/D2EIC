@@ -49,7 +49,7 @@
   </define>
 
    <detectors>
-   <detector id="TrackerBarrel_5_ID" name="MPGDOuterBarrel" type="epic_OuterMPGDBarrel" readout="OuterMPGDBarrelHits" vis="TrackerVis">
+   <detector id="TrackerBarrel_5_ID" name="MPGDOuterBarrel" type="D2EIC_OuterMPGDBarrel" readout="OuterMPGDBarrelHits" vis="TrackerVis">
      <type_flags type="DetType_TRACKER + DetType_BARREL"/>
      <dimensions width="MPGDOuterBarrelModule_width" length="MPGDOuterBarrelModule_length" height="MPGDOuterBarrelModule_allowed_space" />
      <position x="0" y="0" z="MPGDOuterBarrelModule_offset" />

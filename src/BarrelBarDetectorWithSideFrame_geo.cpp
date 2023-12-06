@@ -249,5 +249,5 @@ static Ref_t create_BarrelBarDetectorWithSideFrame(Detector& description, xml_h 
 
 //@}
 // clang-format off
-DECLARE_DETELEMENT(epic_BarrelBarDetectorWithSideFrame, create_BarrelBarDetectorWithSideFrame)
-DECLARE_DETELEMENT(epic_FakeDIRC, create_BarrelBarDetectorWithSideFrame)
+DECLARE_DETELEMENT(D2EIC_BarrelBarDetectorWithSideFrame, create_BarrelBarDetectorWithSideFrame)
+DECLARE_DETELEMENT(D2EIC_FakeDIRC, create_BarrelBarDetectorWithSideFrame)
