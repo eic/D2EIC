@@ -375,18 +375,18 @@ Examples:
     </documentation>
 
     <comment>Solenoid option (BaBar magnet)</comment>
+    <comment>
     <constant name="Solenoid_length"           value="3840.0*mm"/>
     <constant name="Solenoid_rmin"             value="1420.0*mm"/>
     <constant name="Solenoid_thickness"        value="350*mm"/>
     <constant name="Solenoid_offset"           value="-100*mm"/>
-
+    </comment>
+    
     <comment>Solenoid option (ATHENA design)</comment>
-    <comment>
     <constant name="Solenoid_length"           value="3840.0*mm"/>
     <constant name="Solenoid_rmin"             value="1600.0*mm"/>
     <constant name="Solenoid_thickness"        value="455*mm"/>
     <constant name="Solenoid_offset"           value="-240*mm"/>
-    </comment>
 
     <comment>Helmholtz option</comment>
     <comment>
