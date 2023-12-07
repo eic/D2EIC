@@ -1,0 +1,56 @@
+<!-- SPDX-License-Identifier: LGPL-3.0-or-later -->
+<!-- Modified based on IP-8 information Jihee Kim-->
+
+<lccdd>
+
+  <define>
+    <constant name="SimpleRomanPot3_zpos"          value="43.9339*m"/>
+    <constant name="SimpleRomanPot3_xpos"          value="1.00603*m"/>
+    <constant name="SimpleRomanPot4_zpos"          value="45.4337*m"/>
+    <constant name="SimpleRomanPot4_xpos"          value="1.03788*m"/>
+    <constant name="SimpleRomanPot3_rotation"      value="0.*rad"/>
+    <constant name="SimpleRomanPot4_rotation"      value="0.*rad"/>
+    <constant name="SimpleRomanPot_xlength"        value="26.*cm"/>
+    <constant name="SimpleRomanPot_ylength"        value="14.*cm"/>
+    <constant name="SimpleRomanPot_zlength"        value="1.*cm"/>
+    <constant name="SimpleRomanPot_LGADThickness"  value="0.3*mm"/>
+  </define>
+
+  <detectors>
+    <detector
+        id="IP8_SimpleRomanPot3_ID"
+        name="SimpleRomanPot3"
+        type="ip8_SimpleRomanPot"
+        vis="FFTrackerVis"
+        readout="IP8SimpleRomanPot_Hits">
+      <position x="SimpleRomanPot3_xpos"         y="0"         z="SimpleRomanPot3_zpos"/>
+      <rotation x="0" y="SimpleRomanPot3_rotation" z="0"/>
+      <dimensions x="SimpleRomanPot_xlength" y="SimpleRomanPot_ylength" z="SimpleRomanPot_zlength"/>
+      <layer nlayer="1" gapspace="0">
+        <slice name="silicon" material="SiliconOxide" thickness="SimpleRomanPot_LGADThickness" vis="FFTrackerSurfaceVis"  sensitive="true"/>
+      </layer>
+    </detector>
+
+    <detector
+        id="IP8_SimpleRomanPot4_ID"
+        name="SimpleRomanPot4"
+        type="ip8_SimpleRomanPot"
+        vis="FFTrackerVis"
+        readout="IP8SimpleRomanPot_Hits">
+      <position x="SimpleRomanPot4_xpos"         y="0"         z="SimpleRomanPot4_zpos"/>
+      <rotation x="0" y="SimpleRomanPot4_rotation" z="0"/>
+      <dimensions x="SimpleRomanPot_xlength" y="SimpleRomanPot_ylength" z="SimpleRomanPot_zlength"/>
+      <layer nlayer="1" gapspace="0">
+        <slice name="silicon" material="SiliconOxide" thickness="SimpleRomanPot_LGADThickness" vis="FFTrackerSurfaceVis"  sensitive="true"/>
+      </layer>
+    </detector>
+  </detectors>
+
+  <readouts>
+    <readout name="IP8SimpleRomanPot_Hits">
+      <segmentation type="CartesianGridXY" grid_size_x="0.5*mm" grid_size_y="0.5*mm"/>
+      <id>system:8,silicon:6,x:24:-12,y:-12</id>
+    </readout>
+  </readouts>
+
+</lccdd>

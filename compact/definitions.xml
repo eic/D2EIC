@@ -308,6 +308,13 @@ The unused IDs below are saved for future use.
     <constant name="QDS01_ID"     value="88178"/>
 
     <documentation>
+      Defined by putting 88- on each detector component ID of IP-6.
+      #### (88150-88169) Far Forward Detectors
+    </documentation>
+    <constant name="IP8_SimpleRomanPot3_ID"  value="88155"/>
+    <constant name="IP8_SimpleRomanPot4_ID"  value="88156"/>
+
+    <documentation>
       #### (190-199) Far Backward Beamline Detectors
 
       - Low-Q2 Tagger 1       ID: 195
