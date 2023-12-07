@@ -6,5 +6,6 @@
 
   <include ref="far_forward/ion_beamline_ip8.xml" />
   <include ref="far_forward/magnets_ip8.xml"/>
+  <include ref="far_forward/simple_roman_pots_secondary_focus_ip8.xml"/>
 
 </lccdd>
