@@ -311,6 +311,21 @@ The unused IDs below are saved for future use.
       Defined by putting 88- on each detector component ID of IP-6.
       #### (88150-88169) Far Forward Detectors
     </documentation>
+    <constant name="IP8_B0Tracker_Station_1_ID" value="88150"/>
+    <constant name="IP8_B0TrackerCompanion_ID"  value="88157"/>
+    <constant name="IP8_B0ECal_ID"              value="88169"/>
+
+    <constant name="IP8_ForwardOffMTracker_station_1_ID" value="88159"/>
+    <constant name="IP8_ForwardOffMTracker_station_2_ID" value="88160"/>
+    <constant name="IP8_ForwardOffMTracker_station_3_ID" value="88161"/>
+    <constant name="IP8_ForwardOffMTracker_station_4_ID" value="88162"/>    
+
+    <constant name="IP8_ZDC_1stSilicon_ID"  value="88163"/>
+    <constant name="IP8_ZDC_Crystal_ID"     value="88164"/>
+    <constant name="IP8_ZDC_WSi_ID"         value="88165"/>
+    <constant name="IP8_ZDC_PbSi_ID"        value="88166"/>
+    <constant name="IP8_ZDC_PbSci_ID"       value="88167"/>
+
     <constant name="IP8_SimpleRomanPot3_ID"  value="88155"/>
     <constant name="IP8_SimpleRomanPot4_ID"  value="88156"/>
 
