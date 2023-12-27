@@ -4,10 +4,10 @@
 <lccdd>
 
   <define>
-    <constant name="SimpleRomanPot3_zpos"          value="43.9339*m"/>
-    <constant name="SimpleRomanPot3_xpos"          value="1.00603*m"/>
-    <constant name="SimpleRomanPot4_zpos"          value="45.4337*m"/>
-    <constant name="SimpleRomanPot4_xpos"          value="1.03788*m"/>
+    <constant name="SimpleRomanPot3_zpos"          value="44.2314*m"/>
+    <constant name="SimpleRomanPot3_xpos"          value="1.00931*m"/>
+    <constant name="SimpleRomanPot4_zpos"          value="45.7311*m"/>
+    <constant name="SimpleRomanPot4_xpos"          value="1.04116*m"/>
     <constant name="SimpleRomanPot3_rotation"      value="0.*rad"/>
     <constant name="SimpleRomanPot4_rotation"      value="0.*rad"/>
     <constant name="SimpleRomanPot_xlength"        value="26.*cm"/>
