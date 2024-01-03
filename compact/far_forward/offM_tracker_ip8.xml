@@ -31,7 +31,7 @@
       readout="IP8ForwardOffMTrackerHits"
       vis="FFTrackerVis"
       reflect="false">
-      <position x="0.676406*m" y="0" z="26.2334*m"/>
+      <position x="0.673133*m" y="0" z="25.9359*m"/>
       <rotation x="0.*rad" y="0.*rad" z="0.*rad"/>
       <module name="OMD1Mod1" vis="FFTrackerShieldedModuleVis">
         <shape x="20.0*cm" y="30.0*cm"/>
@@ -56,7 +56,7 @@
       readout="IP8ForwardOffMTrackerHits"
       vis="AnlRed"
       reflect="false">
-      <position x="0.676626*m" y="0" z="26.2534*m"/>
+      <position x="0.673353*m" y="0" z="25.9559*m"/>
       <rotation x="0.*rad" y="0.*rad" z="0.*rad"/>
       <module name="OMD2Mod1" vis="FFTrackerShieldedModuleVis">
         <shape x="20.0*cm" y="30.0*cm"/>
@@ -81,7 +81,7 @@
       readout="IP8ForwardOffMTrackerHits"
       vis="FFTrackerVis"
       reflect="false">
-      <position x="0.655708*m" y="0" z="28.2338*m"/>
+      <position x="0.652435*m" y="0" z="27.9363*m"/>
       <rotation x="0.*rad" y="0.*rad" z="0.*rad"/>
       <module name="OMD3Mod1" vis="FFTrackerShieldedModuleVis">
         <shape x="20.0*cm" y="30.0*cm"/>
@@ -106,7 +106,7 @@
       readout="IP8ForwardOffMTrackerHits"
       vis="FFTrackerVis"
       reflect="false">
-      <position x="0.655928*m" y="0" z="28.2538*m"/>
+      <position x="0.652655*m" y="0" z="27.9563*m"/>
       <rotation x="0.*rad" y="0.*rad" z="0.*rad"/>
       <module name="OMD4Mod1" vis="FFTrackerShieldedModuleVis">
         <shape x="20.0*cm" y="30.0*cm"/>
