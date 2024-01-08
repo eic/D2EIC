@@ -35,6 +35,7 @@
     <comment>
       Forward Fields **IP-8**
       Values taken from: https://wiki.bnl.gov/eic-detector-2/images/d/de/IR8_magnet_layout_12052022.xlsx
+      BXDS01A and BXDS01B Bmax values were changed by Randy's latest IP-8 hadron lattice study on 2023/12/11
     </comment>
 
     <constant name="BXSP01_GradientMax"    value="0.0*tesla/m"/>
@@ -53,7 +54,7 @@
     <constant name="QFFDS01B_Bmax"         value="0.0*tesla"/>
     <constant name="QFFDS02A_Bmax"         value="0.0*tesla"/>
     <constant name="QFFDS02B_Bmax"         value="0.0*tesla"/>
-    <constant name="BXDS01A_Bmax"          value="4.586978777*tesla"/>
-    <constant name="BXDS01B_Bmax"          value="-4.585148964*tesla"/>
+    <constant name="BXDS01A_Bmax"          value="4.586506375*tesla"/>
+    <constant name="BXDS01B_Bmax"          value="-4.586506375*tesla"/>
     <constant name="QDS01_Bmax"            value="0.0*tesla"/>
   </define>
