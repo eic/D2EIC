@@ -65,7 +65,7 @@
            QDS01  1.155478830  0.0  42.24663953  0.04000000000  0.1400000000  1.100000000  10.299359  0.0000000000  20.296269000
         2ndfocus  1.185861402  0.0  45.19648307  0.00000000000  0.0000000000  0.000000000  10.299359  0.0000000000  0.0000000000
 
-      ##  Values taken from: Randy's latest IP-8 hadron lattice study on 2023/12/11. Will upload it on detector 2 wiki page
+      ##  Values taken from: https://wiki.bnl.gov/eic-detector-2/images/4/42/IR8_magnet_layout_2023_12_11.xlsx
 
       Converted Hadron Magnets Coordinates for IR8 - with origin (0.0 m, 0.0 m, 0.0 m) and + 0.035 rad crossing angle
 
