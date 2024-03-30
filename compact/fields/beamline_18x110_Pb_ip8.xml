@@ -36,17 +36,18 @@
       Forward Fields **IP-8**
       Values taken from: https://wiki.bnl.gov/eic-detector-2/images/d/de/IR8_magnet_layout_12052022.xlsx
       BXDS01A and BXDS01B Bmax values were changed by Randy's latest IP-8 hadron lattice study on 2023/12/11
+      Values updated from Randy's latest IR-8 eAu 18x110 GeV2 hadron lattice study on 2024/03/26
     </comment>
 
     <constant name="BXSP01_GradientMax"    value="0.0*tesla/m"/>
     <constant name="BXSP01A_GradientMax"   value="0.0*tesla/m"/>
-    <constant name="QFFDS01A_GradientMax"  value="-64.31060997*tesla/m"/>
-    <constant name="QFFDS01B_GradientMax"  value="-41.8856778*tesla/m"/>
-    <constant name="QFFDS02A_GradientMax"  value="32.70337321*tesla/m"/>
-    <constant name="QFFDS02B_GradientMax"  value="28.24690881*tesla/m"/>
+    <constant name="QFFDS01A_GradientMax"  value="-64.30890888*tesla/m"/>
+    <constant name="QFFDS01B_GradientMax"  value="-41.9504432*tesla/m"/>
+    <constant name="QFFDS02A_GradientMax"  value="32.70400401*tesla/m"/>
+    <constant name="QFFDS02B_GradientMax"  value="28.25142843*tesla/m"/>
     <constant name="BXDS01A_GradientMax"   value="0.0*tesla/m"/>
     <constant name="BXDS01B_GradientMax"   value="0.0*tesla/m"/>
-    <constant name="QDS01_GradientMax"     value="20.296269*tesla/m"/>
+    <constant name="QDS01_GradientMax"     value="20.36907321*tesla/m"/>
 
     <constant name="BXSP01_Bmax"           value="1.3*tesla"/>
     <constant name="BXSP01A_Bmax"          value="0.0*tesla"/>
