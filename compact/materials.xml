@@ -502,5 +502,50 @@
     <fraction n="0.06338" ref="Si"/>
     <fraction n="0.18046" ref="O"/>
     <fraction n="0.00190" ref="Ce"/>
-  </material>
+ </material>
+
+ <!-- FCCeeIDEA: material for the drift chamber -->
+ <material name="CarbonFiber_50D">
+   <D type="density" value="0.75" unit="g/cm3"/>
+   <fraction n="0.65" ref="C"/>
+   <fraction n="0.35" ref="Epoxy"/>
+ </material>
+ <material name="CarbonFibStr">
+   <D type="density" value="1.45" unit="g/cm3"/>
+   <comment> CMS ECAL https://gitlab.cern.ch/geant4/geant4/-/blob/master/examples/advanced/composite_calorimeter/dataglobal/material.cms#L183 </comment>
+   <composite n="2"   ref="C"/>
+   <composite n="13"  ref="H"/>
+ </material>
+ 
+ <material name="GasHe_90Isob_10" state="gas">
+   <T unit="K" value="293.15"/>
+   <MEE unit="eV" value="48.8432249317198"/>
+   <D unit="g/cm3" value="0.0003984"/>
+   <fraction n="0.382635100446205" ref="He"/>
+   <fraction n="0.107061807167701" ref="H"/>
+   <fraction n="0.510303092386095" ref="C"/>
+ </material>
+ 
+ <!--  average material for wires  -->
+ <material name="DCH_FCentralWireMat">
+   <comment> 0.98810714*2.7 + 0.011892860*10.49 </comment>
+   <D type="density" value="2.7926454" unit="g/cm3"/>
+   <comment> field wire center:      50 um Al (core), 0.3 um Ag (coating) </comment>
+   <fraction n="0.98810714"   ref="Al"/>
+   <fraction n="0.011892860"  ref="Ag"/>
+ </material>
+ <material name="DCH_FSideWireMat">
+   <comment> 0.98516708*2.7 + 0.014832922*10.49 </comment>
+   <D type="density" value="2.8155485" unit="g/cm3"/>
+   <comment> field wires top/bottom: 40 um Al (core), 0.3 um Ag (coating) </comment>
+   <fraction n="0.98516708"   ref="Al"/>
+   <fraction n="0.014832922"  ref="Ag"/>
+ </material>
+ <material name="DCH_SWireMat">
+   <comment> 0.97066175*19.28+0.029338250*19.3 </comment>
+   <D type="density" value="19.280587" unit="g/cm3"/>
+   <comment> sense wire:             20 um W  (core), 0.3 um Au (coating) </comment>
+   <fraction n="0.97066175"   ref="W"/>
+   <fraction n="0.029338250"  ref="Au"/>
+ </material>
 </materials>
