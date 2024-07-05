@@ -5,12 +5,14 @@
   <!--  Drift Chamber parameters    -->
   <!--      Gas and vesssel geometry parameters moved to DetDimensions file   -->
   <constant name="DCH_inner_cyl_R_total"          value=" 349  * mm "  />
+
   <!-- <constant name="DCH_inner_cyl_R_total"          value=" 465  * mm "  /> -->
   <constant name="DCH_outer_cyl_R_total"          value=" 2001 * mm "  />
   <constant name="DCH_half_length_total"          value=" 2250 * mm "  />
 
   <!-- Gas (active volume) geometry     -->
   <constant name="DCH_gas_inner_cyl_R"          value=" 350 * mm "   /> 
+
   <!-- <constant name="DCH_gas_inner_cyl_R"          value=" 466 * mm "   /> -->
   <constant name="DCH_gas_outer_cyl_R"          value=" 2000 * mm "  />
   <constant name="DCH_gas_Lhalf"                value=" 2000 * mm "  />
@@ -19,6 +21,7 @@
   <!--    Inner wall and outer wall have different thickness-->
   <constant name="DCH_vessel_thickness_innerR"           value=" DCH_gas_inner_cyl_R - DCH_inner_cyl_R_total"      />
   <constant name="DCH_vessel_thickness_outerR"           value=" DCH_outer_cyl_R_total - DCH_gas_outer_cyl_R"      />
+
   <!--    Wall that make up the base of the cylindrical vessel includes services-->
   <!--    filling the space from z=2m to z=2.25m  -->
   <constant name="DCH_vessel_disk_zmin"                  value=" DCH_gas_Lhalf"                                    />
@@ -36,7 +39,6 @@
   <constant name="DCH_ncell"                value=" 192 "  />
   <constant name="DCH_ncell_increment"      value=" 48 "   />
   <constant name="DCH_nsuperlayers"         value=" 14 "   />
-  <!-- <constant name="DCH_nsuperlayers"         value=" 10 "   /> -->
   <constant name="DCH_nlayersPerSuperlayer" value=" 8 "    />
   <constant name="DCH_ncell_per_sector"     value=" 24 "   />
 
@@ -56,15 +58,12 @@
   -->
   <!-- sense wire thickness (total)   -->
   <constant name="DCH_SWire_thickness"           value="0.0203*mm"   />
-  <!-- <constant name="DCH_SWire_thickness"           value="1*mm"   /> -->
 
   <!-- Field Side (top/bottom) wire thickness (total)   -->
   <constant name="DCH_FSideWire_thickness"       value="0.0403*mm"   />
-  <!-- <constant name="DCH_FSideWire_thickness"       value="1*mm"   /> -->
 
   <!-- Field Central wire thickness (total)   -->
   <constant name="DCH_FCentralWire_thickness"    value="0.0503*mm"   />
-  <!-- <constant name="DCH_FCentralWire_thickness"    value="1*mm"   /> -->
 
   </define>
 
@@ -84,7 +83,7 @@
   <detectors>
     <detector
       id="DCH_0_ID"
-      name="DCH_v2"
+      name="DCH"
       type="DriftChamber_o1_v02_T"
       readout="DCHCollection"
       region="DCH_region"
@@ -93,6 +92,7 @@
       printExcelTable="false"
       insideTrackingVolume="true">
     <type_flags type="DetType_TRACKER + DetType_BARREL"/>
+
     <!-- /detectors/detector/vessel -->
     <vessel
         mainMaterial="CarbonFibStr"
@@ -104,12 +104,14 @@
         visBulk="dch_vessel_bulk_vis"
       >
     </vessel>
+
     <!-- /detectors/detector/gas -->
     <gas
         material="GasHe_90Isob_10"
         vis="dch_gas_vis"
       >
     </gas>
+
     <!-- /detectors/detector/wires -->
     <wires
         vis=""
@@ -120,12 +122,20 @@
         FCentralWire_thickness="DCH_FCentralWire_thickness"
         SWire_material        ="DCH_SWireMat"
         FSideWire_material    ="DCH_FSideWireMat"
-        FCentralWire_material ="DCH_FCentralWireMat"
-      >
+        FCentralWire_material ="DCH_FCentralWireMat">
+      <layer_material surface="representing" binning="binPhi,binZ" bins0="50" bins1="50"/>
     </wires>
     </detector>
   </detectors>
 
+  <!-- ACTS stuff -->
+  <plugins>
+    <plugin name="DD4hep_ParametersPlugin">
+      <argument value="DCH"/>
+      <argument value="layer_pattern: str=DCH_layer\d_N"/> <!-- Make sure to match detector name  -->
+    </plugin>
+  </plugins>
+  
   <readouts>
     <readout name="DCHCollection">
       <!--  superlayer: from 0 to 13                  -->
@@ -170,7 +180,6 @@
   <vis name="dch_vessel_bulk_vis"  r="236/256" g="000/256" b="000/256" alpha="1.00"  showDaughters="true" visible="true" />
   <vis name="dch_vis_cell_0"  r="64/256" g="244/256" b="208/256" alpha="0.5"  showDaughters="true" visible="false" />
   <vis name="dch_vis_cell_1"  r="252/256" g="67/256" b="86/256" alpha="0.5"  showDaughters="true" visible="false" />
-  <!-- <vis name="dch_vis_cell"  r="64/256" g="244/256" b="208/256" alpha="0.5" visible="true" drawingStyle="1" /> -->
 </display>
 
 </lccdd>
