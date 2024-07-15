@@ -1,0 +1,18 @@
+ebeam: 18
+pbeam: 275
+features:
+  beampipe:
+  tracking:
+    definitions_dch:
+    vertex_barrel:
+    silicon_disks:
+    dch:
+  pid:
+    dirc:
+    pfrich:
+    drich:
+  ecal:
+    forward_homogeneous:
+    barrel_interlayers:
+    backward_PbWO4:
+  solenoid:

@@ -134,6 +134,7 @@ namespace DCH_v2 {
     DCH_length_t vessel_endcapdisk_zmin   = desc.constantAsDouble("DCH_vessel_disk_zmin");
     DCH_length_t vessel_endcapdisk_zmax   = desc.constantAsDouble("DCH_vessel_disk_zmax");
 
+    DCH_length_t z0= desc.constantAsDouble("DCH_z0");
     // if( 0 > vessel_thickness_z )
     // throw std::runtime_error("vessel_thickness_z must be positive");
     if( 0 > vessel_thickness_innerR )
@@ -235,6 +236,7 @@ namespace DCH_v2 {
     //---------------------------------- 
     // DCH layers 
     //---------------------------------- 
+    int cnt=0;
     for(const auto& [ilayer, l]  : DCH_i->database ) {
       //if (ilayer>10) continue;
       //----------------------------------
@@ -252,6 +254,16 @@ namespace DCH_v2 {
       DCH_angle_t  stout = DCH_i->stereoangle_z0(rout);
       /// half-length
       DCH_length_t dz    = DCH_i->Lhalf + safety_z_interspace;
+      
+      DCH_length_t maxGap=50*dd4hep::mm;
+      
+      //DCH_length_t myrout=(rin+dz*tan(stin)/2.);
+      //if (rin+dz*tan(stin)/2. > DCH_i->rout) break;
+      if (rout+maxGap > DCH_i->rout) break;
+      std::cout<<"cnt="<<cnt
+	       <<", ncell="<< l.nwires/2
+	       <<", rout="<<rout/dd4hep::mm <<"(mm) , max r="
+	       <<DCH_i->rout/dd4hep::mm <<"(mm)"<<std::endl;
 
       // !!!!!!!!!!!!!!!!!!!!!!!!!!! 
       //if (ilayer!=112 && ilayer!=111) continue;
@@ -315,52 +327,39 @@ namespace DCH_v2 {
       dd4hep::Volume swire_v(cell_name+"_swire", swire_s, dch_SWire_material);
       swire_v.setVisAttributes(desc.visAttributes( Form("dch_vis_cell_%d",(int) ilayer%2 )));
 
-      // Change sign of stereo angle to place properly the wire inside the twisted tube                                                                                                       
+      // Change sign of stereo angle to place properly the wire inside the twisted tube      
       dd4hep::RotationX stereoTr( (-1.)*l.StereoSign()*DCH_i->stereoangle_z0(cell_rave_z0) );
       dd4hep::Transform3D swireTr ( stereoTr * dd4hep::Translation3D(cell_rave_z0,0.,0.) );
       
       //----------------------------------
       // Single field wire 
       //----------------------------------
-
-      // POSITIONING OF FIELD WIRES                                                                                                                                                           
-      //                                                                                                                                                                                      
-      //  The following sketch represents the crossection of a DCH cell, where                                                                                                                
-      //      O symbol = Field wires, the number in parenthesis is used as ID                                                                                                                 
-      //      X symbol = sense wire                                                                                                                                                           
-      //                                                                                                                                                                                      
-      //   ^ radius                                                                                                                                                                           
-      //                                                                                                                                                                                      
-      //   O(1)---O(4)---O(6)    radius_z0 = l.radius_fuw_z0 == (++l).radius_fdw_z0                                                                                                           
-      //                                                                                                                                                                                      
-      //   O(2)   X      O(7)    radius_z0 = average(l.radius_fuw_z0, l.radius_fdw_z0)                                                                                                        
-      //                                                                                                                                                                                      
-      //   O(3)---O(5)---O(8)    radius_z0 = l.radius_fdw_z0 == (--l).radius_fuw_z0                                                                                                           
-      //                                                                                                                                                                                      
-      //   --> phi axis                                                                                                                                                                       
-      //                                                                                                                                                                                      
-      //  In the previous sketch, the wires are shared among several cells.                                                                                                                   
-      //  Since we are using an actual shape to contain each cell,                                                                                                                            
-      //  it is not feasible.                                                                                                                                                                 
-      //                                                                                                                                                                                      
-      //  As a workaround, we introduce an offset in phi and radially to the cell center,                                                                                                     
-      //  in such a manner that the wires are fully contained in one cell.                                                                                                                    
-      //  The following code implements the following sketch:                                                                                                                                 
-      //                                                                                                                                                                                      
-      //   O(1)---O(4)---    radius_z0 = l.radius_fuw_z0 - wire_thickness/2                                                                                                                   
-      //                                                                                                                                                                                      
-      //   O(2)   X          radius_z0 = average(l.radius_fuw_z0, l.radius_fdw_z0)                                                                                                            
-      //                                                                                                                                                                                      
-      //   O(3)---O(5)---    radius_z0 = l.radius_fdw_z0 + wire_thickness/2                                                                                                                   
-      //                                                                                                                                                                                      
-      //  phi_offset(n) = atan(  wire_thickness/2 / radius_z0 )                                                                                                                               
-      //                                                                                                                                                                                      
-      //  notice that the field wires are offcentered with respect to the sense wire                                                                                                          
-      //  by about 20um/1cm ~ 0.1 mrad, which is not expected to have any impact
-
-      /// encapsulate the calculation of the phi offset into a function                                                                                                                       
-      /// since it will be different for each field wire                                                                                                                                      
-      /// it includes the safety phi distance                                                                                                                                                 
+      
+      // POSITIONING OF FIELD WIRES
+      //
+      //  The following sketch represents the crossection of a DCH cell, where
+      //      O symbol = Field wires, the number in parenthesis is used as ID 
+      //      X symbol = sense wire                                           
+      //
+      //   ^ radius
+      //   O(1)---O(4)---O(6)    radius_z0 = l.radius_fuw_z0 == (++l).radius_fdw_z0
+      //   O(2)   X      O(7)    radius_z0 = average(l.radius_fuw_z0, l.radius_fdw_z0)
+      //   O(3)---O(5)---O(8)    radius_z0 = l.radius_fdw_z0 == (--l).radius_fuw_z0   
+      //
+      //   --> phi axis
+      //
+      //  In the previous sketch, the wires are shared among several cells.
+      //  Since we are using an actual shape to contain each cell,
+      //  it is not feasible.
+      //
+      //   O(1)---O(4)---    radius_z0 = l.radius_fuw_z0 - wire_thickness/2
+      //   O(2)   X          radius_z0 = average(l.radius_fuw_z0, l.radius_fdw_z0)                                                                                                   
+      //   O(3)---O(5)---    radius_z0 = l.radius_fdw_z0 + wire_thickness/2 
+      //
+      //  encapsulate the calculation of the phi offset into a function
+      //  since it will be different for each field wire
+      //  it includes the safety phi distance
+      
       auto fwire_phi_offset = [&](DCH_length_t radial_distance, DCH_length_t wire_radius)->DCH_angle_t {
 	return atan(wire_radius/radial_distance)*dd4hep::rad + safety_phi_interspace;
       };
@@ -501,11 +500,15 @@ namespace DCH_v2 {
 	  fware4_pv.addPhysVolID("stereosign", l.StereoSign() );
 	}// end building field wires
       }// end building wires
+      cnt++;
     }// end building layers
-    
+    std::cout<<"DCH: number of layers= "<<cnt<<std::endl;
+
     // Place our mother volume in the world
+    //dd4hep::Transform3D tr = dd4hep::Transform3D(0, xPosition(0, 0, z0));
+
     dd4hep::Volume wVol = desc.pickMotherVolume(det);
-    dd4hep::PlacedVolume vessel_pv = wVol.placeVolume(gas_v);
+    dd4hep::PlacedVolume vessel_pv = wVol.placeVolume(gas_v,dd4hep::Position(0,0,z0));
     
     // Associate the wall to the detector element.
     det.setPlacement(vessel_pv);

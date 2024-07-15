@@ -462,7 +462,9 @@ Examples:
 
     </documentation>
 
-    <constant name="CentralTrackingRegion_rmax"   value="700.0*mm" />
+    <!-- <constant name="CentralTrackingRegion_rmax"   value="700.0*mm" /> -->
+    <!-- <constant name="CentralTrackingRegion_rmax"   value="880.0*mm" /> -->
+    <constant name="CentralTrackingRegion_rmax"   value="1300.0*mm" />
     <constant name="CentralTrackingRegionP_zmax"  value="1800.0*mm" />
     <constant name="CentralTrackingRegionN_zmax"  value="1235.0*mm" />
     <constant name="CentralTrackingRegion_length" value="CentralTrackingRegionP_zmax + CentralTrackingRegionN_zmax" />
@@ -495,7 +497,7 @@ Examples:
     <constant name="BackwardPIDRegion_length"     value="45.0*cm" />
     <constant name="BackwardPIDRegion_zmin"       value="CentralTrackingRegionN_zmax" />
     <constant name="BackwardPIDRegion_zmax"       value="BackwardPIDRegion_zmin + BackwardPIDRegion_length" />
-    <constant name="BackwardPIDRegion_rmax"       value="63.0*cm" /> <!-- FIXME hardcoded, was CentralTrackingRegion_rmax -->
+    <constant name="BackwardPIDRegion_rmax"       value="95*cm" /> <!-- FIXME hardcoded, was CentralTrackingRegion_rmax -->
     <constant name="BackwardPIDRegion_tan"        value="CentralTrackingRegionN_tan * 0.92" />
 
     <comment> Backward RICH region </comment>
@@ -580,10 +582,11 @@ Service gaps in FW direction (before endcapP ECAL) and BW direction (before endc
     <constant name="EcalEndcapN_rmin1"              value="Eta4_6_tan * EcalEndcapN_zmin"/>
     <constant name="EcalEndcapN_rmin2"              value="Eta3_9_tan * EcalEndcapN_zmin"/>
     <constant name="EcalEndcapN_rmin"               value="9.*cm"/>    <!-- Currently fix value hardcoded -->
-    <constant name="EcalEndcapN_rmax"               value="63.*cm"/>   <!-- Currently fix value hardcoded -->
+    <constant name="EcalEndcapN_rmax"               value="140.*cm"/>   <!-- Currently fix value hardcoded -->
 
     <constant name="EcalBarrelRegion_thickness"     value="35.*cm"/>
-    <constant name="EcalBarrel_rmin"                value="max(81.*cm, CentralTrackingRegion_rmax + BarrelPIDRegion_thickness + BarrelExtraSpace_thickness)"/> <!-- FIXME hardcoded max -->
+    <!-- <constant name="EcalBarrel_rmin"                value="max(81.*cm, CentralTrackingRegion_rmax + BarrelPIDRegion_thickness + BarrelExtraSpace_thickness)"/> --> <!-- FIXME hardcoded max --> 
+    <constant name="EcalBarrel_rmin"                value="max(81.*cm, CentralTrackingRegion_rmax - BarrelPIDRegion_thickness-BarrelExtraSpace_thickness)"/> -->
     <constant name="EcalBarrel_inner_margin"        value="2*cm"/>
     <constant name="EcalBarrel_rmax"                value="EcalBarrel_rmin + EcalBarrelRegion_thickness"/>
     <constant name="EcalBarrelForward_zmax"         value="ForwardRICHRegion_zmin"/> <!-- FIXME currently unable to accommodate actual position -->
@@ -606,8 +609,8 @@ Service gaps in FW direction (before endcapP ECAL) and BW direction (before endc
       The DIRC_rmin/rmax values are defined at the center of each stave, such that
       the DIRC_rmax can also be used as the OuterBarrelMPGD_rmin value.
     </comment>
-    <constant name="DIRC_rmin"                  value="CentralTrackingRegion_rmax"/>
-    <constant name="DIRC_rmax"                  value="DIRC_rmin + DIRC_thickness"/>
+    <constant name="DIRC_rmin"                  value="EcalBarrel_rmin-DIRC_thickness"/>
+    <constant name="DIRC_rmax"                  value="EcalBarrel_rmin"/>
 
     <documentation>
       ## Hadronic Calorimeter Parameters

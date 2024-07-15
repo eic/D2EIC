@@ -45,6 +45,9 @@ public:
     DCH_length_t rin = {0};
     /// Outer radius of the active volume
     DCH_length_t rout = {0};
+    /// center 
+    DCH_length_t z0 = {0};
+  
 
     /// Inner guard wires radius
     DCH_length_t guard_inner_r_at_z0 = {0};
@@ -258,23 +261,25 @@ inline void DCH_info_struct::BuildLayerDatabase()
 
         //calculate height_z0, radius_sw_z0
         {
-            double h  = previousLayer.height_z0;
-            double ru = previousLayer.radius_fuw_z0;
-            double rd = previousLayer.radius_fdw_z0;
-
-            if(0 == Get_nsuperlayer_minus_1(ilayer))
-                layer_info.height_z0 = h*ru/rd;
-            else
-                layer_info.height_z0 = TMath::TwoPi()*ru/(0.5*layer_info.nwires - TMath::Pi());
-
-            layer_info.radius_sw_z0 = 0.5*layer_info.height_z0 + ru;
+	  double h  = previousLayer.height_z0;
+	  double ru = previousLayer.radius_fuw_z0;
+	  double rd = previousLayer.radius_fdw_z0;
+	  
+	  if(0 == Get_nsuperlayer_minus_1(ilayer))
+	    layer_info.height_z0 = h*ru/rd;
+	  else
+	    layer_info.height_z0 = TMath::TwoPi()*ru/(0.5*layer_info.nwires - TMath::Pi());
+	  
+	  layer_info.height_z0 = TMath::TwoPi()*ru/(0.5*layer_info.nwires - TMath::Pi()); 
+	  layer_info.radius_sw_z0 = 0.5*layer_info.height_z0 + ru;
+	  
         }
 
         //calculate radius_fdw_z0, radius_fuw_z0, width_z0
         layer_info.radius_fdw_z0 = previousLayer.radius_fuw_z0;
         layer_info.radius_fuw_z0 = previousLayer.radius_fuw_z0 + layer_info.height_z0;
         layer_info.width_z0 = TMath::TwoPi()*layer_info.radius_sw_z0/(0.5*layer_info.nwires);
-
+	
         // according to expert prescription, width_z0 == height_z0
         if(fabs(layer_info.width_z0 - layer_info.height_z0)>1e-4)
             throw std::runtime_error("fabs(l.width_z0 - l.height_z0)>1e-4");

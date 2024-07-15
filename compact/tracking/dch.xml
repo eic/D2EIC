@@ -3,19 +3,18 @@
   <!-- %%%%%%           based on the geometry version "IDEA231026"               %%%%%% -->
   <define>
   <!--  Drift Chamber parameters    -->
-  <!--      Gas and vesssel geometry parameters moved to DetDimensions file   -->
-  <constant name="DCH_inner_cyl_R_total"          value=" 349  * mm "  />
+  <constant name="MAXLENGTH" value="ForwardRICHRegion_zmin+BackwardPIDRegion_zmin- 1*cm -1*cm"/>
+  <constant name="DCH_z0"        value="ForwardRICHRegion_zmin - MAXLENGTH/2.0"/>
 
-  <!-- <constant name="DCH_inner_cyl_R_total"          value=" 465  * mm "  /> -->
-  <constant name="DCH_outer_cyl_R_total"          value=" 2001 * mm "  />
-  <constant name="DCH_half_length_total"          value=" 2250 * mm "  />
+  <!--      Gas and vesssel geometry  -->
+  <constant name="DCH_inner_cyl_R_total"          value=" 140 *mm "/>
+  <constant name="DCH_outer_cyl_R_total"          value=" 1150 * mm "  />
+  <constant name="DCH_half_length_total"          value="MAXLENGTH/2.0"/>
 
   <!-- Gas (active volume) geometry     -->
-  <constant name="DCH_gas_inner_cyl_R"          value=" 350 * mm "   /> 
-
-  <!-- <constant name="DCH_gas_inner_cyl_R"          value=" 466 * mm "   /> -->
-  <constant name="DCH_gas_outer_cyl_R"          value=" 2000 * mm "  />
-  <constant name="DCH_gas_Lhalf"                value=" 2000 * mm "  />
+  <constant name="DCH_gas_inner_cyl_R"          value=" DCH_inner_cyl_R_total + 1 * mm "   />
+  <constant name="DCH_gas_outer_cyl_R"          value=" DCH_outer_cyl_R_total - 1 * mm "  />
+  <constant name="DCH_gas_Lhalf"                value=" DCH_half_length_total - 250*mm "  />
 
   <!--    Vessel cylinder surrounds the gas cylinder in radius and z     -->
   <!--    Inner wall and outer wall have different thickness-->
@@ -28,7 +27,6 @@
   <constant name="DCH_vessel_disk_zmax"                  value=" DCH_half_length_total"                            />
 
 
-
   <!-- Position of guard wires   -->
   <!--    _z0 := at z=0          -->
   <!--    _zL2 := at z=DCH_Lhalf -->
@@ -36,11 +34,12 @@
   <constant name="DCH_guard_outer_r_at_zL2"        value=" DCH_gas_outer_cyl_R - 12.5*mm " />
 
   <!-- Parametrization of number of cells ands layer/superlayer   -->
-  <constant name="DCH_ncell"                value=" 192 "  />
+  <!-- <constant name="DCH_ncell"                value=" 192 "  /> -->
+  <constant name="DCH_ncell"                value=" 96 "  />
   <constant name="DCH_ncell_increment"      value=" 48 "   />
-  <constant name="DCH_nsuperlayers"         value=" 14 "   />
-  <constant name="DCH_nlayersPerSuperlayer" value=" 8 "    />
-  <constant name="DCH_ncell_per_sector"     value=" 24 "   />
+  <constant name="DCH_nsuperlayers"         value=" 10 "   />
+  <constant name="DCH_nlayersPerSuperlayer" value=" 7 "    />
+  <constant name="DCH_ncell_per_sector"     value=" 24" />
 
   <!-- Alfa = twistangle/2   -->
   <constant name="DCH_alpha"                value=" 15*deg "    />
@@ -57,7 +56,9 @@
     - field wire center:      50 um Al (core), 0.3 um Ag (coating)
   -->
   <!-- sense wire thickness (total)   -->
-  <constant name="DCH_SWire_thickness"           value="0.0203*mm"   />
+  <!-- <constant name="DCH_SWire_thickness"           value="0.0203*mm"   /> -->
+  <constant name="DCH_SWire_thickness"           value="0.034*mm"   />
+  <!-- https://doi.org/10.1016/j.nima.2017.03.001 -->
 
   <!-- Field Side (top/bottom) wire thickness (total)   -->
   <constant name="DCH_FSideWire_thickness"       value="0.0403*mm"   />
@@ -120,11 +121,27 @@
         SWire_thickness       ="DCH_SWire_thickness"
         FSideWire_thickness   ="DCH_FSideWire_thickness"
         FCentralWire_thickness="DCH_FCentralWire_thickness"
-        SWire_material        ="DCH_SWireMat"
-        FSideWire_material    ="DCH_FSideWireMat"
-        FCentralWire_material ="DCH_FCentralWireMat">
+        SWire_material        ="CarbonFiber"
+        FSideWire_material    ="Copper"
+        FCentralWire_material ="Copper">
       <layer_material surface="representing" binning="binPhi,binZ" bins0="50" bins1="50"/>
     </wires>
+    
+    <comment>
+      <wires
+          vis=""
+          buildSenseWires="True"
+          buildFieldWires="True"
+          SWire_thickness       ="DCH_SWire_thickness"
+          FSideWire_thickness   ="DCH_FSideWire_thickness"
+          FCentralWire_thickness="DCH_FCentralWire_thickness"
+          SWire_material        ="DCH_SWireMat"
+          FSideWire_material    ="DCH_FSideWireMat"
+          FCentralWire_material ="DCH_FCentralWireMat">
+	<layer_material surface="representing" binning="binPhi,binZ" bins0="50" bins1="50"/>
+      </wires>
+    </comment>
+    
     </detector>
   </detectors>
 
@@ -146,40 +163,41 @@
     </readout>
   </readouts>
 
+
 <display>
   <vis name="dch_aerogel_vis" r="236/256" g="237/256" b="232/256" alpha="0.5"  showDaughters="true" visible="false" />
-  <vis name="dch_gas_vis"     r="227/256" g="239/256" b="217/256" alpha="0.5"  showDaughters="true" visible="false" />
+  <vis name="dch_gas_vis"     r="227/256" g="239/256" b="217/256" alpha="0.5"  showDaughters="true" visible="true" />
   <vis name="dch_vessel_vis"  r="244/256" g="177/256" b="132/256" alpha="0.5"  showDaughters="true" visible="true" />
   <vis name="dch_cooling_vis" r="254/256" g="230/256" b="151/256" alpha="0.5"  showDaughters="false" visible="false" />
   <vis name="dch_sensor_vis"  r="255/256" g="0/256"   b="0/256"   alpha="0.5"  showDaughters="true" visible="false" />
-  <vis name="dch_layer_vis0"   r="255/256" g="230/256" b="153/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis1"  r="128/256" g="230/256" b="153/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis2"  r="128/256" g="128/256" b="153/256" alpha="0.5"  showDaughters="true" visible="true"  />
-  <vis name="dch_layer_vis3"  r="128/256" g="128/256" b="256/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis4"  r="000/256" g="128/256" b="256/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis5"  r="000/256" g="000/256" b="256/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis6"  r="256/256" g="000/256" b="256/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis7"  r="256/256" g="128/256" b="256/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis8"  r="256/256" g="128/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis9"  r="256/256" g="128/256" b="000/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis10" r="128/256" g="256/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis11" r="128/256" g="256/256" b="000/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis12" r="000/256" g="256/256" b="000/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis13" r="000/256" g="256/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis14" r="000/256" g="128/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis15" r="000/256" g="128/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis16" r="000/256" g="128/256" b="055/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis17" r="000/256" g="128/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis18" r="055/256" g="128/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis19" r="055/256" g="128/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis20" r="055/256" g="128/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
-  <vis name="dch_layer_vis21" r="055/256" g="128/256" b="128/256" alpha="0.5"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis0"   r="255/256" g="230/256" b="153/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis1"  r="128/256" g="230/256" b="153/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis2"  r="128/256" g="128/256" b="153/256" alpha="1"  showDaughters="true" visible="true"  />
+  <vis name="dch_layer_vis3"  r="128/256" g="128/256" b="256/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis4"  r="000/256" g="128/256" b="256/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis5"  r="000/256" g="000/256" b="256/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis6"  r="256/256" g="000/256" b="256/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis7"  r="256/256" g="128/256" b="256/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis8"  r="256/256" g="128/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis9"  r="256/256" g="128/256" b="000/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis10" r="128/256" g="256/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis11" r="128/256" g="256/256" b="000/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis12" r="000/256" g="256/256" b="000/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis13" r="000/256" g="256/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis14" r="000/256" g="128/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis15" r="000/256" g="128/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis16" r="000/256" g="128/256" b="055/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis17" r="000/256" g="128/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis18" r="055/256" g="128/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis19" r="055/256" g="128/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis20" r="055/256" g="128/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
+  <vis name="dch_layer_vis21" r="055/256" g="128/256" b="128/256" alpha="1"  showDaughters="true" visible="true" />
   <vis name="dch_no_vis_nodaughters" showDaughters="false" visible="false" />
   <vis name="dch_no_vis" showDaughters="true" visible="false" />
   <vis name="dch_envelope_vis"  r="0/256"   g="96/256"  b="156/256" alpha="0.3"  showDaughters="true" visible="false" />
   <vis name="dch_vessel_bulk_vis"  r="236/256" g="000/256" b="000/256" alpha="1.00"  showDaughters="true" visible="true" />
-  <vis name="dch_vis_cell_0"  r="64/256" g="244/256" b="208/256" alpha="0.5"  showDaughters="true" visible="false" />
-  <vis name="dch_vis_cell_1"  r="252/256" g="67/256" b="86/256" alpha="0.5"  showDaughters="true" visible="false" />
+  <vis name="dch_vis_cell_0"  r="64/256" g="244/256" b="208/256" alpha="1"  showDaughters="true" visible="false" />
+  <vis name="dch_vis_cell_1"  r="252/256" g="67/256" b="86/256" alpha="1"  showDaughters="true" visible="false" />
 </display>
 
 </lccdd>

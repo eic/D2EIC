@@ -1,0 +1,80 @@
+#/control/verbose 2
+/run/initialize
+/run/verbose 1
+#/event/verbose 1
+
+#/gps/verbose 1
+#/gps/particle muon
+#/gps/number 1
+
+#/gps/ene/type Gauss    #Lin
+#/gps/ene/mono  3.0 GeV
+#/gps/ene/sigma 0.0 GeV
+
+#/gps/ene/min 80.0 GeV 
+#/gps/ene/max 100.0 GeV 
+#/gps/ene/gradient 0 
+#/gps/ene/intercept 2
+
+#/gps/pos/type Point
+#/gps/pos/shape Cylinder
+#/gps/pos/centre 0.0 0.0 0.0 cm
+#/gps/pos/radius 0.01 cm
+#/gps/pos/halfz  10 cm
+#/gps/ang/rot1 0 -0.025 0 radian
+#/gps/ang/rot2 0 0 0
+#/gps/position 0 0 0 cm
+
+#/gps/ang/type iso
+#/gps/ang/rot1 -0.999688 0 -0.0249974
+#/gps/ang/rot2  0 1 0 
+#/gps/ang/mintheta  80 degree
+#/gps/ang/maxtheta  100 degree
+
+#/gps/ang/mintheta 3.11659 radian
+#/gps/ang/maxtheta 3.12159 radian 
+#/gps/direction -6.875 0.0 275.0 
+#/gps/direction -0.025 0.0 1.0
+#/gps/ang/type iso
+#/gps/ang/mintheta  180.0 degree
+#/gps/ang/maxtheta  180.0 degree
+
+/vis/open OGL 1200x1000-0+0
+/vis/drawVolume
+/vis/viewer/set/viewpointThetaPhi 90.0 180.0 deg
+/vis/viewer/set/background white
+#/vis/viewer/zoom 5.0
+
+/vis/viewer/set/style s
+/vis/scene/add/axes 0 0 0 1.215 m
+
+/vis/viewer/addCutawayPlane 0 0 0 m 
+
+/vis/viewer/set/hiddenMarker 1
+
+#/vis/scene/add/trajectories rich smooth
+#/vis/modeling/trajectories/create/drawByCharge
+
+#/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+#/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
+
+#/vis/scene/add/hits
+#/vis/scene/endOfEventAction accumulate 2
+#/vis/filtering/trajectories/create/attributeFilter secondaries
+#/vis/filtering/trajectories/secondaries/setAttribute PID
+#/vis/filtering/trajectories/secondaries/addValue 0
+
+#/vis/filtering/trajectories/secondaries/invert true 
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add gamma
+#/vis/filtering/trajectories/particleFilter-0/invert true
+#/vis/filtering/trajectories/particleFilter-0/verbose true
+#/vis/filtering/trajectories/particleFilter-0/active true
+
+#/vis/ogl/set/displayListLimit 500000
+#/vis/viewer/flush
+
+#/process/inactive msc #turn off multiple scattering
+
+#/run/beamOn 3
+
