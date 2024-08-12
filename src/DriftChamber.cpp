@@ -14,12 +14,21 @@
 
 
 #include "DD4hep/DetFactoryHelper.h"
-#include "DD4hep/Shapes.h"
 #include "DD4hep/Printout.h"
+#include "DD4hep/Shapes.h"
+#include "DDRec/DetectorData.h"
 #include "DD4hep/Detector.h"
-//#include "/gpfs/mnt/gpfs02/eic/pingwong/DD4hep/detectorXML/vacuum2T_siTrk_DCH/src/DCH_info.h"
+#include "DDRec/Surface.h"
+#include "XML/Layering.h"
+#include "XML/Utilities.h"
+#include <array>
+#include "DD4hepDetectorHelper.h"
 #include "./DriftChamber_info.h"
-//#include "DDRec/DCH_info.h"
+
+using namespace std;
+using namespace dd4hep;
+using namespace dd4hep::rec;
+using namespace dd4hep::detail;
 
 namespace DCH_v2 {
 
@@ -28,12 +37,18 @@ namespace DCH_v2 {
   using DCH_layer    = dd4hep::rec::DCH_info_struct::DCH_layer;
 
   /// Function to build DCH
-  static dd4hep::Ref_t create_DCH_o1_v02(dd4hep::Detector &desc, dd4hep::xml::Handle_t handle, dd4hep::SensitiveDetector sens)
+  static dd4hep::Ref_t create_DCH(dd4hep::Detector &desc, dd4hep::xml::Handle_t handle, dd4hep::SensitiveDetector sens)
   {
-    dd4hep::xml::DetElement detElem = handle;
-    std::string detName = detElem.nameStr();
-    int detID = detElem.id();
-    dd4hep::DetElement det(detName, detID);
+    dd4hep::xml::DetElement                           detElem = handle;
+    string                                            detName = detElem.nameStr();
+    int                                               detID = detElem.id();
+    dd4hep::DetElement                                det(detName, detID);
+
+    typedef vector<dd4hep::PlacedVolume> Placements;
+    map<string, Placements>                           sensitives;
+    map<string, vector<dd4hep::rec::VolPlane>>        volplane_surfaces;
+    map<string, array<double, 2>>                     module_thicknesses;
+
     sens.setType("tracker");
 
     //----------------------------------
@@ -152,7 +167,8 @@ namespace DCH_v2 {
     gas_v.setVisAttributes( gasvolVis );
     gas_v.setRegion  ( desc, detElem.regionStr() );
     gas_v.setLimitSet( desc, detElem.limitsStr() );
-
+    gas_v.setSensitiveDetector(sens);
+    
     DCH_length_t vessel_innerR_start = DCH_i->rin   - vessel_thickness_innerR   + safety_r_interspace;
     DCH_length_t vessel_innerR_end   = DCH_i->rin   ;
     DCH_length_t vessel_outerR_start = DCH_i->rout;
@@ -237,8 +253,12 @@ namespace DCH_v2 {
     // DCH layers 
     //---------------------------------- 
     int cnt=0;
+
+    //xml_coll_t lmat(detElem, _Unicode(layer_material));
+    //std::cout<<"lmat.bins0 = "<<lmat.bins0<<std::endl;
+
     for(const auto& [ilayer, l]  : DCH_i->database ) {
-      //if (ilayer>10) continue;
+      if (ilayer>10) continue;
       //----------------------------------
       // INITIALIZATION OF THE LAYER
       //----------------------------------
@@ -265,14 +285,19 @@ namespace DCH_v2 {
 	       <<", rout="<<rout/dd4hep::mm <<"(mm) , max r="
 	       <<DCH_i->rout/dd4hep::mm <<"(mm)"<<std::endl;
 
+
       // !!!!!!!!!!!!!!!!!!!!!!!!!!! 
       //if (ilayer!=112 && ilayer!=111) continue;
       // !!!!!!!!!!!!!!!!!!!!!!!!!!! 
 
       dd4hep::Hyperboloid layer_s(rin, stin, rout, stout, dz);
 
-      std::string layer_name = detName+"_layer"+std::to_string(ilayer);
+      //----------------------------------
+      // test. ADC stuff
+      //----------------------------------
+      string layer_name = detName+"_layer"+std::to_string(ilayer);
       dd4hep::Volume layer_v ( layer_name , layer_s, gasvolMat );
+      
       layer_v.setVisAttributes( desc.visAttributes( Form("dch_layer_vis%d", ilayer%22) ) );
       layer_v.setSensitiveDetector(sens);
       auto layer_pv = gas_v.placeVolume(layer_v);
@@ -280,15 +305,52 @@ namespace DCH_v2 {
       // ilayer is a counter that runs from 1 to 112 (nsuperlayers * nlayersPerSuperlayer)
       // it seems more convenient to store the layer number within the superlayer
       // ilayerWithinSuperlayer runs from 0 to 7 (nlayersPerSuperlayer-1)
-      int ilayerWithinSuperlayer = (ilayer-1) % DCH_i->nlayersPerSuperlayer;
-      layer_pv.addPhysVolID("layer", ilayerWithinSuperlayer  );
-      
+      //int ilayerWithinSuperlayer = (ilayer-1) % DCH_i->nlayersPerSuperlayer;
+      //layer_pv.addPhysVolID("layer", ilayerWithinSuperlayer  );
+
       // add superlayer bitfield
-      int nsuperlayer_minus_1 = DCH_i->Get_nsuperlayer_minus_1(ilayer);
-      layer_pv.addPhysVolID("superlayer", nsuperlayer_minus_1 );
+      //int nsuperlayer_minus_1 = DCH_i->Get_nsuperlayer_minus_1(ilayer);
+      //layer_pv.addPhysVolID("superlayer", nsuperlayer_minus_1 );
+
+      
+      layer_pv.addPhysVolID("layer",ilayer);
+      
+      sensitives[layer_name].push_back(layer_pv);
+      module_thicknesses[layer_name] = {rin, rout};
 
       dd4hep::DetElement layer_DE(det,layer_name+"DE", ilayer);
       layer_DE.setPlacement(layer_pv);
+      
+      //----------------------------------
+      // create a measurement plane for 
+      // the tracking surface attched to 
+      // the sensitive volume
+      //----------------------------------
+      Vector3D u(-1., 0., 0.);
+      Vector3D v(0., -1., 0.);
+      Vector3D n(0., 0., 1.);
+
+      //----------------------------------
+      // add surface
+      //----------------------------------
+      SurfaceType type(rec::SurfaceType::Sensitive);
+      VolPlane surf(gas_v, type, module_thicknesses[layer_name][0], module_thicknesses[layer_name][1], u, v, n);
+      volplane_surfaces[layer_name].push_back(surf);
+      
+      //----------------------------------
+      // the local coordinate systems of modules in dd4hep and acts differ
+      // see http://acts.web.cern.ch/ACTS/latest/doc/group__DD4hepPlugins.html
+      //---------------------------------- 
+      //auto &params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(layer_DE);
+      //params.set<bool>("layer_material", true);
+      //params.set<bool>("layer_material_inner", true);
+      //params.set<bool>("layer_material_representing", true);
+      //params.set<int>("layer_material_representing_binPhi", 60);
+      //params.set<int>("layer_material_representing_binZ", 40);
+
+      //xml_comp_t x_layer_material = lmat;
+      //auto &params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(layer_DE);
+      //DD4hepDetectorHelper::xmlToProtoSurfaceMaterial(lmat, params, "layer_material");
 
       //---------------------------------- 
       // SEGMENTATION OF THE LAYER
@@ -329,7 +391,7 @@ namespace DCH_v2 {
 
       // Change sign of stereo angle to place properly the wire inside the twisted tube      
       dd4hep::RotationX stereoTr( (-1.)*l.StereoSign()*DCH_i->stereoangle_z0(cell_rave_z0) );
-      dd4hep::Transform3D swireTr ( stereoTr * dd4hep::Translation3D(cell_rave_z0,0.,0.) );
+      //dd4hep::Transform3D swireTr ( stereoTr * dd4hep::Translation3D(cell_rave_z0,0.,0.) );
       
       //----------------------------------
       // Single field wire 
@@ -524,4 +586,4 @@ namespace DCH_v2 {
 }; // end DCH_v2 namespace
 
 
-DECLARE_DETELEMENT(DriftChamber_o1_v02_T, DCH_v2::create_DCH_o1_v02)
+DECLARE_DETELEMENT(DriftChamber, DCH_v2::create_DCH)

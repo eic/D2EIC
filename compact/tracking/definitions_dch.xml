@@ -81,13 +81,6 @@
   </define>
 
   <detectors>
-    <detector id="VertexSubAssembly_0_ID"
-      name="VertexBarrelSubAssembly"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="VertexBarrel" />
-    </detector>
-
      <detector id="DCH_0_ID"
       name="DCHTrackerSubAssembly"
       type="DD4hep_SubdetectorAssembly"

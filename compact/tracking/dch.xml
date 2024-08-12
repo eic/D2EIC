@@ -85,7 +85,7 @@
     <detector
       id="DCH_0_ID"
       name="DCH"
-      type="DriftChamber_o1_v02_T"
+      type="DriftChamber"
       readout="DCHCollection"
       region="DCH_region"
       limits="DCH_limits"
@@ -93,7 +93,8 @@
       printExcelTable="false"
       insideTrackingVolume="true">
     <type_flags type="DetType_TRACKER + DetType_BARREL"/>
-
+    <layer_material surface="inner" binning="binPhi,binZ" bins0="20" bins1="20" />
+    
     <!-- /detectors/detector/vessel -->
     <vessel
         mainMaterial="CarbonFibStr"
@@ -124,7 +125,7 @@
         SWire_material        ="CarbonFiber"
         FSideWire_material    ="Copper"
         FCentralWire_material ="Copper">
-      <layer_material surface="representing" binning="binPhi,binZ" bins0="50" bins1="50"/>
+      <!-- <layer_material surface="representing" binning="binPhi,binZ" bins0="50" bins1="50"/> -->
     </wires>
     
     <comment>
@@ -146,20 +147,23 @@
   </detectors>
 
   <!-- ACTS stuff -->
-  <plugins>
-    <plugin name="DD4hep_ParametersPlugin">
+  <comment>
+    <plugins>
+      <plugin name="DD4hep_ParametersPlugin">
       <argument value="DCH"/>
       <argument value="layer_pattern: str=DCH_layer\d_N"/> <!-- Make sure to match detector name  -->
-    </plugin>
-  </plugins>
-  
+      </plugin>
+    </plugins>
+  </comment>
+      
   <readouts>
     <readout name="DCHCollection">
       <!--  superlayer: from 0 to 13                  -->
       <!--  layer: from 0 to 7 (within a superlayer)  -->
       <!--  nphi: max of nphi will be 816 (192+13*48) -->
-      <segmentation type="PolarGridRPhi" grid_size_phi="360*degree/DCH_ncell" grid_size_r="(DCH_gas_outer_cyl_R-DCH_gas_inner_cyl_R)/(DCH_nsuperlayers*DCH_nlayersPerSuperlayer)"/>
-      <id>system:5,superlayer:5,layer:4,nphi:11,stereosign:-1</id>
+      <!-- <segmentation type="PolarGridRPhi" grid_size_phi="360*degree/DCH_ncell" grid_size_r="(DCH_gas_outer_cyl_R-DCH_gas_inner_cyl_R)/(DCH_nsuperlayers*DCH_nlayersPerSuperlayer)"/> -->
+      <id>system:5,superlayer:13,layer:7,nphi:11,stereosign:-1</id>
+      <!-- <id>system:5,superlayer:13,layer:7, nphi:816, r:70</id> -->
     </readout>
   </readouts>
 
