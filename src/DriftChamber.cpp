@@ -247,7 +247,7 @@ namespace DCH_v2 {
     // place endcap wall at +/- z
     gas_v.placeVolume(vessel_endcap_v, dd4hep::Position(0,0, vessel_endcap_zpos));
     gas_v.placeVolume(vessel_endcap_v, dd4hep::Position(0,0,-vessel_endcap_zpos));
-
+    
     
     //---------------------------------- 
     // DCH layers 
@@ -293,7 +293,7 @@ namespace DCH_v2 {
       dd4hep::Hyperboloid layer_s(rin, stin, rout, stout, dz);
 
       //----------------------------------
-      // test. ADC stuff
+      // test ACTS stuff
       //----------------------------------
       string layer_name = detName+"_layer"+std::to_string(ilayer);
       dd4hep::Volume layer_v ( layer_name , layer_s, gasvolMat );
@@ -320,7 +320,10 @@ namespace DCH_v2 {
 
       dd4hep::DetElement layer_DE(det,layer_name+"DE", ilayer);
       layer_DE.setPlacement(layer_pv);
-      
+
+      auto& layer_DE_params =	DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(layer_DE);
+      layer_DE_params.set<string>("axis_definitions", "XYZ");
+
       //----------------------------------
       // create a measurement plane for 
       // the tracking surface attched to 
@@ -336,22 +339,8 @@ namespace DCH_v2 {
       SurfaceType type(rec::SurfaceType::Sensitive);
       VolPlane surf(gas_v, type, module_thicknesses[layer_name][0], module_thicknesses[layer_name][1], u, v, n);
       volplane_surfaces[layer_name].push_back(surf);
+      volSurfaceList(layer_DE)->push_back(volplane_surfaces[layer_name][0]);
       
-      //----------------------------------
-      // the local coordinate systems of modules in dd4hep and acts differ
-      // see http://acts.web.cern.ch/ACTS/latest/doc/group__DD4hepPlugins.html
-      //---------------------------------- 
-      //auto &params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(layer_DE);
-      //params.set<bool>("layer_material", true);
-      //params.set<bool>("layer_material_inner", true);
-      //params.set<bool>("layer_material_representing", true);
-      //params.set<int>("layer_material_representing_binPhi", 60);
-      //params.set<int>("layer_material_representing_binZ", 40);
-
-      //xml_comp_t x_layer_material = lmat;
-      //auto &params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(layer_DE);
-      //DD4hepDetectorHelper::xmlToProtoSurfaceMaterial(lmat, params, "layer_material");
-
       //---------------------------------- 
       // SEGMENTATION OF THE LAYER
       // INTO CELLS (TWISTED TUBES)
