@@ -32,7 +32,8 @@
     <constant name="DIRCPrism_height"       value="DIRCPrism_long_edge"/>
 
     <!-- Box - main DIRC modules -->
-    <constant name="DIRCBox_count"          value="12" comment="Number of DIRC boxes. 12 - default"/>
+    <!-- <constant name="DIRCBox_count"          value="12" comment="Number of DIRC boxes. 12 - default"/> -->
+    <constant name="DIRCBox_count"          value="18" comment="Number of DIRC boxes. 12 - default"/>
     <constant name="DIRCBox_width"          value="DIRCPrism_width"/>
 
     <!-- Bar - number in each direction -->
