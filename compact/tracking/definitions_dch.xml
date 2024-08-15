@@ -41,47 +41,17 @@
     <constant name="BackwardEndcapSupportCyl_zmin"   value="BackwardPIDRegion_zmin + 5*cm" />
     <constant name="BackwardEndcapSupportCyl_zmax"   value="BackwardPIDRegion_zmax" />
 
-    <comment> Main parameters for the positive silicon disks </comment>
-    <comment> assume the disk are centered along z. The inner radii are larger than designed to account for the beampipe offset. Need to be fixed later </comment>
     <constant name="Beampipe_bakeout_buffer"        value="5*mm" />
-
-    <constant name="InnerTrackerEndcapP_zmin"        value="25.0*cm" />
-    <constant name="InnerTrackerEndcapP_rmin"        value="Beampipe_rmax + Beampipe_bakeout_buffer" />
-    <constant name="InnerTrackerEndcapP_rmax"        value="VertexBarrel_rmax" />
-    <constant name="TrackerEndcapPDisk1_zmin"        value="45.0*cm" />
-    <constant name="TrackerEndcapPDisk1_rmin"        value="Beampipe_rmax + Beampipe_bakeout_buffer" />
-    <constant name="TrackerEndcapPDisk1_rmax"        value="VertexBarrel_rmax" />
-    <constant name="TrackerEndcapPDisk2_zmin"        value="70.0*cm" />
-    <constant name="TrackerEndcapPDisk2_rmin"        value="32.86*mm + Beampipe_bakeout_buffer + 0.6*mm" />
-    <constant name="TrackerEndcapPDisk2_rmax"        value="VertexBarrel_rmax" />
-    <constant name="TrackerEndcapPDisk3_zmin"        value="100.0*cm" />
-    <constant name="TrackerEndcapPDisk3_rmin"        value="40.58*mm + Beampipe_bakeout_buffer + 7.85*mm" />
-    <constant name="TrackerEndcapPDisk3_rmax"        value="VertexBarrel_rmax" />
-    <constant name="TrackerEndcapPDisk4_zmin"        value="135.0*cm" />
-    <constant name="TrackerEndcapPDisk4_rmin"        value="49.12*mm + Beampipe_bakeout_buffer + 16.02*mm" />
-    <constant name="TrackerEndcapPDisk4_rmax"        value="VertexBarrel_rmax" />
-
-    <comment> Main parameters for the negative silicon disks (will be reflected, so positive z-values here)
-    </comment>
-    <constant name="InnerTrackerEndcapN_zmin"        value="InnerTrackerEndcapP_zmin" />
-    <constant name="InnerTrackerEndcapN_rmin"        value="InnerTrackerEndcapP_rmin" />
-    <constant name="InnerTrackerEndcapN_rmax"        value="VertexBarrel_rmax" />
-    <constant name="TrackerEndcapNDisk1_zmin"        value="TrackerEndcapPDisk1_zmin" />
-    <constant name="TrackerEndcapNDisk1_rmin"        value="TrackerEndcapPDisk1_rmin" />
-    <constant name="TrackerEndcapNDisk1_rmax"        value="VertexBarrel_rmax" />
-    <constant name="TrackerEndcapNDisk2_zmin"        value="65*cm" />
-    <constant name="TrackerEndcapNDisk2_rmin"        value="Beampipe_rmax + Beampipe_bakeout_buffer"   />
-    <constant name="TrackerEndcapNDisk2_rmax"        value="VertexBarrel_rmax" />
-    <constant name="TrackerEndcapNDisk3_zmin"        value="90*cm" />
-    <constant name="TrackerEndcapNDisk3_rmin"        value="34.244*mm + Beampipe_bakeout_buffer + 0.817*mm" />
-    <constant name="TrackerEndcapNDisk3_rmax"        value="VertexBarrel_rmax" />
-    <constant name="TrackerEndcapNDisk4_zmin"        value="115*cm" />
-    <constant name="TrackerEndcapNDisk4_rmin"        value="38.043*mm + Beampipe_bakeout_buffer + 3.310*mm" />
-    <constant name="TrackerEndcapNDisk4_rmax"        value="VertexBarrel_rmax" />
   </define>
 
   <detectors>
-     <detector id="DCH_0_ID"
+    <detector id="VertexSubAssembly_0_ID"
+      name="VertexBarrelSubAssembly"
+      type="DD4hep_SubdetectorAssembly"
+      vis="TrackerSubAssemblyVis">
+      <composite name="VertexBarrel" />
+    </detector>
+    <detector id="DCH_0_ID"
       name="DCHTrackerSubAssembly"
       type="DD4hep_SubdetectorAssembly"
       vis="TrackerSubAssemblyVis">

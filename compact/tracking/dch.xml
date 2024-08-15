@@ -93,7 +93,9 @@
       printExcelTable="false"
       insideTrackingVolume="true">
     <type_flags type="DetType_TRACKER + DetType_BARREL"/>
-    <layer_material surface="inner" binning="binPhi,binZ" bins0="20" bins1="20" />
+    <boundary_material surface="inner" binning="binPhi,binZ" bins0="10" bins1="20"/>
+    <!-- <layer_material surface="inner" binning="binPhi,binZ" bins0="20" bins1="20" /> -->
+    <layer_material surface="representing" binning="binPhi,binZ" bins0="20" bins1="20" />
     
     <!-- /detectors/detector/vessel -->
     <vessel
@@ -162,8 +164,9 @@
       <!--  layer: from 0 to 7 (within a superlayer)  -->
       <!--  nphi: max of nphi will be 816 (192+13*48) -->
       <!-- <segmentation type="PolarGridRPhi" grid_size_phi="360*degree/DCH_ncell" grid_size_r="(DCH_gas_outer_cyl_R-DCH_gas_inner_cyl_R)/(DCH_nsuperlayers*DCH_nlayersPerSuperlayer)"/> -->
-      <id>system:5,superlayer:13,layer:7,nphi:11,stereosign:-1</id>
-      <!-- <id>system:5,superlayer:13,layer:7, nphi:816, r:70</id> -->
+      <!-- <id>system:5,superlayer:13,layer:7,nphi:11,stereosign:-1</id> -->
+      <id>system:1,layer:10,nphi:11,stereosign:-1</id>
+      
     </readout>
   </readouts>
 
