@@ -50,7 +50,8 @@ namespace DCH_v2 {
 
     map<string, Volume>                        volumes;
     map<string, Placements>                    sensitives;
-    map<string, vector<dd4hep::rec::VolPlane>> volplane_surfaces;
+    //map<string, vector<dd4hep::rec::VolPlane>> volplane_surfaces;
+    map<string, vector<dd4hep::rec::VolCylinder>> volplane_surfaces; 
     map<string, array<double, 2>>              module_thicknesses;
 
     //----------------------------------
@@ -196,6 +197,8 @@ namespace DCH_v2 {
     dd4hep::Tube gas_s   ( DCH_i->rin   - vessel_thickness_innerR,
                            DCH_i->rout  + vessel_thickness_outerR,
                            vessel_endcapdisk_zmax );
+    cout<<"vessel_endcapdisk_zmax="<<vessel_endcapdisk_zmax/dd4hep::cm<<" (cm)"<<endl;
+    
     dd4hep::Volume gas_v ( det_name+"_gas", gas_s, gasvolMat );
 
     gas_v.setVisAttributes( gasvolVis );
@@ -203,9 +206,9 @@ namespace DCH_v2 {
     gas_v.setLimitSet( description, x_det.limitsStr() );
     gas_v.setSensitiveDetector(sens);
     pv = assembly.placeVolume(gas_v);
-
-    dd4hep::DetElement gas_DE(sdet,"gas",0);
-    gas_DE.setPlacement(pv);
+    
+    //dd4hep::DetElement gas_DE(sdet,"gas",0);
+    //gas_DE.setPlacement(pv);
     
     //----------------------------------
     // build vessel
@@ -310,6 +313,7 @@ namespace DCH_v2 {
 
       //dd4hep::Hyperboloid layer_s(rin, stin, rout, stout, dz);
       dd4hep::Tube layer_s(rin, rout, dz);
+      cout<<"ilayer="<<ilayer<<", dz="<<dz/dd4hep::cm<<" (cm)"<<endl;
 
       string layer_name = "DCH_layer"+std::to_string(ilayer);  //need to match layer_pattern in xml
       dd4hep::Volume layer_v ( layer_name , layer_s, gasvolMat );
@@ -336,7 +340,8 @@ namespace DCH_v2 {
       sensitives[layer_name].push_back(layer_pv);
       module_thicknesses[layer_name] = {rin, rout};
 
-      dd4hep::DetElement layer_DE(gas_DE,layer_name, ilayer); 
+      //dd4hep::DetElement layer_DE(gas_DE,layer_name, ilayer); 
+      dd4hep::DetElement layer_DE(sdet,layer_name, ilayer);  
       cout<<"layer_DE: "<<layer_DE.parent().parent().name()<<"/"<<layer_DE.parent().name()<<"/"<<layer_DE.name()<<endl;
       layer_DE.setPlacement(layer_pv);
 
@@ -357,15 +362,16 @@ namespace DCH_v2 {
       Vector3D u(-1., 0., 0.);
       Vector3D v(0., -1., 0.);
       Vector3D n(0., 0., 1.);
-
+      Vector3D myVec(0,0.,0.);
       //----------------------------------
       // add surface
       //----------------------------------
       SurfaceType type(rec::SurfaceType::Sensitive);
-      VolPlane surf(layer_v, type, module_thicknesses[layer_name][0], module_thicknesses[layer_name][1], u, v, n);
+      //VolPlane surf(layer_v, type, module_thicknesses[layer_name][0], module_thicknesses[layer_name][1], u, v, n);
+      VolCylinder surf(layer_v, type, module_thicknesses[layer_name][0], module_thicknesses[layer_name][1],myVec);  
       volplane_surfaces[layer_name].push_back(surf);
       volSurfaceList(layer_DE)->push_back(volplane_surfaces[layer_name][0]);
-      if (ilayer==0) cout<<"volplane_surfaces["<<layer_name<<"]= "<<volplane_surfaces[layer_name][0]<<endl;
+      if (ilayer==1) cout<<"volplane_surfaces["<<layer_name<<"]= "<<volplane_surfaces[layer_name][0]<<endl;
 
       //---------------------------------- 
       // SEGMENTATION OF THE LAYER
@@ -517,7 +523,7 @@ namespace DCH_v2 {
       //----------------------------------
       // fwire 4
       //----------------------------------
-      //same radio as fwire 1, 3, and 5
+      //same radius as fwire 1, 3, and 5
       fwire_r_z0   = cell_rout_z0 - fwire_radius;
       fwire_stereo =  (-1.)*l.StereoSign()*DCH_i->stereoangle_z0(fwire_r_z0);
       fwire_length = 0.5*DCH_i->WireLength(ilayer, fwire_r_z0)

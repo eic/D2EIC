@@ -119,8 +119,8 @@
     <!-- /detectors/detector/wires -->
     <wires
         vis=""
-        buildSenseWires="True"
-        buildFieldWires="True"
+        buildSenseWires="False"
+        buildFieldWires="False"
         SWire_thickness       ="DCH_SWire_thickness"
         FSideWire_thickness   ="DCH_FSideWire_thickness"
         FCentralWire_thickness="DCH_FCentralWire_thickness"
@@ -149,14 +149,12 @@
   </detectors>
 
   <!-- ACTS stuff -->
-  <comment>
-    <plugins>
-      <plugin name="DD4hep_ParametersPlugin">
+  <plugins>
+    <plugin name="DD4hep_ParametersPlugin">
       <argument value="DCH"/>
-      <argument value="layer_pattern: str=DCH_layer\d_N"/> <!-- Make sure to match detector name  -->
-      </plugin>
-    </plugins>
-  </comment>
+      <argument value="layer_pattern: str=DCH_layer\d"/> <!-- Make sure to match detector name  -->
+    </plugin>
+  </plugins>
       
   <readouts>
     <readout name="DCHCollection">
