@@ -46,17 +46,28 @@
 
   <detectors>
     <detector id="VertexSubAssembly_0_ID"
-      name="VertexBarrelSubAssembly"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
+	      name="VertexBarrelSubAssembly"
+	      type="DD4hep_SubdetectorAssembly"
+	      vis="TrackerSubAssemblyVis">
       <composite name="VertexBarrel" />
     </detector>
+
+    <comment>
     <detector id="DCH_0_ID"
-      name="DCHTrackerSubAssembly"
-      type="DD4hep_SubdetectorAssembly"
-      vis="TrackerSubAssemblyVis">
-      <composite name="DCH"/>
-     </detector>
+              name="DCHTrackerSubAssembly"
+              type="DD4hep_SubdetectorAssembly"
+              vis="TrackerSubAssemblyVis">
+      <composite name="DCH" />
+    </detector>
+    </comment>
+    
+    <detector id="MockupDCH_0_ID"
+              name="InnerSiTrackerSubAssembly"
+              type="DD4hep_SubdetectorAssembly"
+              vis="TrackerSubAssemblyVis">
+      <composite name="MockupDCH"/>
+    </detector>
+
   </detectors>
 
   <documentation>

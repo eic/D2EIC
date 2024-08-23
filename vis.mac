@@ -42,11 +42,13 @@
 /vis/open OGL 1200x1000-0+0
 /vis/drawVolume
 /vis/viewer/set/viewpointThetaPhi 90.0 180.0 deg
+#/vis/viewer/set/viewpointThetaPhi 0 0 deg				   	
 /vis/viewer/set/background white
+/vis/viewer/set/lightsMove cam
 #/vis/viewer/zoom 5.0
 
 /vis/viewer/set/style s
-/vis/scene/add/axes 0 0 0 1.215 m
+/vis/scene/add/axes 0 0 0 0.3 m
 
 /vis/viewer/addCutawayPlane 0 0 0 m 
 
