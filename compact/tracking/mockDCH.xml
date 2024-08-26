@@ -134,7 +134,7 @@
           rmax="outerRadiusLimit"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="1" showVessel="True" showLayer="True" showSensor="True" showSwire="True" showFwire="True"/>
+      <constructionFlag maxLayer="5" showVessel="True" showLayer="True" showSensor="True" showSwire="True" showFwire="True"/>
 
       <gas material="GasHe_90Isob_10" />  
       
@@ -166,7 +166,8 @@
         <module_component name="ITS3"
 			  material="Silicon"
 			  sensitive="true"
-			  width="Stave1_width"
+			  rmin="Mod1_rmin-Sensor_thickness/2."
+			  rmax="Mod1_rmin+Sensor_thickness/2."
 			  length="Mod_length"
 			  thickness="Sensor_thickness"
 			  vis="module2Vis" />
@@ -176,9 +177,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave2_width"
+			  rmin="Mod2_rmin-Sensor_thickness/2."
+                          rmax="Mod2_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
 
@@ -186,9 +188,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave3_width"
+			  rmin="Mod3_rmin-Sensor_thickness/2."
+                          rmax="Mod3_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
       
@@ -196,9 +199,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave4_width"
+			  rmin="Mod4_rmin-Sensor_thickness/2."
+                          rmax="Mod4_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
       
@@ -206,9 +210,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave5_width"
+			  rmin="Mod5_rmin-Sensor_thickness/2."
+                          rmax="Mod5_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
 
@@ -216,9 +221,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave6_width"
+			  rmin="Mod6_rmin-Sensor_thickness/2."
+                          rmax="Mod6_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
 
@@ -226,9 +232,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave7_width"
+			  rmin="Mod7_rmin-Sensor_thickness/2."
+                          rmax="Mod7_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
 
@@ -236,9 +243,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave8_width"
+			  rmin="Mod8_rmin-Sensor_thickness/2."
+                          rmax="Mod8_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
       
@@ -246,9 +254,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave9_width"
+			  rmin="Mod9_rmin-Sensor_thickness/2."
+                          rmax="Mod9_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
       
@@ -256,9 +265,10 @@
         <module_component name="ITS3"
                           material="Silicon"
                           sensitive="true"
-                          width="Stave10_width"
+			  rmin="Mod10_rmin-Sensor_thickness/2."
+                          rmax="Mod10_rmin+Sensor_thickness/2."
                           length="Mod_length"
-                          thickness="Sensor_thickness"
+			  thickness="Sensor_thickness"
                           vis="module2Vis" />
       </module>
 

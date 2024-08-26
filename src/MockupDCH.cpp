@@ -245,8 +245,7 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
 
     xml_comp_t x_layer  = li;
     xml_comp_t x_barrel = x_layer.child(_U(barrel_envelope));
-    xml_comp_t x_layout = x_layer.child(_U(rphi_layout));
-    xml_comp_t z_layout = x_layer.child(_U(z_layout)); // Get the <z_layout> element.
+
     int        lay_id   = x_layer.id();
     string     m_nam    = x_layer.moduleStr();
     string     lay_nam  = det_name + _toString(x_layer.id(), "_layer%d");
@@ -255,20 +254,6 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     Position   lay_pos(0, 0, getAttrOrDefault(x_barrel, _U(z0), 0.));
     if (SHOWLAYER) lay_vol.setVisAttributes(description.visAttributes(x_layer.visStr()));
     else lay_vol.setVisAttributes(description.invisible());
-
-    cout<<"dimension length="<<dimensions.length()/dd4hep::cm<<" (cm)"
-	<<", layer_length/2="<<layerLength/dd4hep::cm<<" (cm)"
-	<<", x_barrel.z_length="<<x_barrel.z_length()/dd4hep::cm<<" (cm)"<<endl;
-    double phi0     = x_layout.phi0();     // Starting phi of first module.
-    double phi_tilt = x_layout.phi_tilt(); // Phi tilt of a module.
-    double rc       = x_layout.rc();       // Radius of the module center.
-    int    nphi     = x_layout.nphi();     // Number of modules in phi.
-    double rphi_dr  = x_layout.dr();       // The delta radius of every other module.
-    double phi_incr = (M_PI * 2) / nphi;   // Phi increment for one module.
-    double phic     = phi0;                // Phi of the module center.
-    double z0       = z_layout.z0();       // Z position of first module in phi.
-    double nz       = z_layout.nz();       // Number of modules to place in z.
-    double z_dr     = z_layout.dr();       // Radial displacement parameter, of every other module.
 
     DetElement  lay_elt(sdet, lay_nam, lay_id);
 
@@ -287,12 +272,25 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     // Z increment for module placement along Z axis.
     // Adjust for z0 at center of module rather than
     // the end of cylindrical envelope.
-    double z_incr = nz > 1 ? (2.0 * z0) / (nz - 1) : 0.0;
+    //double z_incr = nz > 1 ? (2.0 * z0) / (nz - 1) : 0.0;
     // Starting z for module placement along Z axis.
-    double module_z = -z0;
+    //double module_z = -z0;
     int    module   = 1;
 
+    //Transform3D tr(0, Position(0,0,0)); 
+    pv = lay_vol.placeVolume(volumes[m_nam], Position(0,0,0));
+    pv.addPhysVolID("module", module); 
+    DetElement mod_elt(lay_elt, Form("module%d",module), module); 
+    mod_elt.setPlacement(pv); 
+
+    DetElement comp_de(mod_elt, std::string("de_") + sensitives[m_nam][0].volume().name(), module); 
+    comp_de.setPlacement(sensitives[m_nam][0]); 
+    auto &comp_de_params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(comp_de);
+    comp_de_params.set<string>("axis_definitions", "XYZ");
+    volSurfaceList(comp_de)->push_back(volplane_surfaces[m_nam][0]); 
+
     // Loop over the number of modules in phi.
+    /*
     for (int ii = 0; ii < nphi; ii++) {
       //place the sensor
       double dx = z_dr * std::cos(phic + phi_tilt); // Delta x of module position.
@@ -333,7 +331,7 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
       rc += rphi_dr;    // Increment the center radius according to dr parameter.
       rphi_dr *= -1;    // Flip sign of dr parameter.
       module_z = -z0;   // Reset the Z placement parameter for module.
-    }
+    }*/
     
     //-----------------------
     //place the wires
@@ -371,10 +369,13 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   return sdet;
 }
 //-----------------------------------------------------------------------------------//
+//Volume GetComponentVol(int i,Detector& description,Material gas,xml_comp_t x_comp,bool SHOWSENSOR)
 Volume GetComponentVol(int i,Detector& description,Material gas,xml_comp_t x_comp,bool SHOWSENSOR)
 {
-  Box    c_box(x_comp.width() / 2, x_comp.length(), x_comp.thickness() / 2);
-  Volume c_vol(Form("component%d",i), c_box, gas);
+  //Box    c_box(x_comp.width() / 2, x_comp.length(), x_comp.thickness() / 2);
+  //Volume c_vol(Form("component%d",i), c_box, gas);
+  Tube c_tub(x_comp.rmin(),x_comp.rmax(),x_comp.length());
+  Volume c_vol(Form("component%d",i), c_tub, gas);
 
   c_vol.setRegion(description, x_comp.regionStr());
   c_vol.setLimitSet(description, x_comp.limitsStr());
