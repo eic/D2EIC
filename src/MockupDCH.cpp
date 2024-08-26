@@ -48,7 +48,7 @@ using namespace dd4hep::detail;
 const int NUMWIRETYPE = 6, S=0, F2=1, F1=2, F3=3, F5=4, F4=5;
 string tagWire[NUMWIRETYPE]={"s","f2","f1","f3","f5","f4"};
 
-Assembly GetVesselAssembly(dd4hep::xml::Dimension dimensions,Detector& description,dd4hep::xml::Handle_t vesselParam, bool SHOWVESSEL);
+Volume GetVesselAssembly(dd4hep::xml::Dimension dimensions,Detector& description,dd4hep::xml::Handle_t vesselParam, bool SHOWVESSEL);
 VolPlane GetSensitiveSurface(int i,Volume vol,PlacedVolume pv,SensitiveDetector sens,double t_inner, double t_outer);
 Volume GetComponentVol(int i,Detector& description,Material gas,xml_comp_t x_comp,bool SHOWSENSOR);
 double Pitch_z0(double r_z0, int nwires);
@@ -107,7 +107,7 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   // Vessel volume
   //-----------------------
   auto vesselParam       = x_det.child("vessel");
-  Assembly vesselAssembly=GetVesselAssembly(dimensions,description,vesselParam,SHOWVESSEL);
+  Volume vesselAssembly=GetVesselAssembly(dimensions,description,vesselParam,SHOWVESSEL);
   assembly.placeVolume(vesselAssembly,Position(0,0,0));
 
   //-----------------------
@@ -219,7 +219,7 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   for (xml_coll_t li(x_det, _U(layer)); li; ++li) {
     xml_comp_t x_layer  = li;
     xml_comp_t x_layout = x_layer.child(_U(rphi_layout));
-    double rLayer= x_layout.rc()-40*dd4hep::um/2.-wireRadius[S]*2-wireRadius[F4]*3.;
+    double rLayer= x_layout.rc()-40*dd4hep::um/2.-wireRadius[S]*2-wireRadius[F4]*4.;
     vec_rLayer.push_back(rLayer);
 
     // 1 cell = 1 swire + 4 fwires
@@ -256,6 +256,9 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     if (SHOWLAYER) lay_vol.setVisAttributes(description.visAttributes(x_layer.visStr()));
     else lay_vol.setVisAttributes(description.invisible());
 
+    cout<<"dimension length="<<dimensions.length()/dd4hep::cm<<" (cm)"
+	<<", layer_length/2="<<layerLength/dd4hep::cm<<" (cm)"
+	<<", x_barrel.z_length="<<x_barrel.z_length()/dd4hep::cm<<" (cm)"<<endl;
     double phi0     = x_layout.phi0();     // Starting phi of first module.
     double phi_tilt = x_layout.phi_tilt(); // Phi tilt of a module.
     double rc       = x_layout.rc();       // Radius of the module center.
@@ -460,39 +463,55 @@ Transform3D GetWireTransform(int ilayer,int iwire,double r_z0,double rWire,doubl
   return wireTr;
 }
 //-----------------------------------------------------------------------------------// 
-Assembly GetVesselAssembly(dd4hep::xml::Dimension dimensions,Detector& description,dd4hep::xml::Handle_t vesselParam, bool SHOWVESSEL)
+Volume GetVesselAssembly(dd4hep::xml::Dimension dimensions,Detector& description,dd4hep::xml::Handle_t vesselParam, bool SHOWVESSEL)
 {
   double tShell=vesselParam.attr<double>(_Unicode(tShell));
   double tFill=vesselParam.attr<double>(_Unicode(tFill));
   double tEndcap=2*tShell+tFill;
+  //double z0=description.constantAsDouble("DCH_z0");
 
   //barrel
   Tube outbarrel_tub(dimensions.rmax()-tShell,dimensions.rmax(),(dimensions.length()/2.-tEndcap));
-  Volume outbarrel_vol("out_vesselBarrel",outbarrel_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
-  if (SHOWVESSEL) outbarrel_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
-  else outbarrel_vol.setVisAttributes(description.invisible());
+  cout<<"barrel vessel half length ="<<(dimensions.length()/2.-tEndcap)/dd4hep::cm<<" (cm)"<<endl;
+  //Volume outbarrel_vol("out_vesselBarrel",outbarrel_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
+  //if (SHOWVESSEL) outbarrel_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
+  //else outbarrel_vol.setVisAttributes(description.invisible());
 
   Tube inbarrel_tub(dimensions.rmin(),dimensions.rmin()+tShell,(dimensions.length()/2.-tEndcap));
-  Volume inbarrel_vol("in_vesselBarrel",inbarrel_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
-  if (SHOWVESSEL) inbarrel_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
-  else inbarrel_vol.setVisAttributes(description.invisible());
+  //Volume inbarrel_vol("in_vesselBarrel",inbarrel_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
+  //if (SHOWVESSEL) inbarrel_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
+  //else inbarrel_vol.setVisAttributes(description.invisible());
 
   //endcaps
   Tube endcap_tub(dimensions.rmin(),dimensions.rmax(),tEndcap);
-  Volume endcap_vol("vesselEndcap",endcap_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
-  if (SHOWVESSEL) endcap_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
-  else endcap_vol.setVisAttributes(description.invisible());
+  //Volume endcap_vol("vesselEndcap",endcap_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
+  //if (SHOWVESSEL) endcap_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
+  //else endcap_vol.setVisAttributes(description.invisible());
 
   Tube filling_tub(dimensions.rmin()+tShell,dimensions.rmax()-tShell,tFill);
   Volume filling_vol("filling",filling_tub,description.material(vesselParam.attr<std::string>(_Unicode(fillMat))));
   if (!SHOWVESSEL) filling_vol.setVisAttributes(description.invisible());
-  endcap_vol.placeVolume(filling_vol,Position(0, 0, 0));
+  //endcap_vol.placeVolume(filling_vol,Position(0, 0, 0));
 
+  UnionSolid tmp1(outbarrel_tub,inbarrel_tub,Position(0,0,0));
+  UnionSolid tmp2(tmp1,endcap_tub,Position(0, 0, -dimensions.length()/2.));//+tEndcap/2.));
+  UnionSolid tmp3(tmp2,endcap_tub,Position(0, 0, dimensions.length()/2.));//-tEndcap/2.));
+
+  Volume vessel("vessel",tmp3,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
+  if (SHOWVESSEL) vessel.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
+  else vessel.setVisAttributes(description.invisible());
+  
+  vessel.placeVolume(filling_vol,Position(0, 0, dimensions.length()/2.));
+  vessel.placeVolume(filling_vol,Position(0, 0, -dimensions.length()/2.));
+
+  
+  /*
   Assembly vessel("vessel");
   vessel.placeVolume(outbarrel_vol,Position(0, 0, 0));
   vessel.placeVolume(inbarrel_vol,Position(0, 0, 0));
   vessel.placeVolume(endcap_vol,Position(0, 0, -dimensions.length()/2.+tEndcap/2.));
   vessel.placeVolume(endcap_vol,Position(0, 0, dimensions.length()/2.-tEndcap/2.));
+  */
 
   return vessel;
 }

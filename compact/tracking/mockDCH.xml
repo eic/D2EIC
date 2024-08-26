@@ -8,7 +8,7 @@
     </comment>
 
     <!-- Dimensions -->
-    <constant name="MAXLENGTH"        value="ForwardRICHRegion_zmin+BackwardPIDRegion_zmin- 1*cm -1*cm"/>
+    <constant name="MAXLENGTH"        value="ForwardRICHRegion_zmin+BackwardPIDRegion_zmin- 1*cm -1*cm"/>  <!-- full length of the vessel -->
     <constant name="DCH_z0"           value="ForwardRICHRegion_zmin - MAXLENGTH/2.0"/>
 
     <constant name="innerRadiusLimit"       value=" 140 *mm "/>
@@ -23,11 +23,6 @@
     <constant name="Layer_buffer"           value="0*um"/> 
     <constant name="numLayer"               value="gasRadiusLimit/(Layer_thickness+Layer_buffer)"/>
 
-    <comment>
-    <constant name="Layer_length"       value="1*m"/>   <!-- half length -->
-    <constant name="Layer_thickness"    value="1*cm"/>
-    <constant name="Layer_buffer"       value="0*um"/>
-    </comment>
 
     <constant name="Layer1_rmin"        value="innerRadiusLimit+vesselShellThickness"/>
     <constant name="Layer1_rmax"        value="Layer1_rmin + Layer_thickness"/>
@@ -114,8 +109,8 @@
          showDaughters="true"
          visible="true"/> 
     <vis name="vesselVis"
-	 alpha="1" r="0.8" g="0.8" b="0"
-         drawingStyle="solid"
+	 alpha="0.3" r="0.8" g="0.8" b="0"
+         drawingStyle="wire"
          showDaughters="true"
          visible="true"/>  
   </display>
@@ -139,7 +134,7 @@
           rmax="outerRadiusLimit"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="10" showVessel="True" showLayer="True" showSensor="False" showSwire="True" showFwire="True"/>
+      <constructionFlag maxLayer="1" showVessel="True" showLayer="True" showSensor="True" showSwire="True" showFwire="True"/>
 
       <gas material="GasHe_90Isob_10" />  
       
