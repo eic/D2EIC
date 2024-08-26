@@ -96,7 +96,6 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   }
 
   dd4hep::xml::Dimension dimensions(x_det.dimensions());
-  //cout<<"rmin="<<dimensions.rmin()/dd4hep::cm<<" (cm), rmax="<<dimensions.rmax()/dd4hep::cm<<" (cm), full length="<<dimensions.length()/dd4hep::cm<<" (cm)"<<endl;
   // Tube topVolumeShape(dimensions.rmin(), dimensions.rmax(), dimensions.length() * 0.5);
   // Volume assembly(det_name,topVolumeShape,air);
   Assembly assembly(det_name);
@@ -149,7 +148,7 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
       
       Volume c_vol=GetComponentVol(ncomponents,description,gas,x_comp,SHOWSENSOR);
 
-      pv = m_vol.placeVolume(c_vol, Position(0, 0, zoff));
+      pv = m_vol.placeVolume(c_vol, Position(0, 0, 0));
       
       if (x_comp.isSensitive()) {
 	double inner_thickness = thickness_so_far + x_comp.thickness() / 2.0;
@@ -269,70 +268,20 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     //-----------------------
     // place module
     //-----------------------
-    // Z increment for module placement along Z axis.
-    // Adjust for z0 at center of module rather than
-    // the end of cylindrical envelope.
-    //double z_incr = nz > 1 ? (2.0 * z0) / (nz - 1) : 0.0;
-    // Starting z for module placement along Z axis.
-    //double module_z = -z0;
     int    module   = 1;
 
-    //Transform3D tr(0, Position(0,0,0)); 
     pv = lay_vol.placeVolume(volumes[m_nam], Position(0,0,0));
     pv.addPhysVolID("module", module); 
-    DetElement mod_elt(lay_elt, Form("module%d",module), module); 
+    DetElement mod_elt(lay_elt, "module1", module); 
     mod_elt.setPlacement(pv); 
 
     DetElement comp_de(mod_elt, std::string("de_") + sensitives[m_nam][0].volume().name(), module); 
     comp_de.setPlacement(sensitives[m_nam][0]); 
+
     auto &comp_de_params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(comp_de);
     comp_de_params.set<string>("axis_definitions", "XYZ");
     volSurfaceList(comp_de)->push_back(volplane_surfaces[m_nam][0]); 
 
-    // Loop over the number of modules in phi.
-    /*
-    for (int ii = 0; ii < nphi; ii++) {
-      //place the sensor
-      double dx = z_dr * std::cos(phic + phi_tilt); // Delta x of module position.
-      double dy = z_dr * std::sin(phic + phi_tilt); // Delta y of module position.
-      double x  = rc * std::cos(phic);              // Basic x module position.
-      double y  = rc * std::sin(phic);              // Basic y module position.
-
-      // Loop over the number of modules in z.
-      for (int j = 0; j < nz; j++) {
-	Transform3D tr(RotationZYX(0, ((M_PI / 2) - phic), -M_PI / 2), Position(x, y, module_z));
-	pv = lay_vol.placeVolume(volumes[m_nam], tr);
-	pv.addPhysVolID("module", module);
-
-	DetElement mod_elt(lay_elt, Form("module%d",module), module);
-	mod_elt.setPlacement(pv);
-
-	for (size_t ic = 0; ic < sensitives[m_nam].size(); ++ic) {
-	  DetElement   comp_de(mod_elt, std::string("de_") + sensitives[m_nam][ic].volume().name(), module);
-	  comp_de.setPlacement(sensitives[m_nam][ic]);
-
-	  auto &comp_de_params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(comp_de);
-	  comp_de_params.set<string>("axis_definitions", "XYZ");
-	  volSurfaceList(comp_de)->push_back(volplane_surfaces[m_nam][ic]);
-	}
-
-	/// Increase counters etc.
-	module++;
-	// Adjust the x and y coordinates of the module.
-	x += dx;
-	y += dy;
-	// Flip sign of x and y adjustments.
-	dx *= -1;
-	dy *= -1;
-	// Add z increment to get next z placement pos.
-	module_z += z_incr;
-      }
-      phic += phi_incr; // Increment the phi placement of module.
-      rc += rphi_dr;    // Increment the center radius according to dr parameter.
-      rphi_dr *= -1;    // Flip sign of dr parameter.
-      module_z = -z0;   // Reset the Z placement parameter for module.
-    }*/
-    
     //-----------------------
     //place the wires
     //-----------------------
@@ -369,11 +318,8 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   return sdet;
 }
 //-----------------------------------------------------------------------------------//
-//Volume GetComponentVol(int i,Detector& description,Material gas,xml_comp_t x_comp,bool SHOWSENSOR)
 Volume GetComponentVol(int i,Detector& description,Material gas,xml_comp_t x_comp,bool SHOWSENSOR)
 {
-  //Box    c_box(x_comp.width() / 2, x_comp.length(), x_comp.thickness() / 2);
-  //Volume c_vol(Form("component%d",i), c_box, gas);
   Tube c_tub(x_comp.rmin(),x_comp.rmax(),x_comp.length());
   Volume c_vol(Form("component%d",i), c_tub, gas);
 
@@ -457,7 +403,6 @@ Transform3D GetWireTransform(int ilayer,int iwire,double r_z0,double rWire,doubl
   if (iwire==F1 || iwire==F4) rLayer=r_z0-rWire*2.;
   if (iwire==F3 || iwire==F5) rLayer=r_z0+rWire*2.;
   
-  //cout<<"ilayer="<<ilayer<<", layerLength="<<layerLength<<", rlayer="<<rLayer/dd4hep::cm<<" (cm)"<<endl;
   RotationX stereoTr((-1.)*StereoSign(ilayer)*Stereoangle_z0(rLayer,layerLength));
   Transform3D wireTr(stereoTr * Translation3D(rLayer,0.,0.));
 
