@@ -17,87 +17,27 @@
     <constant name="vesselFillingThickness" value="25*cm"/>
     <constant name="gasRadiusLimit"         value="outerRadiusLimit-innerRadiusLimit-2*vesselShellThickness"/> <!-- 1008 mm -->
 
-    <constant name="Sensor_thickness"       value="40*um"/>
     <constant name="Layer_length"           value="MAXLENGTH/2.0-2*vesselShellThickness-vesselFillingThickness"/>   <!-- half length -->
+    <constant name="Layer_rmin"             value="innerRadiusLimit+vesselShellThickness"/>
     <constant name="Layer_thickness"        value="1*cm"/>
-    <constant name="Layer_buffer"           value="0*um"/> 
-    <constant name="numLayer"               value="gasRadiusLimit/(Layer_thickness+Layer_buffer)"/>
-
-
-    <constant name="Layer1_rmin"        value="innerRadiusLimit+vesselShellThickness"/>
-    <constant name="Layer1_rmax"        value="Layer1_rmin + Layer_thickness"/>
-    <constant name="Layer2_rmin"        value="Layer1_rmax + Layer_buffer"/>
-    <constant name="Layer2_rmax"        value="Layer2_rmin + Layer_thickness"/>
-    <constant name="Layer3_rmin"        value="Layer2_rmax + Layer_buffer"/>
-    <constant name="Layer3_rmax"        value="Layer3_rmin + Layer_thickness"/>
-    <constant name="Layer4_rmin"        value="Layer3_rmax + Layer_buffer"/>
-    <constant name="Layer4_rmax"        value="Layer4_rmin + Layer_thickness"/>
-    <constant name="Layer5_rmin"        value="Layer4_rmax + Layer_buffer"/>
-    <constant name="Layer5_rmax"        value="Layer5_rmin + Layer_thickness"/>
-    <constant name="Layer6_rmin"        value="Layer5_rmax + Layer_buffer"/>
-    <constant name="Layer6_rmax"        value="Layer6_rmin + Layer_thickness"/>
-    <constant name="Layer7_rmin"        value="Layer6_rmax + Layer_buffer"/>
-    <constant name="Layer7_rmax"        value="Layer7_rmin + Layer_thickness"/>
-    <constant name="Layer8_rmin"        value="Layer7_rmax + Layer_buffer"/>
-    <constant name="Layer8_rmax"        value="Layer8_rmin + Layer_thickness"/>
-    <constant name="Layer9_rmin"        value="Layer8_rmax + Layer_buffer"/>
-    <constant name="Layer9_rmax"        value="Layer9_rmin + Layer_thickness"/>
-    <constant name="Layer10_rmin"       value="Layer9_rmax + Layer_buffer"/>
-    <constant name="Layer10_rmax"       value="Layer10_rmin + Layer_thickness"/>
-
-    <constant name="Mod_length"         value="Layer_length"/>
-    <constant name="Mod1_rmin"          value="(Layer1_rmin + Layer1_rmax)/2.0"/>
-    <constant name="Mod2_rmin"          value="(Layer2_rmin + Layer2_rmax)/2.0"/>
-    <constant name="Mod3_rmin"          value="(Layer3_rmin + Layer3_rmax)/2.0"/>
-    <constant name="Mod4_rmin"          value="(Layer4_rmin + Layer4_rmax)/2.0"/>
-    <constant name="Mod5_rmin"          value="(Layer5_rmin + Layer5_rmax)/2.0"/>
-    <constant name="Mod6_rmin"          value="(Layer6_rmin + Layer6_rmax)/2.0"/>
-    <constant name="Mod7_rmin"          value="(Layer7_rmin + Layer7_rmax)/2.0"/>
-    <constant name="Mod8_rmin"          value="(Layer8_rmin + Layer8_rmax)/2.0"/>
-    <constant name="Mod9_rmin"          value="(Layer9_rmin + Layer9_rmax)/2.0"/>
-    <constant name="Mod10_rmin"         value="(Layer10_rmin + Layer10_rmax)/2.0"/>
-
-
-    <comment>
-      Extra parameters to approximate a cylinder as a set of skinny staves
-      due to ACTS limitations.
-      FIXME: this shouldn't be needed anymore, need to update the cylindrical plugin.
-    </comment>
-    <constant name="Stave_count"       value="120"/>
-    <constant name="Stave1_width"      value="2*Mod1_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave2_width"      value="2*Mod2_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave3_width"      value="2*Mod3_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave4_width"      value="2*Mod4_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave5_width"      value="2*Mod5_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave6_width"      value="2*Mod6_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave7_width"      value="2*Mod7_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave8_width"      value="2*Mod8_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave9_width"      value="2*Mod9_rmin * tan(180*degree/Stave_count)"/>
-    <constant name="Stave10_width"     value="2*Mod10_rmin * tan(180*degree/Stave_count)"/>
+    <constant name="Layer_buffer"           value="1*um"/>  <!-- buffer between layers --> 
+    <constant name="numLayer"               value="70"/>  <!--gasRadiusLimit/(Layer_thickness+Layer_buffer)"/> -->
+    <constant name="nPhibin"                value="120"/>
+    <constant name="Sensor_thickness"       value="1*um"/>
 
   </define>
 
   <display>
-    <vis name="module1Vis"
-	 alpha="1.0" r="1" g="0.5" b="1"
-	 drawingStyle="solid"
-	 showDaughters="true"
-	 visible="true"/>
-    <vis name="module2Vis"
+    <vis name="moduleVis"
          alpha="1.0" r="0.2" g="0.5" b="1"
          drawingStyle="solid"
          showDaughters="true"
          visible="true"/>
-    <vis name="layer1Vis"
-         alpha="0.2" r="0.2" g="1" b="0.2"
+    <vis name="layerVis"
+         alpha="0.5" r="0.8" g="0" b="0"
          drawingStyle="solid"
          showDaughters="true"
          visible="false"/>
-    <vis name="layer2Vis"
-         alpha="0.2" r="0.2" g="1" b="1"
-         drawingStyle="solid"
-         showDaughters="true"
-         visible="true"/>
     <vis name="swireVis"
          alpha="1" r="1" g="0.2" b="0.3"
          drawingStyle="solid"
@@ -134,7 +74,7 @@
           rmax="outerRadiusLimit"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="5" showVessel="True" showLayer="True" showSensor="True" showSwire="True" showFwire="True"/>
+      <constructionFlag maxLayer="numLayer" showVessel="False" showLayer="True" showSensor="true" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />  
       
@@ -151,239 +91,26 @@
           buildFieldWires="True"
 	  SWire_vis="swireVis"
 	  FWire_vis="fwireVis"
-	  SWire_thickness       ="1*mm"
-          FSideWire_thickness   ="1*mm"
-          FCentralWire_thickness="1*mm"
+	  SWire_thickness       ="0.034*mm" 
+          FSideWire_thickness   ="0.0403*mm"
+          FCentralWire_thickness="0.0503*mm"
           SWire_material        ="CarbonFiber"
           FSideWire_material    ="Copper"
-          FCentralWire_material ="Copper">
+          FCentralWire_material ="Copper"
+	  alpha                 ="10*deg">
       </wires>
-
+      <!-- https://doi.org/10.1016/j.nima.2017.03.001 -->
       
-      <comment>Vertex Barrel Modules</comment>
+      <module name="Module"
+              sensitive="true"
+              thickness="Sensor_thickness"
+	      length="Layer_length"
+              vis="moduleVis" />
 
-      <module name="Module1" vis="VertexLayerVis">
-        <module_component name="ITS3"
-			  material="Silicon"
-			  sensitive="true"
-			  rmin="Mod1_rmin-Sensor_thickness/2."
-			  rmax="Mod1_rmin+Sensor_thickness/2."
-			  length="Mod_length"
-			  thickness="Sensor_thickness"
-			  vis="module2Vis" />
-      </module>
-
-      <module name="Module2" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod2_rmin-Sensor_thickness/2."
-                          rmax="Mod2_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-
-      <module name="Module3" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod3_rmin-Sensor_thickness/2."
-                          rmax="Mod3_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-      
-      <module name="Module4" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod4_rmin-Sensor_thickness/2."
-                          rmax="Mod4_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-      
-      <module name="Module5" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod5_rmin-Sensor_thickness/2."
-                          rmax="Mod5_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-
-      <module name="Module6" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod6_rmin-Sensor_thickness/2."
-                          rmax="Mod6_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-
-      <module name="Module7" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod7_rmin-Sensor_thickness/2."
-                          rmax="Mod7_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-
-      <module name="Module8" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod8_rmin-Sensor_thickness/2."
-                          rmax="Mod8_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-      
-      <module name="Module9" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod9_rmin-Sensor_thickness/2."
-                          rmax="Mod9_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-      
-      <module name="Module10" vis="VertexLayerVis">
-        <module_component name="ITS3"
-                          material="Silicon"
-                          sensitive="true"
-			  rmin="Mod10_rmin-Sensor_thickness/2."
-                          rmax="Mod10_rmin+Sensor_thickness/2."
-                          length="Mod_length"
-			  thickness="Sensor_thickness"
-                          vis="module2Vis" />
-      </module>
-
-      <comment>
-        Layers composed of many arrayed modules
-        phi0     : Starting phi of first module.
-        phi_tilt : Phi tilt of a module. 
-        rc       : Radius of the module center.
-        nphi     : Number of modules in phi. 
-        rphi_dr  : The delta radius of every other module.
-        z0       : Z position of first module in phi. 
-        nz       : Number of modules to place in z.   
-        dr       : Radial displacement parameter, of every other module.
-      </comment>
-
-      <layer module="Module1" id="1" vis="layer2Vis">
-	<barrel_envelope
-            inner_r="Layer1_rmin"
-            outer_r="Layer1_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod1_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
+      <layer repeat="numLayer" module="Module" vis="layerVis">
+	<layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
-
-      <layer module="Module2" id="2" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer2_rmin"
-            outer_r="Layer2_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod2_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
-      <layer module="Module3" id="3" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer3_rmin"
-            outer_r="Layer3_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod3_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
-      <layer module="Module4" id="4" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer4_rmin"
-            outer_r="Layer4_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod4_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
-      <layer module="Module5" id="5" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer5_rmin"
-            outer_r="Layer5_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod5_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
-      <layer module="Module6" id="6" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer6_rmin"
-            outer_r="Layer6_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod6_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
-      <layer module="Module7" id="7" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer7_rmin"
-            outer_r="Layer7_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod7_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
-      <layer module="Module8" id="8" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer8_rmin"
-            outer_r="Layer8_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod8_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
-      <layer module="Module9" id="9" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer9_rmin"
-            outer_r="Layer9_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod9_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
-      <layer module="Module10" id="10" vis="layer2Vis">
-        <barrel_envelope
-            inner_r="Layer10_rmin"
-            outer_r="Layer10_rmax"
-            z_length="Layer_length" />
-        <layer_material surface="inner" binning="binPhi,binZ" bins0="Stave_count" bins1="100" />
-        <rphi_layout phi_tilt="0.0*degree" nphi="Stave_count" phi0="0.0" rc="Mod10_rmin" dr="0.0 * mm"/>
-        <z_layout dr="0.0 * mm" z0="0.0 * mm" nz="1"/>
-      </layer>
-
+	
     </detector>
   </detectors>
 
@@ -397,7 +124,7 @@
   <readouts>
     <readout name="MockupDCH_Hits">
       <segmentation type="CartesianGridXY" grid_size_x="0.020*mm" grid_size_y="0.020*mm" />
-      <id>system:8,layer:4,module:12,sensor:2,x:32:-16,y:-16</id>
+      <id>system:1,layer:10,module:1,sensor:1,x:32:-16,y:-16</id>
     </readout>
   </readouts>
 

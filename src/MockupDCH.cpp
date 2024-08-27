@@ -45,18 +45,24 @@ using namespace dd4hep::detail;
  * @author Whitney Armstrong
  */
 
-const int NUMWIRETYPE = 6, S=0, F2=1, F1=2, F3=3, F5=4, F4=5;
+const int NUMWIRETYPE = 6, /*S=0,*/ F2=1, F1=2, F3=3, F5=4, F4=5;
 string tagWire[NUMWIRETYPE]={"s","f2","f1","f3","f5","f4"};
 
+double alpha=0*dd4hep::deg;
+
 Volume GetVesselAssembly(dd4hep::xml::Dimension dimensions,Detector& description,dd4hep::xml::Handle_t vesselParam, bool SHOWVESSEL);
-VolPlane GetSensitiveSurface(int i,Volume vol,PlacedVolume pv,SensitiveDetector sens,double t_inner, double t_outer);
-Volume GetComponentVol(int i,Detector& description,Material gas,xml_comp_t x_comp,bool SHOWSENSOR);
+VolPlane GetSensitiveSurface(Volume vol,PlacedVolume pv,SensitiveDetector sens,double halft);
+void CheckRepeatedVolume(map<string, Volume> volumes,string m_nam);
+Volume GetComponentVol(Detector& description,double r, xml_comp_t param,Material gas,bool SHOWSENSOR);
 double Pitch_z0(double r_z0, int nwires);
 double Stereoangle_z0(double r_z0,double Lhalf);
 int StereoSign(int iLayer);
-double WireLength(double r_z0,double Lhalf,int nwire);
+double GetAngleRotX(int ilayer,double rLayer, double layerLength);
+double GetWireLength(double rLayer,double layerLength,double rWire,int nwire);
+double GetBuffer(double rLayer,double rWire ,double lwire,double angle, double r0);
 double fwire_phi_offset(double r_z0, double rWire,double safety_phi_interspace);
 Volume GetWire(int ilayer,int iwire, double r_z0, double layerLength,int nwire, double rWire, Material mat, VisAttr vis);
+Assembly GetMeshWire(int ilayer,int iwire, double rLayer, double layerLength, int nwire,double rWire, Material mat, VisAttr vis);
 Transform3D GetWireTransform(int ilayer,int iwire,double r_z0,double rWire,double layerLength);
 
 //-----------------------------------------------------------------------------------//
@@ -78,13 +84,6 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
 
   PlacedVolume pv;
 
-  // constructin flag
-  auto ConstructionFlag = x_det.child("constructionFlag");
-  int  MAXLAYER         = ConstructionFlag.attr<int>(_Unicode(maxLayer));
-  bool SHOWVESSEL       = ConstructionFlag.attr<bool>(_Unicode(showVessel));
-  bool SHOWLAYER        = ConstructionFlag.attr<bool>(_Unicode(showLayer));
-  bool SHOWSENSOR       = ConstructionFlag.attr<bool>(_Unicode(showSensor));
-
   // Set detector type flag
   dd4hep::xml::setDetectorTypeFlag(x_det, sdet);
   auto &params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(sdet);
@@ -95,9 +94,32 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     DD4hepDetectorHelper::xmlToProtoSurfaceMaterial(x_boundary_material, params, "boundary_material");
   }
 
+  //-----------------------
+  // Read parameters
+  // from the xml file
+  //----------------------- 
   dd4hep::xml::Dimension dimensions(x_det.dimensions());
   // Tube topVolumeShape(dimensions.rmin(), dimensions.rmax(), dimensions.length() * 0.5);
   // Volume assembly(det_name,topVolumeShape,air);
+
+  auto ConstructionFlag = x_det.child("constructionFlag");
+  int  MAXLAYER         = ConstructionFlag.attr<int>(_Unicode(maxLayer));
+  bool SHOWVESSEL       = ConstructionFlag.attr<bool>(_Unicode(showVessel));
+  bool SHOWLAYER        = ConstructionFlag.attr<bool>(_Unicode(showLayer));
+  bool SHOWSENSOR       = ConstructionFlag.attr<bool>(_Unicode(showSensor));
+
+  double layerLength=description.constantAsDouble("Layer_length");
+  double layer_rmin =description.constantAsDouble("Layer_rmin");
+  double layerThickness = description.constantAsDouble("Layer_thickness");
+  double layerBuffer=description.constantAsDouble("Layer_buffer");
+
+  //double buffer     =description.constantAsDouble("buffer");
+
+  xml_comp_t x_layer = x_det.child("layer");
+  cout<<"Total number of layer = "<<x_layer.repeat()<<endl;
+  //-----------------------
+  // THE detector assembly
+  //-----------------------
   Assembly assembly(det_name);
 
   sens.setType("tracker");
@@ -108,62 +130,6 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   auto vesselParam       = x_det.child("vessel");
   Volume vesselAssembly=GetVesselAssembly(dimensions,description,vesselParam,SHOWVESSEL);
   assembly.placeVolume(vesselAssembly,Position(0,0,0));
-
-  //-----------------------
-  // loop over the modules
-  //-----------------------
-  for (xml_coll_t mi(x_det, _U(module)); mi; ++mi) {
-    xml_comp_t x_mod = mi;
-    string     m_nam = x_mod.nameStr();
-
-    if (volumes.find(m_nam) != volumes.end()) {
-      printout(ERROR, "BarrelTrackerWithFrame",
-               string((string("Module with named ") + m_nam + string(" already exists."))).c_str());
-      throw runtime_error("Logics error in building modules.");
-    }
-
-    //-----------------------
-    // Compute module total 
-    // thickness from components
-    //-----------------------
-    xml_coll_t ci(x_mod, _U(module_component));
-    
-    double total_thickness = 0;
-    for (ci.reset(), total_thickness = 0.0; ci; ++ci) { total_thickness += xml_comp_t(ci).thickness(); }
-
-    //-----------------------
-    // the module assembly volume
-    //-----------------------
-    Assembly m_vol(m_nam);
-    volumes[m_nam] = m_vol;
-    
-    double thickness_so_far = 0.0;
-    double thickness_sum    = -total_thickness / 2.0;
-
-    int    ncomponents      = 0;
-
-    for (xml_coll_t mci(x_mod, _U(module_component)); mci; ++mci, ++ncomponents) {
-      xml_comp_t   x_comp = mci;
-      const double zoff = thickness_sum + x_comp.thickness() / 2.0;
-      
-      Volume c_vol=GetComponentVol(ncomponents,description,gas,x_comp,SHOWSENSOR);
-
-      pv = m_vol.placeVolume(c_vol, Position(0, 0, 0));
-      
-      if (x_comp.isSensitive()) {
-	double inner_thickness = thickness_so_far + x_comp.thickness() / 2.0;
-        double outer_thickness = total_thickness - thickness_so_far - x_comp.thickness() / 2.0;
-
-	VolPlane surf=GetSensitiveSurface(ncomponents,c_vol,pv,sens,inner_thickness,outer_thickness);
-	volplane_surfaces[m_nam].push_back(surf);
-	
-	sensitives[m_nam].push_back(pv);
-      }
-
-      thickness_sum += x_comp.thickness();
-      thickness_so_far += x_comp.thickness();
-    }
-  }
 
   //-----------------------
   // wire volumes
@@ -205,52 +171,77 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
 				      ConstructionFlag.attr<bool>(_Unicode(showFwire)),
 				      ConstructionFlag.attr<bool>(_Unicode(showFwire))};
 
-  int nphi0         = 60;
+  alpha                            = wireParam.attr<double>(_Unicode(alpha));
+
+  int nphi0         = 120;
   int nphiIncrement = 10;
   int nSupperLayer  = 7;
-  
-  double layerLength=description.constantAsDouble("Layer_length");
 
   vector<Volume> wire_vol[NUMWIRETYPE];
   vector<double> vec_rLayer;
 
   int ilayer=0;
-  for (xml_coll_t li(x_det, _U(layer)); li; ++li) {
-    xml_comp_t x_layer  = li;
-    xml_comp_t x_layout = x_layer.child(_U(rphi_layout));
-    double rLayer= x_layout.rc()-40*dd4hep::um/2.-wireRadius[S]*2-wireRadius[F4]*4.;
+  double rLayer=0.;
+  for (ilayer=0;ilayer<x_layer.repeat();ilayer++) {
+    if (ilayer>=MAXLAYER) break;
+
+    if (ilayer==0) rLayer= (2*layer_rmin+(ilayer+1)*layerThickness)/2.;
+    else rLayer= rLayer + layerThickness;
     vec_rLayer.push_back(rLayer);
 
     // 1 cell = 1 swire + 4 fwires
     int nphi=nphi0+nphiIncrement*((int) ilayer/nSupperLayer);  //ncells
     int nwire=nphi;
-
+    
     for (i =0;i<NUMWIRETYPE;i++) {
       if (!SHOWWIRE[i]) wireVis[i]=description.invisible();
-      Volume singleWire=GetWire(ilayer,i,rLayer,layerLength,nwire,wireRadius[i],wireMat[i],wireVis[i]);
-      wire_vol[i].push_back(singleWire);
+      
+      double r=rLayer;
+      if (i==F1 || i==F4) r=r-wireRadius[i]*2; 
+      if (i==F3 || i==F5) r=r+wireRadius[i]*2;
+      
+      Volume meshWire=GetMeshWire(ilayer,i,r,layerLength,nwire,wireRadius[i],wireMat[i],wireVis[i]);
+      wire_vol[i].push_back(meshWire);
     }
+  }
+
+  //----------------------- 
+  // build sensitive module
+  //----------------------- 
+  auto moduleParam =x_det.child("module");
+  double moduleThickness=moduleParam.attr<double>(_Unicode(thickness));
+
+  for (ilayer=0;ilayer<x_layer.repeat();ilayer++) {
+    string m_nam = moduleParam.attr<string>(_Unicode(name)) + _toString(ilayer+1,"%d");
+    CheckRepeatedVolume(volumes,m_nam);
     
-    ilayer++;
+    Assembly m_vol(m_nam);
+    volumes[m_nam] = m_vol;    
+
+    Volume c_vol=GetComponentVol(description,vec_rLayer.at(ilayer)+layerThickness/2.-moduleThickness/2., moduleParam,gas,SHOWSENSOR);
+    pv = m_vol.placeVolume(c_vol, Position(0, 0, 0));
+    
+    if (moduleParam.attr<bool>(_Unicode(sensitive))) {
+      VolPlane surf=GetSensitiveSurface(c_vol,pv,sens,moduleThickness/2.);
+      volplane_surfaces[m_nam].push_back(surf);
+      sensitives[m_nam].push_back(pv);
+    }
   }
   
-  //
   //-----------------------
   // build the layers
   //-----------------------
-  ilayer=0;
-  for (xml_coll_t li(x_det, _U(layer)); li; ++li) {
+  for (ilayer=0;ilayer<x_layer.repeat();ilayer++) {
     if (ilayer>=MAXLAYER) break;
 
-    xml_comp_t x_layer  = li;
-    xml_comp_t x_barrel = x_layer.child(_U(barrel_envelope));
+    int        lay_id   = ilayer+1; //x_layer.id();
+    string     m_nam    = x_layer.moduleStr() + _toString(ilayer+1,"%d");
+    string     lay_nam  = det_name + _toString(ilayer+1, "_layer%d");
 
-    int        lay_id   = x_layer.id();
-    string     m_nam    = x_layer.moduleStr();
-    string     lay_nam  = det_name + _toString(x_layer.id(), "_layer%d");
-    Tube       lay_tub(x_barrel.inner_r(), x_barrel.outer_r(), x_barrel.z_length());
+    Tube       lay_tub(layer_rmin+ilayer*layerThickness+layerBuffer,layer_rmin+(ilayer+1)*layerThickness,layerLength);
     Volume     lay_vol(lay_nam, lay_tub, gas); // Create the layer envelope volume.
-    Position   lay_pos(0, 0, getAttrOrDefault(x_barrel, _U(z0), 0.));
+    Position   lay_pos(0, 0, 0);
+
     if (SHOWLAYER) lay_vol.setVisAttributes(description.visAttributes(x_layer.visStr()));
     else lay_vol.setVisAttributes(description.invisible());
 
@@ -259,7 +250,6 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     // the local coordinate systems of modules in dd4hep and acts differ
     // see http://acts.web.cern.ch/ACTS/latest/doc/group__DD4hepPlugins.html
     auto &layerParams = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(lay_elt);
-
     for (xml_coll_t lmat(x_layer, _Unicode(layer_material)); lmat; ++lmat) {
       xml_comp_t x_layer_material = lmat;
       DD4hepDetectorHelper::xmlToProtoSurfaceMaterial(x_layer_material, layerParams, "layer_material");
@@ -285,20 +275,8 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     //-----------------------
     //place the wires
     //-----------------------
-    int    nWirePhi = (nphi0+nphiIncrement*((int) ilayer/nSupperLayer)); 
-    double phi_step = (TMath::TwoPi()/nWirePhi/2.)*dd4hep::rad;
-    
-    for (i=0;i<NUMWIRETYPE;i++) {
-      Transform3D wireTr=GetWireTransform(ilayer,i,vec_rLayer.at(ilayer),wireRadius[i],layerLength);
-
-      for (int iphi=0;iphi<nWirePhi;iphi++) {
-	double phi_angle = 2*phi_step * iphi;
-	if (i==F2 || i==F1 || i==F3) phi_angle = phi_angle+phi_step;
-	
-	Transform3D cellTr { RotationZ(phi_angle) };
-	
-	if (BUILDWIRE[i]) pv = lay_vol.placeVolume(wire_vol[i].at(ilayer),cellTr * wireTr);
-      }
+    for (i=0;i<NUMWIRETYPE;i++) { 
+      if (BUILDWIRE[i]) pv = lay_vol.placeVolume(wire_vol[i].at(ilayer),Position(0,0,0)); 
     }
 
     // Create the PhysicalVolume for the layer.
@@ -306,8 +284,6 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     pv.addPhysVolID("layer", lay_id);            // Set the layer ID.
     lay_elt.setAttributes(description, lay_vol, x_layer.regionStr(), x_layer.limitsStr(), x_layer.visStr());
     lay_elt.setPlacement(pv);
-    
-    ilayer++;
   }
 
   sdet.setAttributes(description, assembly, x_det.regionStr(), x_det.limitsStr(), x_det.visStr());
@@ -318,23 +294,34 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   return sdet;
 }
 //-----------------------------------------------------------------------------------//
-Volume GetComponentVol(int i,Detector& description,Material gas,xml_comp_t x_comp,bool SHOWSENSOR)
+Volume GetComponentVol(Detector& description,double r, xml_comp_t param,Material gas,bool SHOWSENSOR)
 {
-  Tube c_tub(x_comp.rmin(),x_comp.rmax(),x_comp.length());
-  Volume c_vol(Form("component%d",i), c_tub, gas);
+  Tube c_tub(r-param.thickness()/2.,r+param.thickness()/2.,param.length());
+  Volume c_vol("component1", c_tub, gas);
 
-  c_vol.setRegion(description, x_comp.regionStr());
-  c_vol.setLimitSet(description, x_comp.limitsStr());
+  c_vol.setRegion(description, param.regionStr());
+  c_vol.setLimitSet(description, param.limitsStr());
 
-  if (SHOWSENSOR) c_vol.setVisAttributes(description, x_comp.visStr());
+  if (SHOWSENSOR) c_vol.setVisAttributes(description, param.visStr());
   else c_vol.setVisAttributes(description.invisible());
 
   return c_vol;
 }
 //-----------------------------------------------------------------------------------//
-VolPlane GetSensitiveSurface(int i,Volume vol,PlacedVolume pv,SensitiveDetector sens,double t_inner, double t_outer)
+void CheckRepeatedVolume(map<string, Volume> volumes,string m_nam)
 {
-  pv.addPhysVolID("sensor", i);
+  if (volumes.find(m_nam) != volumes.end()) {                                                                                                                                                                         
+    printout(ERROR, "MockDCH:: ",                                                                                                                                                                                     
+	     string((string("Module with named ") + m_nam + string(" already exists."))).c_str());                                                                                                                    
+    throw runtime_error("Logics error in building modules.");                                                                                                                                                         
+  } 
+}
+//-----------------------------------------------------------------------------------//
+VolPlane GetSensitiveSurface(Volume vol,PlacedVolume pv,SensitiveDetector sens,double halft)
+//VolPlane GetSensitiveSurface(int i,Volume vol,PlacedVolume pv,SensitiveDetector sens,double t_inner, double t_outer)
+{
+  //pv.addPhysVolID("sensor", i);
+  pv.addPhysVolID("sensor", 1);
   vol.setSensitiveDetector(sens);
   
   // -------- create a measurement plane for the tracking surface attched to the sensitive volume ----- //
@@ -344,7 +331,8 @@ VolPlane GetSensitiveSurface(int i,Volume vol,PlacedVolume pv,SensitiveDetector 
 
   SurfaceType type(SurfaceType::Sensitive);
   
-  VolPlane surf(vol, type, t_inner, t_outer, u, v, n);
+  //VolPlane surf(vol, type, t_inner, t_outer, u, v, n);
+  VolPlane surf(vol, type, halft, halft, u, v, n);
 
   return surf;
 }
@@ -356,17 +344,10 @@ double Pitch_z0(double r_z0, int nwires)
 //-----------------------------------------------------------------------------------//
 double Stereoangle_z0(double r_z0,double Lhalf) 
 {
-  double twist_angle=15*dd4hep::deg;
-  return atan( r_z0/Lhalf*tan(twist_angle/2/dd4hep::rad));
+  //double alpha=15*dd4hep::deg;
+  return atan( r_z0/Lhalf*tan(alpha/2/dd4hep::rad));
 }
 //-----------------------------------------------------------------------------------// 
-double WireLength( double r_z0,double Lhalf,int nwire) 
-{
-  //auto pitch_z0 = database.at(nlayer).Pitch_z0(r_z0);
-  auto pitch_z0 = Pitch_z0(r_z0,nwire); 
-  return  2*Lhalf/cos(atan(pitch_z0/(2*Lhalf)))/cos(Stereoangle_z0(r_z0,Lhalf)/dd4hep::rad) ;
-}
-//-----------------------------------------------------------------------------------//
 int StereoSign(int iLayer) 
 {
   if (iLayer%2==1) return 1;
@@ -377,24 +358,65 @@ double fwire_phi_offset(double r_z0, double rWire,double safety_phi_interspace)
 {
   return atan(rWire/r_z0)*dd4hep::rad + safety_phi_interspace;
 }
-//-----------------------------------------------------------------------------------//  
-Volume GetWire(int ilayer,int iwire, double r_z0, double layerLength, int nwire,double rWire, Material mat, VisAttr vis)
+//-----------------------------------------------------------------------------------// 
+double GetWireLength(double rLayer,double layerLength,double rWire,int nwire)
 {
   double safety_z_interspace=1*dd4hep::nm;
 
-  double rLayer=r_z0;
-  if (iwire==F1 || iwire==F4) rLayer=r_z0-rWire*2;
-  if (iwire==F3 || iwire==F5) rLayer=r_z0+rWire*2;
-
-  double wlength=0.5*WireLength(rLayer,layerLength,nwire)
+  auto pitch_z0 = Pitch_z0(rLayer,nwire);
+  double l=2*layerLength/cos(atan(pitch_z0/(2*layerLength)))/cos(Stereoangle_z0(rLayer,layerLength)/dd4hep::rad) ;
+  
+  double wlength=0.5*l
     - rWire*cos(Stereoangle_z0(rLayer,layerLength))
     - safety_z_interspace;
-  
+
+  return wlength; 
+}
+//-----------------------------------------------------------------------------------// 
+double GetBuffer(double rLayer,double rWire ,double lwire,double angle, double r0)
+{
+  return sqrt(pow(rLayer+rWire,2)+pow(lwire*sin(angle),2))-r0;
+}
+//-----------------------------------------------------------------------------------//  
+Volume GetWire(int ilayer,int iwire, double r_z0, double layerLength, int nwire,double rWire, Material mat, VisAttr vis)
+{
+  double wlength=GetWireLength(r_z0,layerLength,rWire,nwire);
+
   Tube wireTub(0,rWire,wlength);
   Volume wireVol(Form("l%d_one_%s",ilayer,tagWire[iwire].c_str()),wireTub,mat);  
   wireVol.setVisAttributes(vis);
 
   return wireVol;
+}
+//-----------------------------------------------------------------------------------//
+Assembly GetMeshWire(int ilayer,int iwire, double rLayer, double layerLength, int nwire,double rWire, Material mat, VisAttr vis)
+{
+  Assembly meshWire(Form("l%d_meshWire_%s",ilayer,tagWire[iwire].c_str()));
+
+  double wlength=GetWireLength(rLayer,layerLength,rWire,nwire);
+
+  Tube wireTub(0,rWire,wlength);
+  Volume wireVol(Form("l%d_one_%s",ilayer,tagWire[iwire].c_str()),wireTub,mat);
+  wireVol.setVisAttributes(vis);
+
+  double phi_step = (TMath::TwoPi()/nwire/2.)*dd4hep::rad;
+  Transform3D wireTr=GetWireTransform(ilayer,iwire,rLayer,rWire,layerLength);
+  
+  for (int iphi=0;iphi<nwire;iphi++) {
+    double phi_angle = 2*phi_step * iphi;
+    if (iwire==F2 || iwire==F1 || iwire==F3) phi_angle = phi_angle+phi_step;
+
+    Transform3D cellTr { RotationZ(phi_angle) };
+    
+    meshWire.placeVolume(wireVol, cellTr * wireTr);
+  }
+  
+  return meshWire;
+}
+//-----------------------------------------------------------------------------------//
+double GetAngleRotX(int ilayer,double rLayer, double layerLength)  //stereo angle
+{
+  return (-1.)*StereoSign(ilayer)*Stereoangle_z0(rLayer,layerLength);
 }
 //-----------------------------------------------------------------------------------//
 Transform3D GetWireTransform(int ilayer,int iwire,double r_z0,double rWire,double layerLength)
@@ -403,41 +425,29 @@ Transform3D GetWireTransform(int ilayer,int iwire,double r_z0,double rWire,doubl
   if (iwire==F1 || iwire==F4) rLayer=r_z0-rWire*2.;
   if (iwire==F3 || iwire==F5) rLayer=r_z0+rWire*2.;
   
-  RotationX stereoTr((-1.)*StereoSign(ilayer)*Stereoangle_z0(rLayer,layerLength));
+  RotationX stereoTr(GetAngleRotX(ilayer,rLayer,layerLength));
   Transform3D wireTr(stereoTr * Translation3D(rLayer,0.,0.));
 
   return wireTr;
 }
+
 //-----------------------------------------------------------------------------------// 
 Volume GetVesselAssembly(dd4hep::xml::Dimension dimensions,Detector& description,dd4hep::xml::Handle_t vesselParam, bool SHOWVESSEL)
 {
   double tShell=vesselParam.attr<double>(_Unicode(tShell));
   double tFill=vesselParam.attr<double>(_Unicode(tFill));
   double tEndcap=2*tShell+tFill;
-  //double z0=description.constantAsDouble("DCH_z0");
 
   //barrel
   Tube outbarrel_tub(dimensions.rmax()-tShell,dimensions.rmax(),(dimensions.length()/2.-tEndcap));
-  cout<<"barrel vessel half length ="<<(dimensions.length()/2.-tEndcap)/dd4hep::cm<<" (cm)"<<endl;
-  //Volume outbarrel_vol("out_vesselBarrel",outbarrel_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
-  //if (SHOWVESSEL) outbarrel_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
-  //else outbarrel_vol.setVisAttributes(description.invisible());
-
   Tube inbarrel_tub(dimensions.rmin(),dimensions.rmin()+tShell,(dimensions.length()/2.-tEndcap));
-  //Volume inbarrel_vol("in_vesselBarrel",inbarrel_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
-  //if (SHOWVESSEL) inbarrel_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
-  //else inbarrel_vol.setVisAttributes(description.invisible());
 
   //endcaps
   Tube endcap_tub(dimensions.rmin(),dimensions.rmax(),tEndcap);
-  //Volume endcap_vol("vesselEndcap",endcap_tub,description.material(vesselParam.attr<std::string>(_Unicode(shellMat))));
-  //if (SHOWVESSEL) endcap_vol.setVisAttributes(description.visAttributes(vesselParam.attr<std::string>(_Unicode(vis))));
-  //else endcap_vol.setVisAttributes(description.invisible());
 
   Tube filling_tub(dimensions.rmin()+tShell,dimensions.rmax()-tShell,tFill);
   Volume filling_vol("filling",filling_tub,description.material(vesselParam.attr<std::string>(_Unicode(fillMat))));
   if (!SHOWVESSEL) filling_vol.setVisAttributes(description.invisible());
-  //endcap_vol.placeVolume(filling_vol,Position(0, 0, 0));
 
   UnionSolid tmp1(outbarrel_tub,inbarrel_tub,Position(0,0,0));
   UnionSolid tmp2(tmp1,endcap_tub,Position(0, 0, -dimensions.length()/2.));//+tEndcap/2.));
@@ -449,15 +459,6 @@ Volume GetVesselAssembly(dd4hep::xml::Dimension dimensions,Detector& description
   
   vessel.placeVolume(filling_vol,Position(0, 0, dimensions.length()/2.));
   vessel.placeVolume(filling_vol,Position(0, 0, -dimensions.length()/2.));
-
-  
-  /*
-  Assembly vessel("vessel");
-  vessel.placeVolume(outbarrel_vol,Position(0, 0, 0));
-  vessel.placeVolume(inbarrel_vol,Position(0, 0, 0));
-  vessel.placeVolume(endcap_vol,Position(0, 0, -dimensions.length()/2.+tEndcap/2.));
-  vessel.placeVolume(endcap_vol,Position(0, 0, dimensions.length()/2.-tEndcap/2.));
-  */
 
   return vessel;
 }
