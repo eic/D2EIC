@@ -200,7 +200,7 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
       if (i==F1 || i==F4) r=r-wireRadius[i]*2; 
       if (i==F3 || i==F5) r=r+wireRadius[i]*2;
       
-      Volume meshWire=GetMeshWire(ilayer,i,r,layerLength,nwire,wireRadius[i],wireMat[i],wireVis[i]);
+      Volume meshWire=GetMeshWire(ilayer,i,r,layerLength*0.99,nwire,wireRadius[i],wireMat[i],wireVis[i]);   //*0.99 to avoid overlap
       wire_vol[i].push_back(meshWire);
     }
   }
@@ -346,6 +346,7 @@ double Stereoangle_z0(double r_z0,double Lhalf)
 {
   //double alpha=15*dd4hep::deg;
   return atan( r_z0/Lhalf*tan(alpha/2/dd4hep::rad));
+
 }
 //-----------------------------------------------------------------------------------// 
 int StereoSign(int iLayer) 
