@@ -21,7 +21,7 @@
     <constant name="Layer_rmin"             value="innerRadiusLimit+vesselShellThickness"/>
     <constant name="Layer_thickness"        value="1.4*cm"/>
     <constant name="Layer_buffer"           value="1*um"/>  <!-- buffer between layers --> 
-    <constant name="numLayer"               value="20"/> <!-- gasRadiusLimit/(Layer_thickness+Layer_buffer)"/> -->
+    <constant name="numLayer"               value="2"/> <!-- gasRadiusLimit/(Layer_thickness+Layer_buffer)"/> -->
     <constant name="nPhibin"                value="120"/>
     <constant name="Sensor_thickness"       value="1*um"/>
 
@@ -74,11 +74,12 @@
           rmax="outerRadiusLimit"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="numLayer" showVessel="False" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
+      <constructionFlag maxLayer="numLayer" showVessel="true" showLayer="True" showSensor="true" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />  
       
       <vessel
+	  build="false"
 	  tShell="vesselShellThickness"
 	  tFill="vesselFillingThickness"
 	  shellMat="CarbonFibStr"
@@ -87,8 +88,8 @@
       </vessel>
       
       <wires
-          buildSenseWires="True"
-          buildFieldWires="True"
+          buildSenseWires="false"
+          buildFieldWires="false"
 	  SWire_vis="swireVis"
 	  FWire_vis="fwireVis"
 	  SWire_thickness       ="0.034*mm" 
@@ -102,6 +103,7 @@
       <!-- https://doi.org/10.1016/j.nima.2017.03.001 -->
       
       <module name="Module"
+	      build="false"
               sensitive="true"
               thickness="Sensor_thickness"
 	      length="Layer_length"

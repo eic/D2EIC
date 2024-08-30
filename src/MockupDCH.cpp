@@ -113,10 +113,9 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   double layerThickness = description.constantAsDouble("Layer_thickness");
   double layerBuffer=description.constantAsDouble("Layer_buffer");
 
-  //double buffer     =description.constantAsDouble("buffer");
-
   xml_comp_t x_layer = x_det.child("layer");
   cout<<"Total number of layer = "<<x_layer.repeat()<<endl;
+
   //-----------------------
   // THE detector assembly
   //-----------------------
@@ -129,7 +128,7 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
   //-----------------------
   auto vesselParam       = x_det.child("vessel");
   Volume vesselAssembly=GetVesselAssembly(dimensions,description,vesselParam,SHOWVESSEL);
-  assembly.placeVolume(vesselAssembly,Position(0,0,0));
+  if (vesselParam.attr<bool>(_Unicode(build))) assembly.placeVolume(vesselAssembly,Position(0,0,0));
 
   //-----------------------
   // wire volumes
@@ -173,7 +172,7 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
 
   alpha                            = wireParam.attr<double>(_Unicode(alpha));
 
-  int nphi0         = 120;
+  int nphi0         = 3;//120;
   int nphiIncrement = 10;
   int nSupperLayer  = 7;
 
@@ -258,20 +257,21 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     //-----------------------
     // place module
     //-----------------------
-    int    module   = 1;
-
-    pv = lay_vol.placeVolume(volumes[m_nam], Position(0,0,0));
-    pv.addPhysVolID("module", module); 
-    DetElement mod_elt(lay_elt, "module1", module); 
-    mod_elt.setPlacement(pv); 
-
-    DetElement comp_de(mod_elt, std::string("de_") + sensitives[m_nam][0].volume().name(), module); 
-    comp_de.setPlacement(sensitives[m_nam][0]); 
-
-    auto &comp_de_params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(comp_de);
-    comp_de_params.set<string>("axis_definitions", "XYZ");
-    volSurfaceList(comp_de)->push_back(volplane_surfaces[m_nam][0]); 
-
+    if (moduleParam.attr<bool>(_Unicode(build))) {
+      int    module   = 1;
+      
+      pv = lay_vol.placeVolume(volumes[m_nam], Position(0,0,0));
+      pv.addPhysVolID("module", module); 
+      DetElement mod_elt(lay_elt, "module1", module); 
+      mod_elt.setPlacement(pv); 
+      
+      DetElement comp_de(mod_elt, std::string("de_") + sensitives[m_nam][0].volume().name(), module); 
+      comp_de.setPlacement(sensitives[m_nam][0]); 
+      
+      auto &comp_de_params = DD4hepDetectorHelper::ensureExtension<dd4hep::rec::VariantParameters>(comp_de);
+      comp_de_params.set<string>("axis_definitions", "XYZ");
+      volSurfaceList(comp_de)->push_back(volplane_surfaces[m_nam][0]); 
+    }
     //-----------------------
     //place the wires
     //-----------------------
@@ -286,6 +286,8 @@ static Ref_t create_MockupDCH(Detector& description, xml_h e, SensitiveDetector 
     lay_elt.setPlacement(pv);
   }
 
+  //cout<<"Assembly: "<<assembly.name()<<"/"<<assembly.daugther().name()<<endl;
+  //cout<<"det name: "<<sdet.parent().parent().name()<<"/"<<sdet.parent().name()<<"/"<<sdet.name()<<endl;
   sdet.setAttributes(description, assembly, x_det.regionStr(), x_det.limitsStr(), x_det.visStr());
   assembly.setVisAttributes(description.invisible());
   pv = description.pickMotherVolume(sdet).placeVolume(assembly,Position(0,0,description.constantAsDouble("DCH_z0")));
