@@ -143,12 +143,13 @@ The unused IDs below are saved for future use.
     <constant name="TrackerEndcapP_6_ID"          value="83"/>
     <constant name="TrackerSupport_0_ID"          value="84"/>
     <constant name="TrackerSupport_1_ID"          value="85"/>
-    <constant name="MPGDDIRC_0_ID"                value="86"/>
+    <!-- <constant name="MPGDDIRC_0_ID"                value="86"/>-->
     <!-- <constant name="DCH_0_ID"                     value="87"/> -->
 
-    <constant name="MockupDCH_0_ID"                value="87"/>
-    <constant name="MockupDCH_1_ID"                value="88"/>
-    <constant name="MockupDCH_2_ID"                value="89"/>
+    <constant name="DCH_vessel_0_ID"         value="86"/>
+    <constant name="DCH_0_ID"                value="87"/>
+    <constant name="DCH_1_ID"                value="88"/>
+    <constant name="DCH_2_ID"                value="89"/>
     
     
     <documentation>

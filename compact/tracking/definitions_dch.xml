@@ -61,11 +61,11 @@
     </detector>
     </comment>
     
-    <detector id="MockupDCH_0_ID"
-              name="InnerSiTrackerSubAssembly"
+    <detector id="DCH_0_ID"
+              name="DCHTrackerSubAssembly"
               type="DD4hep_SubdetectorAssembly"
               vis="TrackerSubAssemblyVis">
-      <composite name="MockupDCH"/>
+      <composite name="DCH"/>
     </detector>
 
   </detectors>
