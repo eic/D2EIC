@@ -21,8 +21,8 @@
     <constant name="Layer_rmin"             value="innerRadiusLimit+vesselShellThickness"/> -->
     
     <constant name="Layer_thickness"        value="1.4*cm"/>
-    <constant name="Layer_buffer"           value="1*um"/>  <!-- buffer between layers --> 
-    <constant name="numLayer"               value="24"/> <!-- gasRadiusLimit/(Layer_thickness+Layer_buffer)"/> -->
+    <constant name="Layer_buffer"           value="2*mm"/>  <!-- buffer between layers --> 
+    <constant name="numLayer"               value="22"/> <!-- gasRadiusLimit/(Layer_thickness+Layer_buffer)"/> -->
     <constant name="nPhibin"                value="120"/>
     <constant name="Sensor_thickness"       value="1*um"/>
   </define>
@@ -44,12 +44,12 @@
          showDaughters="true"
          visible="true"/>
      <vis name="layer3Vis"
-         alpha="0.3" r="0.4" g="0" b="0.6"
+         alpha="0.1" r="0.4" g="0" b="0.6"
          drawingStyle="solid"
          showDaughters="true"
          visible="true"/>
     <vis name="swireVis"
-         alpha="1" r="0.1" g="1" b="1"
+         alpha="1" r="0.1" g="1" b="0.1"
          drawingStyle="solid"
          showDaughters="true"
          visible="true"/>
@@ -81,7 +81,7 @@
           rmin="innerRadiusLimit"
           rmax="outerRadiusLimit"
           length="MAXLENGTH" />
-      <constructionFlag showVessel="true"/>
+      <constructionFlag showVessel="false"/>
       <vessel
           build="true"
           tShell="vesselShellThickness"
@@ -109,16 +109,16 @@
           rmax="innerRadiusLimit+numLayer*Layer_thickness"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
       
-      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="true" showSwire="true" showFwire="true"/>
+      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />  
       
       <wires
-          buildSenseWires="false"
-          buildFieldWires="false"
+          buildSenseWires="true"
+          buildFieldWires="true"
 	  SWire_vis="swireVis"
 	  FWire_vis="fwireVis"
-	  SWire_thickness       ="0.034*mm" 
+	  SWire_thickness       ="0.0304*mm" 
           FSideWire_thickness   ="0.0403*mm"
           FCentralWire_thickness="0.0503*mm"
           SWire_material        ="CarbonFiber"
@@ -153,20 +153,20 @@
       <type_flags type="DetType_TRACKER + DetType_BARREL"/>
 
       <dimensions
-          rmin="innerRadiusLimit+numLayer*Layer_thickness"
-          rmax="innerRadiusLimit+2*numLayer*Layer_thickness"
+          rmin="innerRadiusLimit+numLayer*Layer_thickness+Layer_buffer"
+          rmax="innerRadiusLimit+2*numLayer*Layer_thickness+Layer_buffer"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="true" showSwire="true" showFwire="true"/>
+      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />
 
       <wires
-          buildSenseWires="false"
-          buildFieldWires="false"
+          buildSenseWires="true"
+          buildFieldWires="true"
           SWire_vis="swireVis"
           FWire_vis="fwireVis"
-          SWire_thickness       ="0.034*mm"
+          SWire_thickness       ="0.0304*mm"
           FSideWire_thickness   ="0.0403*mm"
           FCentralWire_thickness="0.0503*mm"
           SWire_material        ="CarbonFiber"
@@ -174,7 +174,6 @@
           FCentralWire_material ="Copper"
           alpha                 ="0*deg">
       </wires>
-      <!-- https://doi.org/10.1016/j.nima.2017.03.001 -->
 
       <module name="Module"
               build="true"
@@ -183,7 +182,7 @@
               length="Layer_length"
               vis="moduleVis" />
 
-      <layer repeat="numLayer" Layer_rmin="Layer_rmin+numLayer*Layer_thickness" module="Module" vis="layer2Vis">
+      <layer repeat="numLayer" Layer_rmin="Layer_rmin+numLayer*Layer_thickness+Layer_buffer" module="Module" vis="layer2Vis">
         <layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
     </detector>
@@ -201,20 +200,20 @@
       <type_flags type="DetType_TRACKER + DetType_BARREL"/>
 
       <dimensions
-          rmin="innerRadiusLimit+2*numLayer*Layer_thickness"
-          rmax="outerRadiusLimit"
+          rmin="innerRadiusLimit+2*numLayer*Layer_thickness+2*Layer_buffer"
+          rmax="outerRadiusLimit+2*Layer_buffer"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="true" showSwire="true" showFwire="true"/>
+      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />
 
       <wires
-          buildSenseWires="false"
-          buildFieldWires="false"
+          buildSenseWires="true"
+          buildFieldWires="true"
           SWire_vis="swireVis"
           FWire_vis="fwireVis"
-          SWire_thickness       ="0.034*mm"
+          SWire_thickness       ="0.0304*mm"
           FSideWire_thickness   ="0.0403*mm"
           FCentralWire_thickness="0.0503*mm"
           SWire_material        ="CarbonFiber"
@@ -231,7 +230,7 @@
               length="Layer_length"
               vis="moduleVis" />
 
-      <layer repeat="numLayer" Layer_rmin="Layer_rmin+2*numLayer*Layer_thickness" module="Module" vis="layer3Vis">
+      <layer repeat="numLayer" Layer_rmin="Layer_rmin+2*numLayer*Layer_thickness+2*Layer_buffer" module="Module" vis="layer3Vis">
         <layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
     </detector>
@@ -245,10 +244,10 @@
       <argument value="DCH_inner"/>
       <argument value="layer_pattern: str=DCH_inner_layer\d"/>
     </plugin>
-
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                    mid DCH                      -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="DCH_mid"/>
       <argument value="layer_pattern: str=DCH_mid_layer\d"/>
@@ -257,10 +256,12 @@
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                  outer DCH                      -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="DCH_outer"/>
       <argument value="layer_pattern: str=DCH_outer_layer\d"/>
     </plugin>
+
   </plugins>
   
   <readouts>

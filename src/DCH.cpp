@@ -214,9 +214,9 @@ static Ref_t create_DCH(Detector& description, xml_h e, SensitiveDetector sens)
     
     alpha                            = wireParam.attr<double>(_Unicode(alpha));
     
-    int nphi0         = 3;//120;
+    int nphi0         = description.constantAsDouble("nPhibin");
     int nphiIncrement = 10;
-    int nSupperLayer  = 7;
+    int nSuperLayer   = 12;
     
     vector<Volume> wire_vol[NUMWIRETYPE];
     vector<double> vec_rLayer;
@@ -226,21 +226,26 @@ static Ref_t create_DCH(Detector& description, xml_h e, SensitiveDetector sens)
     for (ilayer=0;ilayer<x_layer.repeat();ilayer++) {
       if (ilayer>=MAXLAYER) break;
 
-      if (ilayer==0) rLayer= (2*layer_rmin+(ilayer+1)*layerThickness)/2.;
+      //if (ilayer==0) rLayer= (2*layer_rmin+(ilayer+1)*layerThickness)/2.;
+      if (ilayer==0) rLayer= (2*layer_rmin+layerThickness)/2.;
       else rLayer= rLayer + layerThickness;
       vec_rLayer.push_back(rLayer);
-      
+
+      //cout<<"ilayer="<<ilayer<<",rin="<<rLayer-layerThickness/2.<<", rmax="<<rLayer+layerThickness/2.<<endl;
+
       // 1 cell = 1 swire + 4 fwires
-      int nphi=nphi0+nphiIncrement*((int) ilayer/nSupperLayer);  //ncells
+      int nphi=nphi0+nphiIncrement*((int) ilayer/nSuperLayer);  //ncells
       int nwire=nphi;
       
-      for (i =0;i<NUMWIRETYPE;i++) {
+      for (i=0;i<NUMWIRETYPE;i++) {
 	if (!SHOWWIRE[i]) wireVis[i]=description.invisible();
 	
 	double r=rLayer;
 	if (i==F1 || i==F4) r=r-wireRadius[i]*2; 
 	if (i==F3 || i==F5) r=r+wireRadius[i]*2;
 	
+	//if (ilayer<=5 && i==0) cout<<"ilayer="<<ilayer<<",maxR="<<rLayer+layerThickness/2.<<", rLayer+r_swire="<<r+wireRadius[0]<<endl;
+
 	Volume meshWire=GetMeshWire(ilayer,i,r,layerLength*0.99,nwire,wireRadius[i],wireMat[i],wireVis[i]);   //*0.99 to avoid overlap
 	wire_vol[i].push_back(meshWire);
       }
@@ -274,7 +279,8 @@ static Ref_t create_DCH(Detector& description, xml_h e, SensitiveDetector sens)
     //-----------------------
     for (ilayer=0;ilayer<x_layer.repeat();ilayer++) {
       if (ilayer>=MAXLAYER) break;
-      
+      //if (ilayer!=0) continue;
+
       int        lay_id   = ilayer+1; //x_layer.id();
       string     m_nam    = x_layer.moduleStr() + _toString(ilayer+1,"%d");
       string     lay_nam  = det_name + _toString(ilayer+1, "_layer%d");
