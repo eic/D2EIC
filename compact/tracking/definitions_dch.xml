@@ -66,14 +66,13 @@
       <composite name="DCH_mid"/>
     </detector>
 
-    <comment>
     <detector id="DCH_2_ID"
               name="DCHOuterTrackerSubAssembly"
               type="DD4hep_SubdetectorAssembly"
               vis="TrackerSubAssemblyVis">
       <composite name="DCH_outer"/>
     </detector>
-    </comment>
+
   </detectors>
 
   <documentation>
