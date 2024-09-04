@@ -146,7 +146,7 @@ The unused IDs below are saved for future use.
     <!-- <constant name="MPGDDIRC_0_ID"                value="86"/>-->
     <!-- <constant name="DCH_0_ID"                     value="87"/> -->
 
-    <constant name="DCH_vessel_0_ID"         value="86"/>
+    <!-- <constant name="DCH_vessel_0_ID"         value="86"/> -->
     <constant name="DCH_0_ID"                value="87"/>
     <constant name="DCH_1_ID"                value="88"/>
     <constant name="DCH_2_ID"                value="89"/>

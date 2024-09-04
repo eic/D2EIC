@@ -53,7 +53,7 @@ double alpha=0*dd4hep::deg;
 Volume GetVesselAssembly(dd4hep::xml::Dimension dimensions,Detector& description,dd4hep::xml::Handle_t vesselParam, bool SHOWVESSEL);
 VolPlane GetSensitiveSurface(Volume vol,PlacedVolume pv,SensitiveDetector sens,double halft);
 void CheckRepeatedVolume(map<string, Volume> volumes,string m_nam);
-Volume GetComponentVol(Detector& description,double r, xml_comp_t param,Material gas,bool SHOWSENSOR);
+Volume GetComponentVol(Detector& description,double r, xml_comp_t param,Material gas,bool SHOWSENSOR, int ilayer);
 double Pitch_z0(double r_z0, int nwires);
 double Stereoangle_z0(double r_z0,double Lhalf);
 int StereoSign(int iLayer);
@@ -170,7 +170,7 @@ static Ref_t create_DCH(Detector& description, xml_h e, SensitiveDetector sens)
   if (x_layer) {
     double layer_rmin = x_layer.attr<double>(_Unicode(Layer_rmin));
     
-    cout<<"Total number of layer = "<<x_layer.repeat()<<endl;
+    cout<<"DCH:: Total number of layer = "<<x_layer.repeat()<<endl;
     
     //-----------------------
     // wire volumes
@@ -264,7 +264,7 @@ static Ref_t create_DCH(Detector& description, xml_h e, SensitiveDetector sens)
       Assembly m_vol(m_nam);
       volumes[m_nam] = m_vol;    
       
-      Volume c_vol=GetComponentVol(description,vec_rLayer.at(ilayer)+layerThickness/2.-moduleThickness/2., moduleParam,gas,SHOWSENSOR);
+      Volume c_vol=GetComponentVol(description,vec_rLayer.at(ilayer)+layerThickness/2.-moduleThickness/2., moduleParam,gas,SHOWSENSOR,ilayer+1);
       pv = m_vol.placeVolume(c_vol, Position(0, 0, 0));
       
       if (moduleParam.attr<bool>(_Unicode(sensitive))) {
@@ -309,8 +309,8 @@ static Ref_t create_DCH(Detector& description, xml_h e, SensitiveDetector sens)
 	int    module   = 1;
 	
 	pv = lay_vol.placeVolume(volumes[m_nam], Position(0,0,0));
-	pv.addPhysVolID("module", module); 
-	DetElement mod_elt(lay_elt, "module1", module); 
+	pv.addPhysVolID("module", ilayer+1); 
+	DetElement mod_elt(lay_elt, Form("module%d", ilayer+1), module); 
 	mod_elt.setPlacement(pv); 
 	
 	DetElement comp_de(mod_elt, std::string("de_") + sensitives[m_nam][0].volume().name(), module); 
@@ -344,10 +344,10 @@ static Ref_t create_DCH(Detector& description, xml_h e, SensitiveDetector sens)
   return sdet;
 }
 //-----------------------------------------------------------------------------------//
-Volume GetComponentVol(Detector& description,double r, xml_comp_t param,Material gas,bool SHOWSENSOR)
+Volume GetComponentVol(Detector& description,double r, xml_comp_t param,Material gas,bool SHOWSENSOR, int ilayer)
 {
   Tube c_tub(r-param.thickness()/2.,r+param.thickness()/2.,param.length());
-  Volume c_vol("component1", c_tub, gas);
+  Volume c_vol(Form("component%d",ilayer), c_tub, gas);
 
   c_vol.setRegion(description, param.regionStr());
   c_vol.setLimitSet(description, param.limitsStr());

@@ -58,7 +58,7 @@
               vis="TrackerSubAssemblyVis">
       <composite name="DCH_inner"/>
     </detector>
-    
+
     <detector id="DCH_1_ID"
               name="DCHMidTrackerSubAssembly"
               type="DD4hep_SubdetectorAssembly"

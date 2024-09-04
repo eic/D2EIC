@@ -22,7 +22,9 @@
     
     <constant name="Layer_thickness"        value="1.4*cm"/>
     <constant name="Layer_buffer"           value="2*mm"/>  <!-- buffer between layers --> 
-    <constant name="numLayer"               value="22"/> <!-- gasRadiusLimit/(Layer_thickness+Layer_buffer)"/> -->
+    <constant name="numLayer1"               value="16"/> <!-- gasRadiusLimit/(Layer_thickness+Layer_buffer)"/> -->
+    <constant name="numLayer2"               value="16"/>
+    <constant name="numLayer3"               value="16"/>
     <constant name="nPhibin"                value="120"/>
     <constant name="Sensor_thickness"       value="1*um"/>
   </define>
@@ -107,10 +109,10 @@
 
       <dimensions
           rmin="innerRadiusLimit"
-          rmax="innerRadiusLimit+numLayer*Layer_thickness"
+          rmax="innerRadiusLimit+numLayer1*Layer_thickness"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
       
-      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
+      <constructionFlag maxLayer="numLayer1" showLayer="True" showSensor="true" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />  
       
@@ -136,7 +138,7 @@
 	      length="Layer_length"
               vis="moduleVis" />
 
-      <layer repeat="numLayer" Layer_rmin="Layer_rmin" module="Module" vis="layer1Vis">
+      <layer repeat="numLayer1" Layer_rmin="Layer_rmin" module="Module" vis="layer1Vis">
 	<layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
     </detector>
@@ -144,6 +146,7 @@
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                   mid DCH                       -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
     <detector
         id="DCH_1_ID"
         name="DCH_mid"
@@ -154,11 +157,11 @@
       <type_flags type="DetType_TRACKER + DetType_BARREL"/>
 
       <dimensions
-          rmin="innerRadiusLimit+numLayer*Layer_thickness+Layer_buffer"
-          rmax="innerRadiusLimit+2*numLayer*Layer_thickness+Layer_buffer"
+          rmin="innerRadiusLimit+numLayer1*Layer_thickness+Layer_buffer"
+          rmax="innerRadiusLimit+(numLayer1+numLayer2)*Layer_thickness+Layer_buffer"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
+      <constructionFlag maxLayer="numLayer2" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />
 
@@ -183,7 +186,7 @@
               length="Layer_length"
               vis="moduleVis" />
 
-      <layer repeat="numLayer" Layer_rmin="Layer_rmin+numLayer*Layer_thickness+Layer_buffer" module="Module" vis="layer2Vis">
+      <layer repeat="numLayer2" Layer_rmin="Layer_rmin+numLayer1*Layer_thickness+Layer_buffer" module="Module" vis="layer2Vis">
         <layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
     </detector>
@@ -191,6 +194,7 @@
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                   outer DCH                     -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
     <detector
         id="DCH_2_ID"
         name="DCH_outer"
@@ -201,11 +205,11 @@
       <type_flags type="DetType_TRACKER + DetType_BARREL"/>
 
       <dimensions
-          rmin="innerRadiusLimit+2*numLayer*Layer_thickness+2*Layer_buffer"
+          rmin="innerRadiusLimit+(numLayer1+numLayer2)*Layer_thickness+2*Layer_buffer"
           rmax="outerRadiusLimit+2*Layer_buffer"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="numLayer" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
+      <constructionFlag maxLayer="numLayer3" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />
 
@@ -231,10 +235,11 @@
               length="Layer_length"
               vis="moduleVis" />
 
-      <layer repeat="numLayer" Layer_rmin="Layer_rmin+2*numLayer*Layer_thickness+2*Layer_buffer" module="Module" vis="layer3Vis">
+      <layer repeat="numLayer3" Layer_rmin="Layer_rmin+(numLayer1+numLayer2)*Layer_thickness+2*Layer_buffer" module="Module" vis="layer3Vis">
         <layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
     </detector>
+
   </detectors>
 
   <plugins>
@@ -268,7 +273,8 @@
   <readouts>
     <readout name="DCH_Hits">
       <segmentation type="CartesianGridXY" grid_size_x="0.050*mm" grid_size_y="0.050*mm" />
-      <id>system:4,layer:10,module:16,sensor:1,x:32:-16,y:-16</id>
+      <!-- <id>system:4,layer:10,module:16,sensor:2,x:32:-16,y:-16</id> -->
+      <id>system:8,layer:16,module:1,sensor:1,x:32:-16,y:-16</id>
     </readout>
   </readouts>
 
