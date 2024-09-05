@@ -114,11 +114,11 @@
       
       <constructionFlag maxLayer="numLayer1" showLayer="True" showSensor="true" showSwire="true" showFwire="true"/>
 
-      <gas material="GasHe_90Isob_10" />  
-      
+      <gas material="GasHe_90Isob_10" />
+            
       <wires
-          buildSenseWires="true"
-          buildFieldWires="true"
+          buildSenseWires="false"
+          buildFieldWires="false"
 	  SWire_vis="swireVis"
 	  FWire_vis="fwireVis"
 	  SWire_thickness       ="0.0304*mm" 
@@ -142,11 +142,9 @@
 	<layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
     </detector>
-
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                   mid DCH                       -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-
     <detector
         id="DCH_1_ID"
         name="DCH_mid"
@@ -161,13 +159,13 @@
           rmax="innerRadiusLimit+(numLayer1+numLayer2)*Layer_thickness+Layer_buffer"
           length="MAXLENGTH" />   <!-- layer length + vessel endcaps -->
 
-      <constructionFlag maxLayer="numLayer2" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
+      <constructionFlag maxLayer="numLayer2" showLayer="True" showSensor="true" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />
 
       <wires
-          buildSenseWires="true"
-          buildFieldWires="true"
+          buildSenseWires="false"
+          buildFieldWires="false"
           SWire_vis="swireVis"
           FWire_vis="fwireVis"
           SWire_thickness       ="0.0304*mm"
@@ -190,11 +188,10 @@
         <layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
     </detector>
-
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                   outer DCH                     -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-
+    <comment>
     <detector
         id="DCH_2_ID"
         name="DCH_outer"
@@ -212,10 +209,10 @@
       <constructionFlag maxLayer="numLayer3" showLayer="True" showSensor="false" showSwire="true" showFwire="true"/>
 
       <gas material="GasHe_90Isob_10" />
-
+      
       <wires
-          buildSenseWires="true"
-          buildFieldWires="true"
+          buildSenseWires="false"
+          buildFieldWires="false"
           SWire_vis="swireVis"
           FWire_vis="fwireVis"
           SWire_thickness       ="0.0304*mm"
@@ -239,9 +236,9 @@
         <layer_material surface="inner" binning="binPhi,binZ" bins0="nPhibin" bins1="100" />
       </layer>
     </detector>
-
+    </comment>
   </detectors>
-
+  
   <plugins>
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                  Inner DCH                      -->
@@ -253,26 +250,24 @@
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                    mid DCH                      -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="DCH_mid"/>
       <argument value="layer_pattern: str=DCH_mid_layer\d"/>
     </plugin>
-
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
     <!--                  outer DCH                      -->
     <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
-
+    <comment>
     <plugin name="DD4hep_ParametersPlugin">
       <argument value="DCH_outer"/>
       <argument value="layer_pattern: str=DCH_outer_layer\d"/>
     </plugin>
-
+    </comment>
   </plugins>
   
   <readouts>
     <readout name="DCH_Hits">
-      <segmentation type="CartesianGridXY" grid_size_x="0.050*mm" grid_size_y="0.050*mm" />
+      <segmentation type="CartesianGridXY" grid_size_x="0.020*mm" grid_size_y="0.020*mm" />
       <!-- <id>system:4,layer:10,module:16,sensor:2,x:32:-16,y:-16</id> -->
       <id>system:8,layer:16,module:1,sensor:1,x:32:-16,y:-16</id>
     </readout>
